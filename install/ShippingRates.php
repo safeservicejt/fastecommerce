@@ -148,10 +148,17 @@ class ShippingRates
 
 		$loadData=false;
 
-		if(file_exists($savePath))
+		if(!file_exists($savePath))
 		{
-			$loadData=unserialize(file_get_contents($savePath));
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				return false;
+			}
 		}
+
+		$loadData=unserialize(file_get_contents($savePath));
 
 		return $loadData;
 	}

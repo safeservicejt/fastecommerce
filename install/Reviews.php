@@ -139,9 +139,68 @@ class Reviews
 		return $result;
 	}	
 
-	public static function saveCache()
+
+	public static function saveCache($productid)
 	{
-		
+		$loadData=self::get(array(
+			'cache'=>'no',
+			'where'=>"where productid='$productid'"
+			));
+
+		if(isset($loadData[0]['productid']))
+		{
+			$savePath=ROOT_PATH.'application/caches/fastcache/review/'.$productid.'.cache';
+
+			File::create($savePath,serialize($loadData));			
+		}
+
+	}
+
+	public static function loadCache($productid='')
+	{
+		$savePath=ROOT_PATH.'application/caches/fastcache/review/'.$productid.'.cache';
+
+		$result=false;
+
+		if(file_exists($savePath))
+		{
+			$result=unserialize(file_get_contents($savePath));
+		}
+		else
+		{
+			self::saveCache($productid);
+
+			if(!file_exists($savePath))
+			{
+				$result=false;
+			}
+			else
+			{
+				$result=unserialize(file_get_contents($savePath));
+			}
+		}
+
+		return $result;
+
+	}
+
+	public static function removeCache($listID=array())
+	{
+		$listID=!is_array($listID)?array($listID):$listID;
+
+		$total=count($listID);
+
+		for ($i=0; $i < $total; $i++) { 
+			$id=$listID[$i];
+
+			$savePath=ROOT_PATH.'application/caches/fastcache/review/'.$id.'.cache';
+
+			if(file_exists($savePath))
+			{
+				unlink($savePath);
+			}
+
+		}
 	}
 
 	public static function insert($inputData=array())

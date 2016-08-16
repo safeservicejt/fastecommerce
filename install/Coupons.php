@@ -147,11 +147,18 @@ class Coupons
 
 		$result=false;
 
-		if(file_exists($savePath))
+		if(!file_exists($savePath))
 		{
-			$result=unserialize(file_get_contents($savePath));
+			
+			self::saveCache();
 
+			if(!file_exists($savePath))
+			{
+				return false;
+			}
 		}
+
+		$result=unserialize(file_get_contents($savePath));
 
 		return $result;
 	}

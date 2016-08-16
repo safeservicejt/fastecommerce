@@ -673,7 +673,12 @@ class Products
 
 		if(!file_exists($savePath))
 		{
-			return false;
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				return false;
+			}
 		}
 
 		$loadData=unserialize(file_get_contents($savePath));

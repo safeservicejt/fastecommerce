@@ -47,6 +47,7 @@ function actionProcess()
 			}
 			
 			Products::removeCache($id);
+			Reviews::removeCache($id);
 			break;
 
 

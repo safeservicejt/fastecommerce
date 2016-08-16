@@ -208,6 +208,19 @@ class Orders
 		{
 			$result=unserialize(file_get_contents($savePath));
 		}
+		else
+		{
+			self::saveCache($id);
+
+			if(!file_exists($savePath))
+			{
+				$result=false;
+			}
+			else
+			{
+				$result=unserialize(file_get_contents($savePath));
+			}
+		}
 
 		return $result;
 	}
