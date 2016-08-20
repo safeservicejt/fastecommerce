@@ -7,24 +7,7 @@
     <div class="row">
     	<div class="col-lg-12">
     	<form action="" method="post" enctype="multipart/form-data">
-    		<!-- row -->
-    		<div class="row">
-    			<div class="col-lg-3">
-                    <div class="input-group input-group-sm">
-                        <select class="form-control" name="action">
-                            <option value="delete">Delete</option>
-                            <option value="deleteall">Delete All</option>
-                            <option value="publish">Publish</option>
-                        </select>
-                       <span class="input-group-btn">
-                        <button class="btn btn-primary" name="btnAction" type="submit">Apply</button>
-                      </span>
-
-                    </div><!-- /input-group -->   				
-    			</div>
-
-    		</div>
-    		<!-- row -->
+    		
      		<!-- row -->
     		<div class="row">
     			<div class="col-lg-12 table-responsive">

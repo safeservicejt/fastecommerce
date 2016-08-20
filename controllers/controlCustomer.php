@@ -111,20 +111,16 @@ class controlCustomer
 			}
 		}
 
-		$loadData=Customers::get(array(
-			'cache'=>'no',
-			'isHook'=>'no',
-			'where'=>"where userid='$id'"
-			));
+		$loadData=Customers::loadCache($id);
 
-		if(!isset($loadData[0]['userid']))
+		if(!isset($loadData['userid']))
 		{
 			Alert::make('Page not found');
 		}
 
 		$alert=$pageData['alert'];
 
-		$pageData=$loadData[0];
+		$pageData=$loadData;
 
 		$pageData['alert']=$alert;
 
