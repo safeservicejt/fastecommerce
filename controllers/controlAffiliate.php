@@ -204,6 +204,10 @@ class controlAffiliate
 
 		$pageData['theList']=$loadData;
 
+		$userData=Customers::loadCache($userid);
+
+		$pageData['rankData']=AffiliatesRanks::loadCache($userData['affiliaterankid']);
+
 		System::setTitle('Statistics');
 
 		CtrPlugin::admincpHeader();
@@ -303,6 +307,132 @@ class controlAffiliate
 			$this->userWithdraw();
 		}
 
+	}
+
+	public function ranks()
+	{
+
+		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+		$userid=Users::getCookieUserId();
+
+		if($owner!='yes')
+		{
+			Alert::make('You not have permission to access this page');
+		}
+
+		$curPage=0;
+
+		$rankid=0;
+
+		if($match=Uri::match('\/page\/(\d+)'))
+		{
+			$curPage=$match[1];
+		}
+
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$rankid=$match[1];
+		}
+
+		$pageData=array('alert'=>'');
+
+		if(Request::has('btnAction'))
+		{
+			try {
+				actionRankProcess();
+
+				$pageData['alert']='<div class="alert alert-success">Complete your action.</div>';
+			} catch (Exception $e) {
+				$pageData['alert']='<div class="alert alert-success">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnAdd'))
+		{
+			try {
+				addRankProcess();
+
+				$pageData['alert']='<div class="alert alert-success">Add new rank success.</div>';
+			} catch (Exception $e) {
+				$pageData['alert']='<div class="alert alert-success">'.$e->getMessage().'</div>';
+			}
+		}
+
+		if(Request::has('btnSave'))
+		{
+			try {
+				updateRankProcess($rankid);
+
+				$pageData['alert']='<div class="alert alert-success">Save changes success.</div>';
+			} catch (Exception $e) {
+				$pageData['alert']='<div class="alert alert-success">'.$e->getMessage().'</div>';
+			}
+		}
+
+
+		$pageData['ranksList']=AffiliatesRanks::get(array(
+			'cache'=>'no',
+			'cacheTime'=>60,
+			));
+
+		if($match=Uri::match('\/edit\/(\d+)'))
+		{
+			$rankid=$match[1];
+
+			$loadData=AffiliatesRanks::get(array(
+				'cache'=>'no',
+				'where'=>"where id='$rankid'"
+				));
+
+			if(!isset($loadData[0]['id']))
+			{
+				Alert::make('This rank not exists.');
+			}
+
+			$pageData['rankData']=$loadData[0];
+
+		}
+
+
+		$loadData=AffiliatesRanks::get(array(
+			'limitShow'=>30,
+			'limitPage'=>$curPage,
+			'cache'=>'no',
+			'cacheTime'=>60,
+			));
+
+		$countPost=AffiliatesRanks::get(array(
+			'cache'=>'no',
+			'selectFields'=>"count(id) as totalRow",
+			));
+
+		$pageData['pages']=Misc::genSmallPage(array(
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks',
+			'curPage'=>$curPage,
+			'limitShow'=>30,
+			'limitPage'=>5,
+			'showItem'=>count($loadData),
+			'totalItem'=>$countPost[0]['totalRow'],
+			));
+
+		$pageData['theList']=$loadData;
+
+		$pageData['totalPost']=$countPost[0]['totalRow'];
+
+		$pageData['totalPage']=intval((int)$countPost[0]['totalRow']/30);	
+
+		System::setTitle('Affiliates Ranks');
+
+		CtrPlugin::admincpHeader();
+
+		CtrPlugin::admincpLeft();
+
+		CtrPlugin::view('addHeader');
+
+		CtrPlugin::view('affiliateRanks',$pageData);
+
+		CtrPlugin::admincpFooter();
 	}
 
 	public function systemWithdraw()

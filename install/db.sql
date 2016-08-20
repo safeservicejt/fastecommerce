@@ -27,6 +27,29 @@ SET time_zone = "+00:00";
 --
 
 
+CREATE TABLE IF NOT EXISTS `affiliate_ranks` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `commission` float NOT NULL DEFAULT '5',
+  `orders` int(9) NOT NULL DEFAULT '1',
+  `image` varchar(255) DEFAULT NULL,
+  `parentid` int(9) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `affiliate_ranks`
+--
+
+INSERT INTO `affiliate_ranks` (`id`, `title`, `date_added`, `status`, `commission`, `orders`, `image`, `parentid`) VALUES
+(1, 'Level 1', '2016-08-19 21:36:45', 1, 6, 1, NULL, 0),
+(2, 'Level 2', '2016-08-19 21:51:22', 1, 7, 100, NULL, 0),
+(3, 'Level 3', '2016-08-19 21:51:46', 1, 8, 500, NULL, 0),
+(4, 'Level 4', '2016-08-19 21:52:14', 1, 9, 800, NULL, 0),
+(5, 'Level 5', '2016-08-19 21:52:26', 1, 10, 1000, NULL, 0);
+
 CREATE TABLE IF NOT EXISTS `collections_products` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `userid` int(11) NOT NULL,
@@ -89,7 +112,9 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `orders` int(9) NOT NULL DEFAULT '0',
   `reviews` int(9) NOT NULL DEFAULT '0',
   `balance` double NOT NULL DEFAULT '0',
-  `withdraw_summary` varchar(500) DEFAULT NULL
+  `withdraw_summary` varchar(500) DEFAULT NULL,
+  `affiliaterankid` int(9) NOT NULL DEFAULT '1',
+  `affiliate_orders` int(9) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------

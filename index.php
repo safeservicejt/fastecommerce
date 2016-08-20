@@ -308,6 +308,10 @@ function uninstall_fastecommerce()
 		unlink($filePath);
 	});
 
+	File::exists(ROOT_PATH.'includes/AffiliatesRanks.php',function($filePath){
+		unlink($filePath);
+	});
+
 
 
 	CustomPlugins::removeByClass('FastEcommerce');
@@ -363,6 +367,8 @@ function uninstall_fastecommerce()
 	Database::dropTable('affiliate_withdraws',$prefix);
 
 	Database::dropTable('collections_products',$prefix);
+
+	Database::dropTable('affiliate_ranks',$prefix);
 
     Database::dropField('categories','orders');
     

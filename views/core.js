@@ -70,6 +70,7 @@ function showMenu()
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate">'+lang['listAffiliates']+'</a></li>';
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/report">'+lang['reports']+'</a></li>';
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw">'+lang['withdraws']+'</a></li>';
+	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks">Ranks</a></li>';
 	// li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/collection">'+lang['collectionproduct']+'</a></li>';
 	li+='</ul>';
 	li+'</li>';

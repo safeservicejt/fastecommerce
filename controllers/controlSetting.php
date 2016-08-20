@@ -99,6 +99,16 @@ class controlSetting
 		{
 			$send=Request::get('send');
 
+			$affiliate_rankid=Request::get('affiliate_rankid',1);
+
+			$rankData=AffiliatesRanks::loadCache($affiliate_rankid);
+
+			$send['affiliate_rankid']=$rankData['id'];
+			
+			$send['affiliate_rank_title']=$rankData['title'];
+
+			$send['affiliate_percent']=$rankData['commission'];
+
 			FastEcommerce::saveSetting($send);
 
 			$pageData['alert']='<div class="alert alert-success">Save changes success.</div>';
@@ -109,6 +119,8 @@ class controlSetting
 		$userid=Users::getCookieUserId();
 	
 		$pageData['setting']=FastEcommerce::loadSetting();
+
+		$pageData['ranksList']=AffiliatesRanks::loadCacheAll();
 
 		$pageData['listThemes']=Theme::get();
 

@@ -66,6 +66,8 @@ class Affiliates
 			'balance'=>$earnTotal
 			));
 
+		Customers::up("where userid='$affiliateid'",'affiliate_orders',1);
+
 		Customers::saveCache($affiliateid);
 
 		AffiliatesStats::insert(array(
@@ -75,6 +77,41 @@ class Affiliates
 			'status'=>'approved',
 			));
 
+		self::upRankProcess($affiliateid);
+	}
+
+	public static function upRankProcess($userid)
+	{
+		$userData=Customers::loadCache($userid);
+
+		if(!$userData)
+		{
+			return false;
+		}
+
+		$currentRank=AffiliatesRanks::loadCache($userData['affiliaterankid']);
+
+		if(!$currentRank || (int)$currentRank['parentid']==0)
+		{
+			return false;
+		}
+
+		$parentRank=AffiliatesRanks::loadCache($currentRank['parentid']);
+
+		if(!$parentRank)
+		{
+			return false;
+		}
+
+		if((int)$userData['affiliate_orders'] > (int)$parentRank['orders'])
+		{
+			Customers::update($userid,array(
+				'affiliaterankid'=>$parentRank['id'],
+				'commission'=>$parentRank['commission'],
+				));
+
+			Customers::saveCache($userid);
+		}
 	}
 
 	public static function upClick($number=1,$userid)

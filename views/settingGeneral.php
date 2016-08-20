@@ -159,13 +159,37 @@
 		    <div class="row">
 		    	<div class="col-lg-5 col-md-5 col-sm-5">
 		    	<p>
-		    		<strong>Affiliate Commission (%)</strong>
+		    		<strong>Default Affiliate Rank (<?php echo $setting['affiliate_rank_title'].' - '.$setting['affiliate_percent'].'%';?>)</strong>
 		    		
 		    	</p>
 		    	</div>
 		    	<div class="col-lg-7 col-md-7 col-sm-7">
 		    	<p>
-					<input type="text" class="form-control input-size-medium" value="<?php echo Request::get('send.affiliate_percent',$setting['affiliate_percent']);?>" name="send[affiliate_percent]" maxlength="255" />	    	
+					<select class="form-control" name="affiliate_rankid">
+						<?php if(isset($ranksList[0]['id'])){
+
+						$total=count($ranksList);
+
+						$li='';
+
+						for ($i=0; $i < $total; $i++) { 
+
+							if((int)$setting['affiliate_rankid']==(int)$ranksList[$i]['id'])
+							{
+								$li.='<option value="'.$ranksList[$i]['id'].'" selected>'.$ranksList[$i]['title'].' ('.$ranksList[$i]['commission'].'%) - Require '.$ranksList[$i]['orders'].' Orders</option>';
+							}
+							else
+							{
+								$li.='<option value="'.$ranksList[$i]['id'].'">'.$ranksList[$i]['title'].' ('.$ranksList[$i]['commission'].'%) - Require '.$ranksList[$i]['orders'].' Orders</option>';
+							}
+							
+						}
+
+						echo $li;
+
+						} ?>
+
+					</select>							
 				</p>
 		    	
 

@@ -22,7 +22,7 @@ class customers
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="userid,points,commission,orders,reviews,balance,withdraw_summary".$moreFields;
+		$field="userid,points,commission,orders,reviews,balance,withdraw_summary,affiliaterankid,affiliate_orders".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
@@ -175,12 +175,22 @@ class customers
 
 	public static function loadCache($userid)
 	{
-		$loadData=Users::loadCache($userid);
+		$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$userid.'.cache';
 
-		if(!$loadData)
+		$loadData=false;
+
+		if(!file_exists($savePath))
 		{
-			return false;
+			self::saveCache($userid);
+
+			if(!file_exists($savePath))
+			{
+				return false;
+			}
+
 		}
+
+		$loadData=unserialize(file_get_contents($savePath));
 
 		return $loadData;
 
@@ -188,16 +198,15 @@ class customers
 
 	public static function saveCache($userid)
 	{
-		if((int)$userid==0)
-		{
-			return false;
-		}
+		$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$userid.'.cache';
 
-		$loadData=self::loadCache($userid);
+		$loadData=Users::loadCache($userid);
 
 		if(!$loadData)
 		{
-			return false;
+			Users::saveCache($userid);
+
+			$loadData=Users::loadCache($userid);
 		}
 
 		$result=$loadData;
@@ -206,15 +215,27 @@ class customers
 			'cache'=>'no',
 			'where'=>"where userid='$userid'"
 			));		
-
-		if(isset($loadCustomerData[0]['userid']))
+		
+		if(!isset($loadCustomerData[0]['userid']))
 		{
-			$saveData=array_merge($loadData,$loadCustomerData[0]);
+			self::insert(array(
+				'userid'=>$userid,
+				'commission'=>FastEcommerce::$setting['affiliate_percent'],
+				'affiliaterankid'=>FastEcommerce::$setting['affiliate_rankid'],
+				));
 
-			$result=$saveData;
+			$loadCustomerData=self::get(array(
+				'cache'=>'no',
+				'where'=>"where userid='$userid'"
+				));				
 		}	
 
-		if(isset($loadData[0]['userid']))
+
+		$saveData=array_merge($loadData,$loadCustomerData[0]);
+
+		$result=$saveData;
+
+		if(isset($result['userid']))
 		{
 
 			File::create($savePath,serialize($result));
@@ -230,6 +251,11 @@ class customers
 
 		$addMultiAgrs='';
 
+		if(!isset($inputData['affiliaterankid']))
+		{
+			$inputData['affiliaterankid']=FastEcommerce::$setting['affiliate_rankid'];
+			$inputData['commission']=FastEcommerce::$setting['affiliate_percent'];
+		}
 		
 		$keyNames=array_keys($inputData);
 

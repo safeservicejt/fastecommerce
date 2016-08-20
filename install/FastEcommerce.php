@@ -265,7 +265,9 @@ class FastEcommerce
 
 			'affiliate_withdraw_request'=>0,
 			'affiliate_min_money_can_withdraw'=>10,
-			'affiliate_percent'=>'8',
+			'affiliate_percent'=>6,
+			'affiliate_rankid'=>1,
+			'affiliate_rank_title'=>'Level 1',
 
 			'sales'=>0,
 

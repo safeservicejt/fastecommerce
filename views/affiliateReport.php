@@ -1,9 +1,13 @@
+
 <div class="panel panel-default">
 
   <div class="panel-body">
     <div class="row">
     	<div class="col-lg-12">
-    	<h3><?php echo Lang::get('usercp/index.statistics');?></h3>
+
+		<h3>Your ranks: <span class="text-primary"><?php echo $rankData['title'];?></span> (<span class="text-success"><?php echo $commission;?>%</span>)</h3>
+   	
+    	<h3><?php echo Lang::get('usercp/index.statistics');?> </h3>
     	<hr>
 		    <div class="row">
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">

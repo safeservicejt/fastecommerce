@@ -1,5 +1,149 @@
 <?php
 
+
+function actionRankProcess()
+{
+	$action=Request::get('action');
+
+	$id=Request::get('id');
+
+	if((int)$id <= 0)
+	{
+		return false;
+	}
+
+	$listID="'".implode("','",$id)."'";
+
+	switch ($action) {
+		case 'delete':
+
+			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+			if($owner=='no')
+			{
+				Alert::make('Page not found');
+			}
+			
+			AffiliatesRanks::remove($id);
+
+			AffiliatesRanks::saveCacheAll();
+
+			break;
+
+
+		case 'activate':
+
+			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+			if($owner=='no')
+			{
+				Alert::make('Page not found');
+			}
+
+			AffiliatesRanks::update($id,array(
+				'status'=>'1'
+				),"id IN ($listID)");
+
+			$total=count($id);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theID=$id[$i];
+
+				AffiliatesRanks::saveCache($theID);
+			}
+
+			AffiliatesRanks::saveCacheAll();
+
+			break;
+
+		case 'deactivate':
+
+			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+			if($owner=='no')
+			{
+				Alert::make('Page not found');
+			}
+
+			AffiliatesRanks::update($id,array(
+				'status'=>'0'
+				),"id IN ($listID)");
+
+			$total=count($id);
+
+			for ($i=0; $i < $total; $i++) { 
+				$theID=$id[$i];
+
+				AffiliatesRanks::saveCache($theID);
+			}
+
+			AffiliatesRanks::saveCacheAll();
+
+			break;
+
+	}
+}
+
+
+function updateRankProcess($rankid)
+{
+	$send=Request::get('send');
+
+	$valid=Validator::make(array(
+		'send.title'=>'min:1',
+		'send.commission'=>'min:1|number|slashes',
+		'send.orders'=>'min:1|number|slashes',
+		'send.status'=>'min:1|slashes',
+
+		));
+
+	if(!$valid)
+	{
+		throw new Exception(Validator::getMessage());
+		
+	}
+
+	if(!AffiliatesRanks::update($rankid,$send))
+	{
+		throw new Exception(Database::$error);
+		
+	}
+
+	AffiliatesRanks::saveCache($rankid);
+	
+	AffiliatesRanks::saveCacheAll();
+
+}
+
+function addRankProcess()
+{
+	$send=Request::get('send');
+
+	$valid=Validator::make(array(
+		'send.title'=>'min:1',
+		'send.commission'=>'min:1|number|slashes',
+		'send.orders'=>'min:1|number|slashes',
+		'send.status'=>'min:1|slashes',
+
+		));
+
+	if(!$valid)
+	{
+		throw new Exception(Validator::getMessage());
+		
+	}
+
+	if(!$id=AffiliatesRanks::insert($send))
+	{
+		throw new Exception(Database::$error);
+		
+	}
+
+	AffiliatesRanks::saveCache($id);
+	
+	AffiliatesRanks::saveCacheAll();
+}
+
 function addCollectionProcess()
 {
 	$urls=Request::get('urls');
