@@ -28,8 +28,9 @@
         <?php echo $alert;?>
 
         <p>
-          <label>Products ID (seperate by comma)</label>
-          <input type="text" class="form-control prod-title input-size-medium" name="send[id]" placeholder="1,2,3,4" />
+          <label>Paste products's url which you want create collection into below box:</label>
+          <textarea rows="15" class="form-control" name="urls"></textarea>
+          
         </p>
 
 <!--         <div class="wrapper_products">
@@ -37,7 +38,7 @@
         </div> -->
 
         <p>
-          <button type="submit" name="btnAdd" class="btn btn-primary">Add new</button>
+          <button type="submit" name="btnAdd" class="btn btn-primary">Create</button>
         </p>
       </div>
     </div>

@@ -21,11 +21,34 @@ class SelfApi
             'get_customer_lang'=>'getCustomerLang',
             'get_frontend_lang'=>'getFrontEndLang',
             'get_list_category'=>'listCategory',
+            'create_collection_url'=>'createCollectionUrl',
             'get_product_autocomplete_by_title'=>'getProductAutocompleteByTitle',
 			);
 
 		return $listRoute;
 	}
+
+    public static function createCollectionUrl()
+    {
+        $urls=Request::get('send_urls','');
+
+        if(!preg_match_all('/\-(\d+)\.html/i', $urls, $matches))
+        {
+            throw new Exception('Data not valid.');
+            
+        }
+
+        $userid=Users::getCookieUserId();
+
+        $listID="'".implode("','", $matches[1])."'";
+
+        $colHas=CollectionsProducts::saveCache($userid,$listID);        
+
+        $result=CollectionsProducts::url($colHas);
+
+        return $result;
+
+    }
 
     public static function getProductAutocompleteByTitle()
     {

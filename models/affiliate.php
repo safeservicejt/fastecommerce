@@ -2,16 +2,13 @@
 
 function addCollectionProcess()
 {
-	$send=Request::get('send');
+	$urls=Request::get('urls');
 
-
-	$listID=$send['id'];
-
-	if(!preg_match_all('/(\d+)/i', $listID, $matches))
-	{
-		throw new Exception('You have to type product id for create collection.');
-		
-	}
+    if(!preg_match_all('/\-(\d+)\.html/i', $urls, $matches))
+    {
+        throw new Exception('Data not valid.');
+        
+    }
 
 	$userid=Users::getCookieUserId();
 
@@ -19,7 +16,7 @@ function addCollectionProcess()
 
 	$colHas=CollectionsProducts::saveCache($userid,$listID);
 
-	return 'Create collection success. Click <a href="'.CollectionsProducts::url($colHas).'" target="_blank">here</a> to view your collection!';
+	return 'Create collection success. Click <a href="'.CollectionsProducts::url($colHas).'.html" target="_blank">here</a> to view your collection!';
 }
 
 function withdrawProcess()

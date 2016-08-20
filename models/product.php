@@ -281,6 +281,8 @@ function insertProcess()
 	
 	$send['status']=isset($send['status'])?$send['status']:'pending';
 
+	$send['rating']=5;
+
 	if(!$id=Products::insert($send))
 	{
 		throw new Exception(Database::$error);

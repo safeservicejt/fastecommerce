@@ -117,7 +117,7 @@ class Products
 
 				if(isset($row['price']) && isset($row['sale_price']))
 				{
-					$row['percent_discount']=((double)$row['discount_price']-(double)$row['price'])/100;
+					$row['percent_discount']=intval((1-((double)$row['discount_price']/(double)$row['price']))*100);
 				}
 
 				if(isset($row['title']))
@@ -314,28 +314,6 @@ class Products
 		
 	}
 
-	public static function updateReview($prodID)
-	{
-		$loadData=Reviews::get(array(
-			'cache'=>'no',
-			'where'=>"where productid='$prodID'"
-			));
-
-		$insertData=array(0,0,0,0,0);
-
-		$total=count($loadData);
-
-		for ($i=0; $i < $total; $i++) { 
-			$rating=$loadData[$i]['rating'];
-
-			$insertData[$rating]=(int)$insertData[$rating]+1;
-		}
-
-		self::update($prodID,array(
-			'review_data'=>serialize($insertData)
-			));
-	}
-
 	public static function addReview($prodID,$userid,$rating,$content)
 	{
 		$id=Reviews::insert(array(
@@ -361,21 +339,28 @@ class Products
 			$loadData['review_data']=unserialize($loadData['review_data']);
 		}
 
+		$sumRating=0;
+
 		for ($i=0; $i < 6; $i++) { 
 			$loadData['review_data'][$i]=isset($loadData['review_data'][$i])?$loadData['review_data'][$i]:0;
+
+			$sumRating=(int)$sumRating+(int)$loadData['review_data'][$i];
 		}
 
 		$loadData['review_data'][$rating]=isset($loadData['review_data'][$rating])?$loadData['review_data'][$rating]:0;
 
 		$loadData['review_data'][$rating]=(int)$loadData['review_data'][$rating]+1;
 
+		$sumRating=intval($sumRating/5);
+
 		self::update($prodID,array(
-			'review_data'=>serialize($loadData['review_data'])
+			'review_data'=>serialize($loadData['review_data']),
+			'rating'=>$sumRating
 			));
 
 		self::saveCache($prodID);
 
-		return true;
+		return $id;
 	}
 
 	public static function getPublish($inputData=array())
@@ -687,7 +672,196 @@ class Products
 		{
 			$loadData['attr_data']=unserialize($loadData['attr_data']);
 		}
+		
+		$discountData=array();
 
+		if(isset(Discounts::$data['id']))
+		{
+			$discountData=Discounts::$data;
+		}	
+
+		$todayTime=time();
+
+		if(isset($loadData['sale_price']))
+		{
+			$loadData['discount_price']=$loadData['sale_price'];
+		}
+
+		if(isset($loadData['sale_price']) && $loadData['sale_price_from'])
+		{
+			$sale_price_from_time=strtotime($loadData['sale_price_from']);
+
+			$loadData['active_sale_price']=0;
+			
+			if((int)$todayTime<=(int)$sale_price_from_time)
+			{
+				$loadData['active_sale_price']=1;
+			}
+		}
+
+		if(isset($discountData['id']) && isset($loadData['sale_price']))
+		{
+			$percent=$discountData['percent'];
+
+			$loadData['discount_price']=((double)$loadData['discount_price']*(double)$percent)/100;
+
+			$loadData['active_sale_price']=1;
+		}
+
+		if(isset($loadData['price']) && isset($loadData['sale_price']))
+		{
+			$loadData['percent_discount']=intval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
+		}
+
+		if(isset($loadData['title']))
+		{
+			$loadData['title']=String::decode($loadData['title']);
+		}
+		
+		if(isset($loadData['shortdesc']))
+		{
+			$loadData['shortdesc']=String::decode($loadData['shortdesc']);
+		}
+		
+		if(isset($loadData['page_title']))
+		{
+			$loadData['page_title']=String::decode($loadData['page_title']);
+		}
+		
+		if(isset($loadData['descriptions']))
+		{
+			$loadData['descriptions']=String::decode($loadData['descriptions']);
+		}
+		
+		if(isset($loadData['keywords']))
+		{
+			$loadData['keywords']=String::decode($loadData['keywords']);
+		}
+		
+		if(isset($loadData['purchase_note']))
+		{
+			$loadData['purchase_note']=String::decode($loadData['purchase_note']);
+		}
+
+		if(isset($loadData['category_data'][10]))
+		{
+			$loadData['category_data']=unserialize($loadData['category_data']);
+		}
+
+		if(isset($loadData['brand_data'][10]))
+		{
+			$loadData['brand_data']=unserialize($loadData['brand_data']);
+		}
+
+		if(isset($loadData['review_data'][10]))
+		{
+			$loadData['review_data']=unserialize($loadData['review_data']);
+
+			$totalReview=count($loadData['review_data']);
+
+			if($totalReview < 5)
+			{
+				for ($i=0; $i < $totalReview; $i++) { 
+					$loadData['review_data'][$i]=isset($loadData['review_data'][$i])?$loadData['review_data'][$i]:0;
+				}						
+			}
+
+		}
+
+		if(isset($loadData['tag_data'][10]))
+		{
+			$loadData['tag_data']=unserialize($loadData['tag_data']);
+		}
+
+
+		if(isset($loadData['download_data'][10]))
+		{
+			$loadData['download_data']=unserialize($loadData['download_data']);
+		}
+
+		if(isset($loadData['image_data'][10]))
+		{
+			$loadData['image_data']=unserialize($loadData['image_data']);
+		}
+
+		if(isset($loadData['discount_data'][10]))
+		{
+			$loadData['discount_data']=unserialize($loadData['discount_data']);
+		}
+
+		if(isset($loadData['friendly_url']))
+		{
+			$loadData['url']=self::url($loadData['friendly_url']);
+		}
+
+		if(isset($loadData['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $loadData['image']))
+		{
+			if(!preg_match('/^http/i', $loadData['image']))
+			{
+				$loadData['imageUrl']=System::getUrl().$loadData['image'];
+			}
+			else
+			{
+				$loadData['imageUrl']=System::getUrl().'plugins/fastecommerce/images/noimg.jpg';
+			}
+			
+		}
+
+		if(isset($loadData['content']))
+		{
+			$loadData['content']=String::decode($loadData['content']);
+
+		}
+
+		if(isset($loadData['weight']))
+		{
+			$loadData['weightFormat']=number_format($loadData['weight']);
+
+		}
+
+		if(isset($loadData['price']))
+		{
+			$loadData['priceFormat']=FastEcommerce::money_format($loadData['price']);
+
+		}
+
+		if(isset($loadData['sale_price']))
+		{
+			$loadData['sale_priceFormat']=FastEcommerce::money_format($loadData['sale_price']);
+
+		}
+
+
+
+		if(isset($loadData['views']))
+		{
+			$loadData['viewsFormat']=number_format($loadData['views']);
+
+		}
+
+		if(isset($loadData['likes']))
+		{
+			$loadData['likesFormat']=number_format($loadData['likes']);
+
+		}
+
+		if(isset($loadData['reviews']))
+		{
+			$loadData['reviewsFormat']=number_format($loadData['reviews']);
+
+		}
+
+		if(isset($loadData['orders']))
+		{
+			$loadData['ordersFormat']=number_format($loadData['orders']);
+
+		}
+
+		if(isset($loadData['points']))
+		{
+			$loadData['pointsFormat']=number_format($loadData['points']);
+
+		}
 		return $loadData;
 
 	}

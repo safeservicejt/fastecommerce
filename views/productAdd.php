@@ -96,7 +96,7 @@
                   <tr>
                     <td class="col-lg-4 col-md-4 col-sm-4 ">Stock Quantity</td>
                     <td class="col-lg-8 col-md-8 col-sm-8 ">
-                    <input type="text" class="form-control input-sm" name="send[quantity]" value="0" />
+                    <input type="text" class="form-control input-sm" name="send[quantity]" value="99999" />
                     </td>
                   </tr>
                   <tr>
