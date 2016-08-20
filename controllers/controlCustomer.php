@@ -36,14 +36,6 @@ class controlCustomer
 			}
 		}
 
-		if(Request::has('btnSearch'))
-		{
-			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
-
-			$addWhere="where title LIKE '%$txtKeywords%'";
-
-			$addPage='/search/'.base64_encode($txtKeywords);
-		}
 	
 
 		$pageData['theList']=Customers::get(array(
@@ -52,6 +44,16 @@ class controlCustomer
 			'cache'=>'no',
 			'where'=>$addWhere
 			));
+
+		$total=count($pageData['theList']);
+
+		for ($i=0; $i < $total; $i++) { 
+			$theID=$pageData['theList'][$i]['userid'];
+
+			$userData=Customers::loadCache($theID);
+
+			$pageData['theList'][$i]=array_merge($pageData['theList'][$i],$userData);
+		}
 
 		$countPost=Customers::get(array(
 			'cache'=>'no',
@@ -96,7 +98,7 @@ class controlCustomer
 		}
 		else
 		{
-			Alert::make('Page not found');
+			// Alert::make('Page not found');
 		}
 
 		if(Request::has('btnSave'))
@@ -112,27 +114,28 @@ class controlCustomer
 		$loadData=Customers::get(array(
 			'cache'=>'no',
 			'isHook'=>'no',
-			'where'=>"where id='$id'"
+			'where'=>"where userid='$id'"
 			));
 
-		if(!isset($loadData[0]['id']))
+		if(!isset($loadData[0]['userid']))
 		{
 			Alert::make('Page not found');
 		}
 
-		$pageData['productData']=$loadData[0];
+		$alert=$pageData['alert'];
 
-		$pageData['listCat']=Categories::getRecursive(array(
-			'orderby'=>'order by title asc',
-			'cache'=>'no'
-			));
+		$pageData=$loadData[0];
+
+		$pageData['alert']=$alert;
+
+		$pageData['ranksList']=AffiliatesRanks::loadCacheAll();
 
 		// $pageData['listBrand']=Brands::get(array(
 		// 	'orderby'=>'order by title asc',
 		// 	'cache'=>'no'
 		// 	));	
 
-		System::setTitle('Edit Product');
+		System::setTitle('Edit Customer');
 
 		CtrPlugin::admincpHeader();
 
@@ -140,7 +143,7 @@ class controlCustomer
 
 		CtrPlugin::view('addHeader');
 
-		CtrPlugin::view('productEdit',$pageData);
+		CtrPlugin::view('customerEdit',$pageData);
 
 		CtrPlugin::view('addFooter');
 

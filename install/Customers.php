@@ -302,7 +302,7 @@ class customers
 
 		CustomPlugins::load('before_customer_remove',$post);
 
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listID)";
 
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 
@@ -358,7 +358,7 @@ class customers
 
 		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
 		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
+		$whereQuery=isset($whereQuery[5])?$whereQuery:"userid in ($listIDs)";
 		
 		$addWhere=isset($addWhere[5])?$addWhere:"";
 

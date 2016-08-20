@@ -97,7 +97,28 @@ class AffiliatesRanks
 		
 	}
 
+	public static function changeRank($userid,$rankid)
+	{
+		$userData=Customers::loadCache($userid);
 
+		$rankData=self::loadCache($rankid);
+
+		$orders=$rankData['orders'];
+
+		if((int)$userData['affiliate_orders'] > (int)$orders)
+		{
+			$rankData['orders']=$userData['affiliate_orders'];
+		}
+
+		$valid=Customers::update($userid,array(
+			'affiliaterankid'=>$rankData['id'],
+			'commission'=>$rankData['commission'],
+			'affiliate_orders'=>$rankData['orders'],
+			));
+
+		Customers::saveCache($userid);
+
+	}
 
 	public static function cachePath()
 	{

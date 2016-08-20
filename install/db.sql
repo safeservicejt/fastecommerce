@@ -436,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `taxrates` (
   `type` varchar(30) NOT NULL DEFAULT 'fixed',
   `countries` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
 
 
 CREATE TABLE IF NOT EXISTS `shippingrates` (
@@ -445,7 +445,8 @@ CREATE TABLE IF NOT EXISTS `shippingrates` (
   `amount` double NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
 
 CREATE TABLE IF NOT EXISTS `wishlist` (
   `id` int(9) NOT NULL AUTO_INCREMENT,

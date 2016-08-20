@@ -13,6 +13,8 @@ class controlAffiliate
 			$curPage=$match[1];
 		}
 
+		Alert::make('Page not found');
+		
 		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')

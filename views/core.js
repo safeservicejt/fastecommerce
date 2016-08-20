@@ -67,7 +67,7 @@ function showMenu()
 	li+='<li class="dropdown li-fastecommerce">';
 	li+='<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;'+lang['affiliates']+' <span class="caret"></span></a>';
 	li+='<ul class="dropdown-menu dropdown-fastecommerce" role="menu">';
-	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate">'+lang['listAffiliates']+'</a></li>';
+	// li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate">'+lang['listAffiliates']+'</a></li>';
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/report">'+lang['reports']+'</a></li>';
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw">'+lang['withdraws']+'</a></li>';
 	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks">Ranks</a></li>';

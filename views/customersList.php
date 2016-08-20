@@ -22,15 +22,6 @@
 
                     </div><!-- /input-group -->   				
     			</div>
-    			<div class="col-lg-4 col-lg-offset-5 text-right">
-                    <div class="input-group input-group-sm">
-                        <input type="text" class="form-control" name="txtKeywords" placeholder="Search..." />
-                       <span class="input-group-btn">
-                        <button class="btn btn-primary" name="btnSearch" type="submit">Search</button>
-                      </span>
-
-                    </div><!-- /input-group -->       				
-    			</div>
 
     		</div>
     		<!-- row -->
@@ -42,8 +33,7 @@
     						<tr>
     							<td class="col-lg-1"><input type="checkbox" id="selectAll" /></td>
                          
-                                <td class="col-lg-9">Information</td>
-                                <td class="col-lg-1 text-right">Status</td>
+                                <td class="col-lg-10">Information</td>
     							<td class="col-lg-1 text-right">#</td>
     						</tr>
     					</thead>
@@ -54,36 +44,32 @@
 
     						$li='';
 
-    						if(isset($theList[0]['id']))
+    						if(isset($theList[0]['userid']))
     						for ($i=0; $i < $total; $i++) { 
 
-                                $date_added='<span title="Click to release this product" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
-
-                                $status='<span title="Click to unPublish this product" class="pointer product-status" data-type="unpublish" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:green;">'.ucfirst($theList[$i]['status']).'</span>';
+                                $orders='';
 
 
-                                $featured='';
-                                if((int)$theList[$i]['is_featured']==1)
-                                {
-                                    $featured='<span title="Click to unFeatured this product" class="pointer product-featured" data-type="unfeatured" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:green;margin-right:10px;">Featured</span>';
-                                }
+                                $orders='<span style="font-size:13px;color:#888;margin-right:10px;">Id: #'.number_format($theList[$i]['userid']).'</span>';
+                                $orders.='<span style="font-size:13px;color:#888;margin-right:10px;">Orders: '.number_format($theList[$i]['orders']).'</span>';
+                                $orders.='<span style="font-size:13px;color:#888;margin-right:10px;">Reviews: '.number_format($theList[$i]['reviews']).'</span>';
+                                $orders.='<span style="font-size:13px;color:#888;margin-right:10px;">Reviews: '.number_format($theList[$i]['reviews']).'</span>';
+                                $orders.='<span style="font-size:13px;color:#888;margin-right:10px;">Commission: '.number_format($theList[$i]['commission']).' %</span>';
+                                $orders.='<span style="font-size:13px;color:#888;margin-right:10px;">Balance: '.FastEcommerce::money_format($theList[$i]['balance']).'</span>';
 
-
-                                $views='<span style="font-size:13px;color:#888;margin-right:10px;"><span class="glyphicon glyphicon-thumbs-up"></span>&nbsp;&nbsp;'.number_format($theList[$i]['views']).'</span>';
     							$li.='
 	    						<!-- tr -->
 	    						<tr>
-	    							<td class="col-lg-1">
-	    								<input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['id'].'" />
-	    							</td>
-                                    <td class="col-lg-9"><a target="_blank" href="'.$theList[$i]['url'].'">'.$theList[$i]['title'].'</a>
+                                    <td class="col-lg-1">
+                                        <input type="checkbox" id="cboxID" name="id[]" value="'.$theList[$i]['userid'].'" />
+                                    </td>
+                                    <td class="col-lg-10"><a target="_blank" href="#">'.$theList[$i]['username'].'</a>
 
                                     <br>
-                                    '.$featured.' '.$date_added.' '.$views.'
+                                    '.$orders.'
                                     </td>
-                                    <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/product/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/customer/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->
