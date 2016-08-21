@@ -40,22 +40,27 @@ elseif($orderData['status']=='draft')
 		    <div class="row">
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
 		    		<div class="text-primary" style="font-size:18px;"><?php echo FastEcommerce::money_format($orderData['total']);?></div>
-		    		<span><?php echo Lang::get('usercp/index.total');?></span>
+		    		<span>Total</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-success" style="font-size:18px;"><?php if(isset($orderData['vat']))echo $orderData['vat'];else echo '0';?>%</div>
-		    		<span><?php echo Lang::get('usercp/index.vat');?></span>
+		    	<div class="col-lg-1 col-md-1 col-sm-1 text-center">
+		    		<div class="text-success" style="font-size:18px;"><?php if(isset($orderData['summary']['vat']))echo $orderData['summary']['vat'];else echo '0';?>%</div>
+		    		<span>VAT</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-info" style="font-size:18px;"><?php echo $orderData['summary']['shipping_method'].' '.FastEcommerce::money_format($orderData['summary']['shipping_amount']);?></div>
-		    		<span><?php echo Lang::get('usercp/index.shippingMethod');?></span>
+		    	<div class="col-lg-2 col-md-2 col-sm-2 text-center">
+		    		<div class="text-danger" style="font-size:18px;"><?php echo FastEcommerce::money_format($orderData['summary']['tax']);?></div>
+		    		<span>Tax</span>
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
 		    		<div class="text-warning" style="font-size:18px;"><?php echo $orderData['summary']['payment_method'];?></div>
-		    		<span><?php echo Lang::get('usercp/index.paymentMethod');?></span>
+		    		<span>Payment Method</span>
+		    	</div>		    	
+		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
+		    		<div class="text-info" style="font-size:18px;"><?php echo $orderData['summary']['shipping_method'].' '.FastEcommerce::money_format($orderData['summary']['shipping_amount']);?></div>
+		    		<span>Shipping Method</span>
 		    	</div>
 
-		    </div>  
+
+		    </div>   
 		<h3>Billing</h3>    
 		<hr>
 		<p>

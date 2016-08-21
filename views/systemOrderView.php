@@ -76,18 +76,23 @@ elseif($orderData['status']=='draft')
 		    		<div class="text-primary" style="font-size:18px;"><?php echo FastEcommerce::money_format($orderData['total']);?></div>
 		    		<span>Total</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
+		    	<div class="col-lg-1 col-md-1 col-sm-1 text-center">
 		    		<div class="text-success" style="font-size:18px;"><?php if(isset($orderData['summary']['vat']))echo $orderData['summary']['vat'];else echo '0';?>%</div>
 		    		<span>VAT</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-info" style="font-size:18px;"><?php echo $orderData['summary']['shipping_method'].' '.FastEcommerce::money_format($orderData['summary']['shipping_amount']);?></div>
-		    		<span>Shipping Method</span>
+		    	<div class="col-lg-2 col-md-2 col-sm-2 text-center">
+		    		<div class="text-danger" style="font-size:18px;"><?php echo FastEcommerce::money_format($orderData['summary']['tax']);?></div>
+		    		<span>Tax</span>
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
 		    		<div class="text-warning" style="font-size:18px;"><?php echo $orderData['summary']['payment_method'];?></div>
 		    		<span>Payment Method</span>
+		    	</div>		    	
+		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
+		    		<div class="text-info" style="font-size:18px;"><?php echo $orderData['summary']['shipping_method'].' '.FastEcommerce::money_format($orderData['summary']['shipping_amount']);?></div>
+		    		<span>Shipping Method</span>
 		    	</div>
+
 
 		    </div>   
 		<h3>Billing</h3>    

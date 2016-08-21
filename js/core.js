@@ -765,6 +765,7 @@ $( document ).on( "click", ".btn-next-step", function() {
   if(target=='panel-step6')
   {
     updateTax();
+    updateTax();
   }
 
 }); 

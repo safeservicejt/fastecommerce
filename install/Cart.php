@@ -276,7 +276,7 @@ class Cart
 
 			$theID=$listID[$i];
 
-			$loadCart['product'][$theID]['total']=((double)$loadCart['product'][$theID]['price']*(int)$loadCart['product'][$theID]['quantity']);
+			$loadCart['product'][$theID]['total']=((double)$loadCart['product'][$theID]['sale_price']*(int)$loadCart['product'][$theID]['quantity']);
 			
 			$loadCart['product'][$theID]['totalFormat']=FastEcommerce::money_format($loadCart['product'][$theID]['total']);
 			
@@ -334,6 +334,41 @@ class Cart
 		if(!isset($loadCart['product'][$productid]))
 		{
 			$loadCart['product'][$productid]=array();
+		}
+
+		$totalProd=count($loadCart['product']);
+
+		if($totalProd==1)
+		{
+			$loadCart['totalnovat']=0;
+
+			$loadCart['weight']=0;
+
+			$loadCart['totalvat']=0;
+
+			$loadCart['total']=0;
+
+			$loadCart['total_product']=0;
+
+			$loadCart['tax']=0;
+
+			$loadCart['shipping_fee']=0;
+
+			$loadCart['totalnovatFormat']=0;
+
+			$loadCart['weightFormat']=0;
+
+			$loadCart['totalvatFormat']=0;
+
+			$loadCart['totalFormat']=0;
+
+			$loadCart['total_productFormat']=0;			
+
+			$loadCart['taxFormat']=0;
+
+			$loadCart['shipping_feeFormat']=0;
+
+
 		}
 
 		if((int)$quantity<(int)$loadData['require_minimum'])
