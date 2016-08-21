@@ -56,6 +56,24 @@ elseif($orderData['status']=='draft')
 		    	</div>
 
 		    </div>  
+		<h3>Billing</h3>    
+		<hr>
+		<p>
+		<strong>Fullname: <?php echo $billing['firstname'].' '.$billing['lastname'];?></strong>	
+		</p>
+
+		<p>
+		<span class="text-danger">Phone: <?php echo $billing['phone'];?></span>
+		</p>
+
+		<p>
+		<span class="text-info">Company: <?php echo $billing['company'];?></span>
+		</p>
+
+		<p>
+		<span class="text-primary">Address: <?php echo $billing['address_1'];?>, <?php echo $billing['address_2'];?>, <?php echo $billing['city'];?>, <?php echo $billing['postcode'];?>, <?php echo $billing['state'];?>, <?php echo $billing['country'];?> </span>
+		</p>
+		<hr>		    
 		<h3>Shipping to</h3>    
 		<hr>
 		<p>

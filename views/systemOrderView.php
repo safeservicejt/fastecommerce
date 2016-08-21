@@ -1,8 +1,10 @@
+<div class="row">
+	<div class="col-lg-6 col-md-6 col-sm-6 ">
     	<form action="" method="post" enctype="multipart/form-data">
     	<input type="hidden" name="id[]" value="<?php echo $orderData['id'];?>">
     		<!-- row -->
     		<div class="row margin-bottom-30">
-    			<div class="col-lg-3 col-md-3 ">
+    			<div class="col-lg-6 ">
                     <div class="input-group input-group-sm">
                         <select class="form-control" name="action">
                             <option value="delete">Delete</option>
@@ -21,7 +23,14 @@
     			</div>
     		</div>
     		<!-- row -->
-    	</form>
+    	</form>		
+	</div>
+	<div class="col-lg-6 col-md-6 col-sm-6 text-right">
+		<a href="<?php echo System::getUrl();?>admincp/plugins/privatecontroller/fastecommerce/order/sendemail/<?php echo $orderData['id'];?>" class="btn btn-primary"><span class="glyphicon glyphicon-comment"></span> Send Email</a>
+	</div>
+</div>
+
+
 
 <?php
 
@@ -81,6 +90,27 @@ elseif($orderData['status']=='draft')
 		    	</div>
 
 		    </div>   
+		<h3>Billing</h3>    
+		<hr>
+		<p>
+		<strong>Fullname: <?php echo $billing['firstname'].' '.$billing['lastname'];?></strong>	
+		</p>
+
+		<p>
+		<span class="text-danger">Phone: <?php echo $billing['phone'];?></span>
+		</p>
+		<p>
+		<span class="">Email: <?php echo $billing['email'];?></span>
+		</p>
+
+		<p>
+		<span class="text-info">Company: <?php echo $billing['company'];?></span>
+		</p>
+
+		<p>
+		<span class="text-primary">Address: <?php echo $billing['address_1'];?>, <?php echo $billing['address_2'];?>, <?php echo $billing['city'];?>, <?php echo $billing['postcode'];?>, <?php echo $billing['state'];?>, <?php echo $billing['country'];?> </span>
+		</p>
+		<hr>
 		<h3>Shipping to</h3>    
 		<hr>
 		<p>
@@ -98,6 +128,7 @@ elseif($orderData['status']=='draft')
 		<p>
 		<span class="text-primary">Address: <?php echo $orderData['shipping_address1'];?>, <?php echo $orderData['shipping_address2'];?>, <?php echo $orderData['shipping_city'];?>, <?php echo $orderData['shipping_postcode'];?>, <?php echo $orderData['shipping_state'];?>, <?php echo $orderData['shipping_country'];?> </span>
 		</p>
+
 		<h3>Comments</h3>    
 		<hr>
 		<span><?php echo $orderData['comment'];?></span>	

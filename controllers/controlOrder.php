@@ -34,6 +34,124 @@ class controlOrder
 		}
 	}
 
+	public function emailmarketing()
+	{
+		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+		$userid=Users::getCookieUserId();
+
+		if($owner!='yes')
+		{
+			$refer=Http::get('refer');
+
+			Redirect::to($refer);
+		}
+
+
+		$pageData=array('alert'=>'');
+
+
+		if(Request::get('btnSend'))
+		{
+			$send=Request::get('send');
+
+			Mail::send(array(
+			'toEmail'=>$send['email'],
+			'toName'=>$pageData['userData']['firstname'].' '.$pageData['userData']['lastname'],
+			'subject'=>$send['subject'],
+			'content'=>$send['content']		
+
+			));
+
+			$pageData['alert']='<div class="alert alert-success">Send email success.</div>';	
+		}
+
+
+		System::setTitle('Email Marketing');
+
+		CtrPlugin::admincpHeader();
+
+		CtrPlugin::admincpLeft();
+
+		CtrPlugin::view('addHeader');
+
+		CtrPlugin::view('systemEmailMarketing',$pageData);
+
+		CtrPlugin::admincpFooter();
+
+	}
+
+	public function sendemail()
+	{
+		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+		$userid=Users::getCookieUserId();
+
+		if($owner!='yes')
+		{
+			$refer=Http::get('refer');
+
+			Redirect::to($refer);
+		}
+
+		$orderid=0;
+
+		if(!$match=Uri::match('sendemail\/(\d+)'))
+		{
+			$refer=Http::get('refer');
+
+			Redirect::to($refer);			
+		}
+
+		$orderid=$match[1];
+
+		$pageData=array('alert'=>'');
+
+
+
+		$pageData['orderid']=$orderid;
+
+		$pageData['orderData']=Orders::loadCache($orderid);
+
+		if(!$pageData['orderData'])
+		{
+			$refer=Http::get('refer');
+
+			Redirect::to($refer);				
+		}
+
+		$pageData['userData']=Customers::loadCache($pageData['orderData']['userid']);
+
+		if(Request::get('btnSend'))
+		{
+			$send=Request::get('send');
+
+			Mail::send(array(
+			'toEmail'=>$send['email'],
+			'toName'=>$pageData['userData']['firstname'].' '.$pageData['userData']['lastname'],
+			'subject'=>$send['subject'],
+			'content'=>$send['content']		
+
+			));
+
+			$pageData['alert']='<div class="alert alert-success">Send email success.</div>';	
+		}
+
+
+		System::setTitle('Send Email');
+
+		CtrPlugin::admincpHeader();
+
+		CtrPlugin::admincpLeft();
+
+		CtrPlugin::view('addHeader');
+
+		CtrPlugin::view('systemOrderSendEmail',$pageData);
+
+		CtrPlugin::admincpFooter();
+
+	}
+
 	public function cancel()
 	{
 		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
@@ -120,6 +238,14 @@ class controlOrder
 
 		$pageData['orderData']=Orders::loadCache($orderid);
 
+		$customerID=$pageData['orderData']['userid'];
+
+		$customerData=Customers::loadCache($customerID);
+
+		$pageData['billing']=$customerData;
+
+		// print_r($pageData['billing']);die();
+
 		// sort($pageData['orderData']['products']);
 
 		sort($pageData['orderData']['summary']['cart_product']);
@@ -165,6 +291,12 @@ class controlOrder
 		}
 
 		$pageData['orderData']=Orders::loadCache($orderid);
+
+		$customerID=$pageData['orderData']['userid'];
+
+		$customerData=Customers::loadCache($customerID);
+
+		$pageData['billing']=$customerData;
 
 		// sort($pageData['orderData']['products']);
 

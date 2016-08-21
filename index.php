@@ -312,6 +312,14 @@ function uninstall_fastecommerce()
 		unlink($filePath);
 	});
 
+	File::exists(ROOT_PATH.'includes/NewsLetter.php',function($filePath){
+		unlink($filePath);
+	});
+
+	File::exists(ROOT_PATH.'includes/Vouchers.php',function($filePath){
+		unlink($filePath);
+	});
+
 
 
 	CustomPlugins::removeByClass('FastEcommerce');
@@ -369,6 +377,10 @@ function uninstall_fastecommerce()
 	Database::dropTable('collections_products',$prefix);
 
 	Database::dropTable('affiliate_ranks',$prefix);
+
+	Database::dropTable('newsletters',$prefix);
+
+	Database::dropTable('vouchers',$prefix);
 
     Database::dropField('categories','orders');
     

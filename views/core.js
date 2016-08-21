@@ -84,6 +84,13 @@ function showMenu()
 	li+='</ul>';
 	li+'</li>';
 
+	li+='<li class="dropdown li-fastecommerce">';
+	li+='<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-certificate"></span>&nbsp;&nbsp;Marketing <span class="caret"></span></a>';
+	li+='<ul class="dropdown-menu dropdown-fastecommerce" role="menu">';
+	li+='<li><a href="/admincp/plugins/privatecontroller/fastecommerce/order/emailmarketing">Send Email</a></li>';
+	li+='</ul>';
+	li+'</li>';
+
 	// li+='<li class="dropdown li-fastecommerce">';
 	// li+='<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;Marketing <span class="caret"></span></a>';
 	// li+='<ul class="dropdown-menu dropdown-fastecommerce" role="menu">';

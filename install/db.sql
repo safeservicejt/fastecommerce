@@ -27,6 +27,26 @@ SET time_zone = "+00:00";
 --
 
 
+CREATE TABLE IF NOT EXISTS `vouchers` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `date_added` datetime NOT NULL,
+  `date_expires` datetime DEFAULT NULL,
+  `date_start` datetime NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `code` varchar(255) NOT NULL,
+  `money` double NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
+CREATE TABLE IF NOT EXISTS `newsletters` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+
 CREATE TABLE IF NOT EXISTS `affiliate_ranks` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,

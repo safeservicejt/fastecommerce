@@ -22,11 +22,100 @@ class SelfApi
             'get_frontend_lang'=>'getFrontEndLang',
             'get_list_category'=>'listCategory',
             'create_collection_url'=>'createCollectionUrl',
+            'send_email'=>'sendEmail',
+            'get_email_list_marketing'=>'getEmaiListMarketing',
             'get_product_autocomplete_by_title'=>'getProductAutocompleteByTitle',
 			);
 
 		return $listRoute;
 	}
+
+    public static function getEmaiListMarketing()
+    {
+        $owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+        $userid=Users::getCookieUserId();
+
+        if($owner!='yes')
+        {
+            throw new Exception('You not have permission to send email.');
+            
+        }
+                
+        $send_list_group=Request::get('send_list_group','newsletter');
+
+        $result=array();
+
+        switch ($send_list_group) {
+            case 'newsletter':
+            
+                $result=NewsLetter::get(array(
+                    'cache'=>'no'
+                    ));
+
+                break;
+
+            case 'customers':
+
+                $result=Users::get(array(
+                    'selectFields'=>'email,userid',
+                    'cache'=>'no'
+                    ));
+
+                break;
+        
+        }
+
+        $emailList=array();
+
+        $total=count($result);
+
+        for ($i=0; $i < $total; $i++) { 
+
+            if(!isset($result[$i]['email']))
+            {
+                continue;
+            }
+
+            $emailList[]=$result[$i]['email'];
+        }
+
+        return $emailList;
+    }
+
+    public static function sendEmail()
+    {
+        $owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+
+        $userid=Users::getCookieUserId();
+
+        if($owner!='yes')
+        {
+            throw new Exception('You not have permission to send email.');
+            
+        }
+
+        $send_subject=Request::get('send_subject','');
+
+        $send_content=Request::get('send_content','');
+
+        $send_email=Request::get('send_email','');
+
+        if($send_subject=='' || $send_content=='' || $send_email=='')
+        {
+            throw new Exception('Data not valid.');
+            
+        }
+
+        Mail::send(array(
+        'toEmail'=>$send_email,
+        'toName'=>'You',
+        'subject'=>$send_subject,
+        'content'=>$send_content     
+
+        ));        
+
+    }
 
     public static function createCollectionUrl()
     {
