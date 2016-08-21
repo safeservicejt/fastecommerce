@@ -24,11 +24,63 @@ class SelfApi
             'create_collection_url'=>'createCollectionUrl',
             'send_email'=>'sendEmail',
             'get_email_list_marketing'=>'getEmaiListMarketing',
+            'download_in_order'=>'downloadInOrder',
             'get_product_autocomplete_by_title'=>'getProductAutocompleteByTitle',
 			);
 
 		return $listRoute;
 	}
+
+    public static function downloadInOrder()
+    {
+        if(!$match=Uri::match('download_in_order\/([a-z0-9A-Z_\-\+\=]+)$'))
+        {
+            Alert::make('Page not found');
+        }
+
+        $hash=$match[1];
+
+        $data=String::decrypt(base64_decode($hash));
+
+        $parse=explode(':', $data);
+
+        $userid=(int)$parse[0];
+
+        $orderid=$parse[1];
+
+        $productid=(int)$parse[2];
+
+        $filePath=$parse[3];
+
+        $orderData=Orders::loadCache($orderid);
+
+        if(!$orderData)
+        {
+            Alert::make('File not found.');
+        }
+
+        if((int)$orderData['userid']!=$userid)
+        {
+            Alert::make('You not have permission to download this file.');
+        }
+
+        if(!isset($orderData['products'][$productid]))
+        {
+            Alert::make('Data not valid.');
+        }
+
+        // $filePath=ROOT_PATH.$filePath;
+
+        // echo $filePath;die();
+        // if(!file_exists($filePath))
+        // {
+        //     Alert::make('File not exists.');
+        // }
+
+        File::download($filePath);
+
+        die();
+    }
 
     public static function getEmaiListMarketing()
     {

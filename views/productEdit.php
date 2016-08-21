@@ -15,6 +15,11 @@ body.dragging, body.dragging * {
   z-index: 2000;
 }
 
+.cursor-pointer
+{
+  cursor: pointer;
+}
+
 ol.list-images
 {
   list-style: none;
@@ -240,7 +245,33 @@ ol.list-images li img
             <div id="tab-virtualdownload">
               <p>
                   <label><strong>Upload Files</strong></label>
-                  <input type="file" multiple="" name="downloads" />
+                  <input type="file" multiple="" name="downloads[]" />
+                  <?php if(is_array($productData['download_data'])){
+
+                    $li='';
+
+                    $total=count($productData['download_data']);
+
+                    for ($i=0; $i < $total; $i++) { 
+                      $li.='
+                      <div class="row">
+                        <div class="col-lg-8 col-md-8 col-sm-8 ">
+                          <span class="label label-primary">'.basename($productData['download_data'][$i]).'</span>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 text-right">
+                          <span class="label label-danger cursor-pointer" title="Remove this file" data-file="'.$productData['download_data'][$i].'">Remove [X]</span>
+                        </div>
+
+                      </div>
+
+                      ';
+                    }
+
+                    echo $li;
+
+                  } ?>
+
+
               </p>               
             </div>
             <!-- #tab-virtualdownload -->
@@ -286,9 +317,16 @@ ol.list-images li img
     <!-- Panel -->
     <div class="panel panel-default">
       <div class="panel-body">
+        <?php if($productData['status']!='publish'){ ?>
         <p>
-          <input type="checkbox" id="product-status" checked name="send[status]" value="published" /> <label for="product-status">Publish this product</label>
+          <input type="checkbox" id="product-status" checked name="send[status]" value="publish" /> <label for="product-status">Publish this product</label>
         </p>
+        <?php }else{ ?>
+        <p>
+          <input type="checkbox" checked id="product-status" checked name="send[status]" value="publish" /> <label for="product-status">Publish this product</label>
+        </p>
+
+        <?php } ?>
         <p>
         <?php
         $catSelected=array();

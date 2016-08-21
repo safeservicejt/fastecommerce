@@ -108,7 +108,21 @@ class Downloads
 		
 	}
 
+	public static function downloadInOrder()
+	{
 
+	}
+
+	public static function urlInOrder($userid,$orderid,$productid,$filePath)
+	{
+		$url=$userid.':'.$orderid.':'.$productid.':'.$filePath;
+
+		$hash=base64_encode(String::encrypt($url));
+
+		$url=System::getUrl().'api/plugin/fastecommerce/download_in_order/'.$hash;
+
+		return $url;
+	}
 
 	public static function cachePath()
 	{

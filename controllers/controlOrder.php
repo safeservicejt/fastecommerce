@@ -244,7 +244,7 @@ class controlOrder
 
 		$pageData['billing']=$customerData;
 
-		// print_r($pageData['billing']);die();
+		// print_r($pageData['orderData']);die();
 
 		// sort($pageData['orderData']['products']);
 

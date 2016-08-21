@@ -171,6 +171,8 @@ elseif($orderData['status']=='draft')
 
 						$status='';
 
+						$totalProd=count($orderData['products']);
+
 						for ($i=0; $i < $total; $i++) { 
 
 							$prodID=$orderData['summary']['cart_product'][$i]['id'];
@@ -190,15 +192,26 @@ elseif($orderData['status']=='draft')
 
 							';
 
-							if($orderData['summary']=='completed' && isset($orderData['products'][0]))
+							
+
+							if($orderData['status']=='completed' && $totalProd > 0)
 							{
-								$li.='
+								$totalDownload=count($orderData['products'][$prodID]['download_data']);
+
+								$dl='';
+
+								for ($d=0; $d < $totalDownload; $d++) { 
+									$dl.='
 									<tr>
 										<td colspan="3" class="col-lg-12">
-										<span class="glyphicon glyphicon-cloud-download" style="color:#999;"></span> <a href="'.$orderData['products'][0].'"><span>Click here to download file of product.</span></a>
+										<span class="glyphicon glyphicon-cloud-download" style="color:#999;"></span> <a target="_blank" href="'.Downloads::urlInOrder($orderData['userid'],$orderData['id'],$prodID,$orderData['products'][$prodID]['download_data'][$d]).'"><span>Click here to download file of product.</span></a>
 										</td>
 									</tr>
+
 									';
+								}
+
+								$li.=$dl;
 							}
 
 						}

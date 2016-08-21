@@ -222,6 +222,23 @@ class Orders
 			}
 		}
 
+		$totalProd=count($result['products']);
+
+		$listKey=array_keys($result['products']);
+
+		for ($i=0; $i < $totalProd; $i++) { 
+			$prodID=$listKey[$i];
+
+			$prodData=Products::loadCache($prodID);
+
+			if(!$prodData)
+			{
+				continue;
+			}
+
+			$result['products'][$prodID]['download_data']=$prodData['download_data'];
+		}
+
 		return $result;
 	}
 

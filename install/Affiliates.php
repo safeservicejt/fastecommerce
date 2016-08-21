@@ -53,7 +53,7 @@ class Affiliates
 
 		$affiliateTotal=((double)$orderTotal*(double)$commission)/100;
 
-		$userData=Customer::loadCache($affiliateid);
+		$userData=Customers::loadCache($affiliateid);
 
 		if(!$userData)
 		{
