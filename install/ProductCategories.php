@@ -145,11 +145,15 @@ class ProductCategories
 			'where'=>"where catid IN ($listCat)"
 			));
 
+		$category_str='';
+
 		$total=count($loadCat);
 
 		for ($i=0; $i < $total; $i++) { 
 
 			$catid=$loadCat[$i]['catid'];
+
+			$category_str.='|'.$catid.'|';
 
 			self::insert(array(
 				'catid'=>$catid,
@@ -159,6 +163,10 @@ class ProductCategories
 				'cat_friendly_url'=>$loadCat[$i]['friendly_url'],
 				));
 		}
+
+		Products::update($id,array(
+			'category_str'=>$category_str
+			));
 	}
 	
 	public static function insert($inputData=array())

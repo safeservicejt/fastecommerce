@@ -243,6 +243,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
   `catid` int(9) NOT NULL,
+  `category_str` longtext,
   `title` varchar(255) NOT NULL,
   `friendly_url` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
@@ -278,6 +279,7 @@ CREATE TABLE IF NOT EXISTS `products` (
   `brand_data` text,
   `tag_data` text,
   `attr_data` text,
+  `attr_str` longtext,
   `download_data` text,
   `image_data` text,
   `discount_data` text,
@@ -291,7 +293,8 @@ CREATE TABLE IF NOT EXISTS `products` (
   `keywords` varchar(500) DEFAULT NULL,
   `review_data` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=4 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
+
 -- --------------------------------------------------------
 
 --
