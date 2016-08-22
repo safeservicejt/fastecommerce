@@ -8,7 +8,8 @@
 + Easy change code, edit your website design
 
 + Support many payment methods, but current only Paypal, Cash By Delivery
-+ Support search product in any categories, have any attributes..
++ Support search product in any categories
++ Support search product by via attributes
 
 + Affiliaters can create private collection products and earn money when visitors view collections then make order.
 
