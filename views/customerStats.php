@@ -6,20 +6,20 @@
     	<h3><?php echo Lang::get('usercp/index.statistics');?></h3>
     	<hr>
 		    <div class="row">
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-primary" style="font-size:32px;"><?php echo number_format($order);?></div>
+		    	<div class="col-lg-2 col-md-2 col-sm-2 text-center">
+		    		<div class="text-primary" style="font-size:28px;"><?php echo number_format($order);?></div>
 		    		<span><?php echo Lang::get('usercp/index.orders');?></span>
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-success" style="font-size:32px;"><?php echo number_format($order_pending);?></div>
+		    		<div class="text-success" style="font-size:28px;"><?php echo number_format($order_pending);?></div>
 		    		<span><?php echo Lang::get('usercp/index.ordersCompleted');?></span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-info" style="font-size:32px;"><?php echo FastEcommerce::money_format($balance);?></div>
+		    	<div class="col-lg-4 col-md-4 col-sm-4 text-center">
+		    		<div class="text-info" style="font-size:28px;"><?php echo FastEcommerce::money_format($balance);?></div>
 		    		<span><?php echo Lang::get('usercp/index.balance');?></span>
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-warning" style="font-size:32px;"><?php echo $commission;?>%</div>
+		    		<div class="text-warning" style="font-size:28px;"><?php echo $commission;?>%</div>
 		    		<span><?php echo Lang::get('usercp/index.affiliateCommission');?></span>
 		    	</div>
 

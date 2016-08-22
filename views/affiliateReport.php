@@ -11,19 +11,19 @@
     	<hr>
 		    <div class="row">
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-primary" style="font-size:32px;"><?php echo number_format($clicks);?></div>
+		    		<div class="text-primary" style="font-size:28px;"><?php echo number_format($clicks);?></div>
 		    		<span><?php echo Lang::get('usercp/index.clicks');?></span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-success" style="font-size:32px;"><?php echo FastEcommerce::money_format($balance);?></div>
+		    	<div class="col-lg-4 col-md-4 col-sm-4 text-center">
+		    		<div class="text-success" style="font-size:28px;"><?php echo FastEcommerce::money_format($balance);?></div>
 		    		<span><?php echo Lang::get('usercp/index.earned');?></span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-danger" style="font-size:32px;"><?php echo number_format($order_completed);?></div>
+		    	<div class="col-lg-2 col-md-2 col-sm-2 text-center">
+		    		<div class="text-danger" style="font-size:28px;"><?php echo number_format($order_completed);?></div>
 		    		<span><?php echo Lang::get('usercp/index.ordersCompleted');?></span>
 		    	</div>
 		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
-		    		<div class="text-warning" style="font-size:32px;"><?php echo FastEcommerce::money_format($withdrawed);?></div>
+		    		<div class="text-warning" style="font-size:28px;"><?php echo FastEcommerce::money_format($withdrawed);?></div>
 		    		<span><?php echo Lang::get('usercp/index.withdrawSuccess');?></span>
 		    	</div>
 

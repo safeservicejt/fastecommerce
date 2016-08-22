@@ -10,7 +10,7 @@
 		    		<div class="text-success" style="font-size:32px;"><?php echo $order;?></div>
 		    		<span>Orders</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
+		    	<div class="col-lg-4 col-md-4 col-sm-4 text-center">
 		    		<div class="text-info" style="font-size:32px;"><?php echo FastEcommerce::money_format($sale);?></div>
 		    		<span>Sales</span>
 		    	</div>
@@ -18,7 +18,7 @@
 		    		<div class="text-warning" style="font-size:32px;"><?php echo $customer;?></div>
 		    		<span>Customers</span>
 		    	</div>
-		    	<div class="col-lg-3 col-md-3 col-sm-3 text-center">
+		    	<div class="col-lg-2 col-md-2 col-sm-2 text-center">
 		    		<div class="text-primary" style="font-size:32px;"><?php echo $product;?></div>
 		    		<span>Products</span>
 		    	</div>
