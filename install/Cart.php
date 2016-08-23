@@ -28,7 +28,7 @@ class Cart
 {
 	public static $cartData=array();
 
-	public static function cartPopup($noWrap=false)
+	public static function cartPopup($noWrap=false,$template=1)
 	{
 		$result='';
 
@@ -67,11 +67,38 @@ class Cart
 				';
 			}
 
+			$templateResult='
+
+            <span class="glyphicon glyphicon-shopping-cart cart-icon">&nbsp;</span>
+            <span data-template="1" class="cart-total-summary">'.$loadData['total_product'].' item(s) - '.FastEcommerce::money_format($loadData['totalFormat']).'</span>
+			';
+
+			if((int)$template==2)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="2" class="cart-total-summary">'.$loadData['total_product'].' item(s) - '.FastEcommerce::money_format($loadData['totalFormat']).'</span>
+				';				
+			}
+			elseif((int)$template==3)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="3" class="cart-total-summary">'.$loadData['total_product'].' item(s)</span>
+				';				
+			}
+			elseif((int)$template==4)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="4" class="cart-total-summary">'.$loadData['total_product'].'</span>
+				';				
+			}
+
 			$result='
 	          <!-- cart popup -->
 	          <div class="cart-popup">
-	            <span class="glyphicon glyphicon-shopping-cart cart-icon">&nbsp;</span>
-	            <span class="cart-total-summary">'.$loadData['total_product'].' item(s) - '.FastEcommerce::money_format($loadData['totalFormat']).'</span>
+	            '.$templateResult.'
 
 	            <div class="details-popup" style="padding-top:20px;">
 	            <div class="list-products">
@@ -116,11 +143,37 @@ class Cart
 		}
 		else
 		{
+			$templateResult='
+	        <span class="glyphicon glyphicon-shopping-cart cart-icon">&nbsp;</span>
+            <span data-template="1" class="cart-total-summary">0 item(s) - '.FastEcommerce::money_format(0).'</span>
+			';
+
+			if((int)$template==2)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="2" class="cart-total-summary">0 item(s) - '.FastEcommerce::money_format(0).'</span>
+				';				
+			}
+			elseif((int)$template==3)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="3" class="cart-total-summary">0 item(s)</span>
+				';				
+			}
+			elseif((int)$template==4)
+			{
+				$templateResult='
+	            <span class="cart-icon">&nbsp;</span>
+	            <span data-template="4" class="cart-total-summary">0</span>
+				';				
+			}		
+				
 			$result='
           <!-- cart popup -->
           <div class="cart-popup">
-            <span class="glyphicon glyphicon-shopping-cart cart-icon">&nbsp;</span>
-            <span class="cart-total-summary">0 item(s) - '.FastEcommerce::money_format(0).'</span>
+            '.$templateResult.'
 
             <div class="details-popup">
             <div class="list-products">

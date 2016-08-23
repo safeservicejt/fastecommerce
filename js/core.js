@@ -16,6 +16,8 @@ function documentReady(func)
 
 function loadCartPopup()
 {
+    var template=$('.cart-total-summary').data('template');
+
     var request = new XMLHttpRequest();
     request.open('POST', api_url+'get_cart_popup_content', true);
     request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
@@ -53,7 +55,7 @@ function loadCartPopup()
 
     };
 
-    request.send();
+    request.send('send_template='+template);
 
 }
 

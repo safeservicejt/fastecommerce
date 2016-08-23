@@ -639,7 +639,9 @@ class SelfApi
 
     public static function getCartPopupContent()
     {
-        return Cart::cartPopup(true);
+        $send_template=Request::get('send_template',1);
+
+        return Cart::cartPopup(true,$send_template);
     }
 
     public static function updateOnCart()
