@@ -65,8 +65,6 @@ class TaxRates
 			// end load			
 		}
 
-
-
 		$query=Database::query($queryCMD);
 		
 
@@ -170,11 +168,18 @@ class TaxRates
 			'where'=>"where id IN ($listID)"
 			));
 
-		$loadData=count($inputData);
+		$total=count($loadData);
 
 		$savePath=ROOT_PATH.'contents/fastecommerce/countries/';
 
+
 		for ($i=0; $i < $total; $i++) { 
+
+			if(!isset($loadData[$i]['id']))
+			{
+				continue;
+			}
+
 			$id=$loadData[$i]['id'];
 
 			$countries=$loadData[$i]['countries'];
@@ -201,10 +206,13 @@ class TaxRates
 
 				if(file_exists($filePath))
 				{
+
 					unlink($filePath);
 				}
 			}
 		}
+
+
 	}
 
 	public static function cal($money=0)

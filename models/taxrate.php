@@ -24,9 +24,11 @@ function actionProcess()
 				Alert::make('Page not found');
 			}
 			
+			TaxRates::removeCache($id);
+
 			TaxRates::remove($id);
 
-			TaxRates::removeCache($id);
+			
 
 			// TaxRates::saveCache();
 
