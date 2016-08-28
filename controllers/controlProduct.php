@@ -45,6 +45,8 @@ class controlProduct
 			$addWhere.=!isset($addWhere[5])?"where userid='$userid'":" AND userid='$userid'";
 		}		
 
+		Discounts::$data=array();
+
 		$pageData['theList']=Products::get(array(
 			'limitShow'=>20,
 			'limitPage'=>$curPage,

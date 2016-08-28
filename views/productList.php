@@ -62,6 +62,10 @@
 
                                 $date_added='<span title="Click to release this product" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Date: '.date('M d, Y H:i',strtotime($theList[$i]['date_added'])).'</span>';
 
+                                $date_added.='<span title="Price '.FastEcommerce::money_format($theList[$i]['price']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Price: '.FastEcommerce::money_format($theList[$i]['price']).'</span>';
+
+                                $date_added.='<span title="Sale Price '.FastEcommerce::money_format($theList[$i]['sale_price']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Sale Price: '.FastEcommerce::money_format($theList[$i]['sale_price']).'</span>';
+
                                 $status='<span title="Click to unPublish this product" class="pointer product-status" data-type="unpublish" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:green;">'.ucfirst($theList[$i]['status']).'</span>';
 
 

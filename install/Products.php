@@ -50,6 +50,10 @@ class Products
 
 		$md5Query=md5($queryCMD);
 
+		// $result=array();
+
+		
+
 		if($cache=='yes')
 		{
 			// Load dbcache
@@ -57,253 +61,268 @@ class Products
 
 			if($loadCache!=false)
 			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
+				$result=unserialize($loadCache);
+				// return $loadCache;
 			}
 
 			// end load			
 		}
-
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
+		else
 		{
-			return false;
+			$query=Database::query($queryCMD);
+			
+
+			if(isset(Database::$error[5]))
+			{
+				return false;
+			}
+
+			$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
+		
+			if((int)$query->num_rows > 0)
+			{
+
+				while($row=Database::fetch_assoc($query))
+				{
+												
+					$result[]=$row;
+				}		
+			}
+			else
+			{
+				return false;
+			}
 		}
 
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-		if((int)$query->num_rows > 0)
+		$discountData=array();
+
+		if(isset(Discounts::$data['id']))
 		{
-			$discountData=array();
+			$discountData=Discounts::$data;
+		}	
 
-			if(isset(Discounts::$data['id']))
+		$todayTime=time();
+
+		$total=count($result);
+
+		for ($i=0; $i < $total; $i++) { 
+
+			$row=$result[$i];
+
+			if(isset($row['sale_price_from']))
 			{
-				$discountData=Discounts::$data;
-			}	
+				$sale_price_from=strtotime($row['sale_price_from']);
 
-			$todayTime=time();
-					
-			while($row=Database::fetch_assoc($query))
+				$sale_price_to=strtotime($row['sale_price_to']);
+				
+				if((int)$sale_price_from > (int)$todayTime)
+				{
+					$row['sale_price']=$row['price'];
+				}				
+			}
+		
+			if(isset($row['sale_price']))
 			{
-				if(isset($row['sale_price']))
+				$row['discount_price']=$row['sale_price'];
+			}
+
+			if(isset($discountData['id']) && isset($row['sale_price']))
+			{
+				$percent=$discountData['percent'];
+
+				$row['discount_price']=(double)$row['discount_price']-((double)$row['discount_price']*((double)$percent/100));
+
+				$row['price']=$row['sale_price'];
+
+				$row['sale_price']=$row['discount_price'];
+
+			}
+
+			if(isset($row['price']) && isset($row['sale_price']))
+			{
+				$row['percent_discount']=floatval((1-((double)$row['discount_price']/(double)$row['price']))*100);
+			}
+
+			if(isset($row['title']))
+			{
+				$row['title']=String::decode($row['title']);
+			}
+			
+			if(isset($row['shortdesc']))
+			{
+				$row['shortdesc']=String::decode($row['shortdesc']);
+			}
+			
+			if(isset($row['page_title']))
+			{
+				$row['page_title']=String::decode($row['page_title']);
+			}
+			
+			if(isset($row['descriptions']))
+			{
+				$row['descriptions']=String::decode($row['descriptions']);
+			}
+			
+			if(isset($row['keywords']))
+			{
+				$row['keywords']=String::decode($row['keywords']);
+			}
+			
+			if(isset($row['purchase_note']))
+			{
+				$row['purchase_note']=String::decode($row['purchase_note']);
+			}
+
+			if(isset($row['category_data'][10]))
+			{
+				$row['category_data']=unserialize($row['category_data']);
+			}
+
+			if(isset($row['brand_data'][10]))
+			{
+				$row['brand_data']=unserialize($row['brand_data']);
+			}
+
+			if(isset($row['review_data'][10]))
+			{
+				$row['review_data']=unserialize($row['review_data']);
+
+				$totalReview=count($row['review_data']);
+
+				if($totalReview < 5)
 				{
-					$row['discount_price']=$row['sale_price'];
+					for ($i=0; $i < $totalReview; $i++) { 
+						$row['review_data'][$i]=isset($row['review_data'][$i])?$row['review_data'][$i]:0;
+					}						
 				}
 
-				if(isset($row['sale_price']) && $row['sale_price_from'])
-				{
-					$sale_price_from_time=strtotime($row['sale_price_from']);
+			}
 
-					$row['active_sale_price']=0;
-					
-					if((int)$todayTime<=(int)$sale_price_from_time)
-					{
-						$row['active_sale_price']=1;
-					}
+			if(isset($row['tag_data'][10]))
+			{
+				$row['tag_data']=unserialize($row['tag_data']);
+			}
+
+			if(isset($row['attr_data'][10]))
+			{
+				$row['attr_data']=unserialize($row['attr_data']);
+			}
+
+			if(isset($row['download_data'][10]))
+			{
+				$row['download_data']=unserialize($row['download_data']);
+			}
+
+			if(isset($row['image_data'][10]))
+			{
+				$row['image_data']=unserialize($row['image_data']);
+			}
+
+			if(isset($row['discount_data'][10]))
+			{
+				$row['discount_data']=unserialize($row['discount_data']);
+			}
+
+			if(isset($row['friendly_url']))
+			{
+				$row['url']=self::url($row['friendly_url']);
+			}
+
+			if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
+			{
+				if(!preg_match('/^http/i', $row['image']))
+				{
+					$row['imageUrl']=System::getUrl().$row['image'];
 				}
-
-				if(isset($discountData['id']) && isset($row['sale_price']))
+				else
 				{
-					$percent=$discountData['percent'];
-
-					$row['discount_price']=((double)$row['discount_price']*(double)$percent)/100;
-
-					$row['active_sale_price']=1;
-				}
-
-				if(isset($row['price']) && isset($row['sale_price']))
-				{
-					$row['percent_discount']=intval((1-((double)$row['discount_price']/(double)$row['price']))*100);
-				}
-
-				if(isset($row['title']))
-				{
-					$row['title']=String::decode($row['title']);
+					$row['imageUrl']=System::getUrl().'plugins/fastecommerce/images/noimg.jpg';
 				}
 				
-				if(isset($row['shortdesc']))
-				{
-					$row['shortdesc']=String::decode($row['shortdesc']);
-				}
-				
-				if(isset($row['page_title']))
-				{
-					$row['page_title']=String::decode($row['page_title']);
-				}
-				
-				if(isset($row['descriptions']))
-				{
-					$row['descriptions']=String::decode($row['descriptions']);
-				}
-				
-				if(isset($row['keywords']))
-				{
-					$row['keywords']=String::decode($row['keywords']);
-				}
-				
-				if(isset($row['purchase_note']))
-				{
-					$row['purchase_note']=String::decode($row['purchase_note']);
-				}
+			}
 
-				if(isset($row['category_data'][10]))
-				{
-					$row['category_data']=unserialize($row['category_data']);
-				}
+			if(isset($row['content']))
+			{
+				$row['content']=String::decode($row['content']);
 
-				if(isset($row['brand_data'][10]))
-				{
-					$row['brand_data']=unserialize($row['brand_data']);
-				}
+			}
 
-				if(isset($row['review_data'][10]))
-				{
-					$row['review_data']=unserialize($row['review_data']);
+			if(isset($row['weight']))
+			{
+				$row['weightFormat']=number_format($row['weight']);
 
-					$totalReview=count($row['review_data']);
+			}
 
-					if($totalReview < 5)
-					{
-						for ($i=0; $i < $totalReview; $i++) { 
-							$row['review_data'][$i]=isset($row['review_data'][$i])?$row['review_data'][$i]:0;
-						}						
-					}
+			if(isset($row['price']))
+			{
+				$row['priceFormat']=FastEcommerce::money_format($row['price']);
 
-				}
+			}
 
-				if(isset($row['tag_data'][10]))
-				{
-					$row['tag_data']=unserialize($row['tag_data']);
-				}
+			if(isset($row['sale_price']))
+			{
+				$row['sale_priceFormat']=FastEcommerce::money_format($row['sale_price']);
 
-				if(isset($row['attr_data'][10]))
-				{
-					$row['attr_data']=unserialize($row['attr_data']);
-				}
+			}
 
-				if(isset($row['download_data'][10]))
-				{
-					$row['download_data']=unserialize($row['download_data']);
-				}
 
-				if(isset($row['image_data'][10]))
-				{
-					$row['image_data']=unserialize($row['image_data']);
-				}
 
-				if(isset($row['discount_data'][10]))
-				{
-					$row['discount_data']=unserialize($row['discount_data']);
-				}
+			if(isset($row['views']))
+			{
+				$row['viewsFormat']=number_format($row['views']);
 
-				if(isset($row['friendly_url']))
-				{
-					$row['url']=self::url($row['friendly_url']);
-				}
+			}
 
-				if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
-				{
-					if(!preg_match('/^http/i', $row['image']))
-					{
-						$row['imageUrl']=System::getUrl().$row['image'];
-					}
-					else
-					{
-						$row['imageUrl']=System::getUrl().'plugins/fastecommerce/images/noimg.jpg';
-					}
-					
-				}
+			if(isset($row['likes']))
+			{
+				$row['likesFormat']=number_format($row['likes']);
 
+			}
+
+			if(isset($row['reviews']))
+			{
+				$row['reviewsFormat']=number_format($row['reviews']);
+
+			}
+
+			if(isset($row['orders']))
+			{
+				$row['ordersFormat']=number_format($row['orders']);
+
+			}
+
+			if(isset($row['points']))
+			{
+				$row['pointsFormat']=number_format($row['points']);
+
+			}
+
+			if(isset($row['date_added']))
+			{
+				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+			}
+			
+
+			if($inputData['isHook']=='yes')
+			{
 				if(isset($row['content']))
 				{
 					$row['content']=String::decode($row['content']);
 
-				}
+					$row['content']=html_entity_decode($row['content']);
+					
+					$row['content']=Shortcode::loadInTemplate($row['content']);
 
-				if(isset($row['weight']))
-				{
-					$row['weightFormat']=number_format($row['weight']);
-
-				}
-
-				if(isset($row['price']))
-				{
-					$row['priceFormat']=FastEcommerce::money_format($row['price']);
-
-				}
-
-				if(isset($row['sale_price']))
-				{
-					$row['sale_priceFormat']=FastEcommerce::money_format($row['sale_price']);
-
-				}
-
-
-
-				if(isset($row['views']))
-				{
-					$row['viewsFormat']=number_format($row['views']);
-
-				}
-
-				if(isset($row['likes']))
-				{
-					$row['likesFormat']=number_format($row['likes']);
-
-				}
-
-				if(isset($row['reviews']))
-				{
-					$row['reviewsFormat']=number_format($row['reviews']);
-
-				}
-
-				if(isset($row['orders']))
-				{
-					$row['ordersFormat']=number_format($row['orders']);
-
-				}
-
-				if(isset($row['points']))
-				{
-					$row['pointsFormat']=number_format($row['points']);
-
-				}
-
-				if(isset($row['date_added']))
-				{
-					$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
+					$row['content']=Shortcode::load($row['content']);
+					
+					$row['content']=Shortcode::toHTML($row['content']);
 				}
 				
-
-				if($inputData['isHook']=='yes')
-				{
-					if(isset($row['content']))
-					{
-						$row['content']=String::decode($row['content']);
-
-						$row['content']=html_entity_decode($row['content']);
-						
-						$row['content']=Shortcode::loadInTemplate($row['content']);
-
-						$row['content']=Shortcode::load($row['content']);
-						
-						$row['content']=Shortcode::toHTML($row['content']);
-					}
-					
-				}
-											
-				$result[]=$row;
 			}		
+
+			$result[$i]=$row;	
 		}
-		else
-		{
-			return false;
-		}
+
 		// Save dbcache
 		Cache::saveKey('dbcache/system/products/'.$md5Query,serialize($result));
 
@@ -692,35 +711,39 @@ class Products
 
 		$todayTime=time();
 
+
+		if(isset($loadData['sale_price_from']))
+		{
+			$sale_price_from=strtotime($loadData['sale_price_from']);
+
+			$sale_price_to=strtotime($loadData['sale_price_to']);
+			
+			if((int)$sale_price_from > (int)$todayTime)
+			{
+				$loadData['sale_price']=$loadData['price'];
+			}				
+		}
+	
 		if(isset($loadData['sale_price']))
 		{
 			$loadData['discount_price']=$loadData['sale_price'];
-		}
-
-		if(isset($loadData['sale_price']) && $loadData['sale_price_from'])
-		{
-			$sale_price_from_time=strtotime($loadData['sale_price_from']);
-
-			$loadData['active_sale_price']=0;
-			
-			if((int)$todayTime<=(int)$sale_price_from_time)
-			{
-				$loadData['active_sale_price']=1;
-			}
 		}
 
 		if(isset($discountData['id']) && isset($loadData['sale_price']))
 		{
 			$percent=$discountData['percent'];
 
-			$loadData['discount_price']=((double)$loadData['discount_price']*(double)$percent)/100;
+			$loadData['discount_price']=(double)$loadData['discount_price']-((double)$loadData['discount_price']*((double)$percent/100));
 
-			$loadData['active_sale_price']=1;
+			$loadData['price']=$loadData['sale_price'];
+
+			$loadData['sale_price']=$loadData['discount_price'];
+
 		}
 
 		if(isset($loadData['price']) && isset($loadData['sale_price']))
 		{
-			$loadData['percent_discount']=intval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
+			$loadData['percent_discount']=floatval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
 		}
 
 		if(isset($loadData['title']))
@@ -783,6 +806,10 @@ class Products
 			$loadData['tag_data']=unserialize($loadData['tag_data']);
 		}
 
+		if(isset($loadData['attr_data'][10]))
+		{
+			$loadData['attr_data']=unserialize($loadData['attr_data']);
+		}
 
 		if(isset($loadData['download_data'][10]))
 		{
@@ -872,6 +899,29 @@ class Products
 			$loadData['pointsFormat']=number_format($loadData['points']);
 
 		}
+
+		if(isset($loadData['date_added']))
+		{
+			$loadData['date_addedFormat']=Render::dateFormat($loadData['date_added']);	
+		}
+		
+
+		if($inputData['isHook']=='yes')
+		{
+			if(isset($loadData['content']))
+			{
+				$loadData['content']=String::decode($loadData['content']);
+
+				$loadData['content']=html_entity_decode($loadData['content']);
+				
+				$loadData['content']=Shortcode::loadInTemplate($loadData['content']);
+
+				$loadData['content']=Shortcode::load($loadData['content']);
+				
+				$loadData['content']=Shortcode::toHTML($loadData['content']);
+			}
+			
+		}	
 		return $loadData;
 
 	}

@@ -131,7 +131,7 @@ class Discounts
 
 				if($today >= $time_start && $today <= $time_end)
 				{
-					self::$data=$loadData;
+					self::$data=$loadData[$i];
 
 					break;
 				}
@@ -151,7 +151,7 @@ class Discounts
 			{
 				self::$data=$loadData[0];
 
-				File::create($savePath,serialize($loadData));
+				File::create($savePath,serialize($loadData[0]));
 			}			
 		}
 
