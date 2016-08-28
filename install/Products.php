@@ -140,7 +140,7 @@ class Products
 
 			if(isset($row['price']) && isset($row['sale_price']))
 			{
-				$row['percent_discount']=floatval((1-((double)$row['discount_price']/(double)$row['price']))*100);
+				$row['percent_discount']=intval((1-((double)$row['discount_price']/(double)$row['price']))*100);
 			}
 
 			if(isset($row['title']))
@@ -743,7 +743,7 @@ class Products
 
 		if(isset($loadData['price']) && isset($loadData['sale_price']))
 		{
-			$loadData['percent_discount']=floatval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
+			$loadData['percent_discount']=intval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
 		}
 
 		if(isset($loadData['title']))
