@@ -906,22 +906,18 @@ class Products
 		}
 		
 
-		if($inputData['isHook']=='yes')
+		if(isset($loadData['content']))
 		{
-			if(isset($loadData['content']))
-			{
-				$loadData['content']=String::decode($loadData['content']);
+			$loadData['content']=String::decode($loadData['content']);
 
-				$loadData['content']=html_entity_decode($loadData['content']);
-				
-				$loadData['content']=Shortcode::loadInTemplate($loadData['content']);
-
-				$loadData['content']=Shortcode::load($loadData['content']);
-				
-				$loadData['content']=Shortcode::toHTML($loadData['content']);
-			}
+			$loadData['content']=html_entity_decode($loadData['content']);
 			
-		}	
+			$loadData['content']=Shortcode::loadInTemplate($loadData['content']);
+
+			$loadData['content']=Shortcode::load($loadData['content']);
+			
+			$loadData['content']=Shortcode::toHTML($loadData['content']);
+		}
 		return $loadData;
 
 	}
