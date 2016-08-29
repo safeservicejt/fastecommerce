@@ -29,7 +29,7 @@
               <td class="col-lg-9">
                 <select class="form-control" name="send[type]">
                   <option value="percent">Percent</option>
-                  <option value="code">Code</option>
+                  <option value="fixed">Fixed Amount</option>
                 </select>
               </td>
             </tr>

@@ -482,6 +482,8 @@ class SelfApi
 
         $orderData['summary']['total_product']=$loadCart['total_product'];
 
+        $orderData['summary']['totalusecoupon']=$loadCart['totalusecoupon'];
+
         $orderData['summary']['totalFormat']=$loadCart['totalFormat'];
 
         $orderData['summary']['shipping_fee']=$loadCart['shipping_fee'];
@@ -493,6 +495,14 @@ class SelfApi
         $orderData['summary']['shipping_amount']=$shippingRateData['amount'];
 
         $orderData['summary']['cart_product']=$loadCart['product'];
+
+        $orderData['summary']['coupon']='';
+
+        if(isset($loadCart['coupon']['code']) && $loadCart['coupon']['code']!='')
+        {
+            $orderData['summary']['coupon']=$loadCart['coupon'];
+            $orderData['summary']['coupon']['amountFormat']=Coupons::format($loadCart['coupon']['code']);
+        }
 
         $orderData['summary']['country_code']=$send_data->billing_country;  
 

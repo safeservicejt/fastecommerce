@@ -59,6 +59,12 @@ elseif($orderData['status']=='draft')
 		    		<span>Shipping Method</span>
 		    	</div>
 
+		    	<?php if(isset($orderData['summary']['coupon']['code'])){ ?>
+		    	<div class="col-lg-12 margin-top-30 text-center">
+		    		<div class="text-success" style="font-size:18px;"><?php echo $orderData['summary']['coupon']['code'];?> - Discount <?php echo Coupons::format($orderData['summary']['coupon']['code']);?></div>
+		    		<span>Coupon</span>
+		    	</div>
+		    	<?php } ?>
 
 		    </div>   
 		<h3>Billing</h3>    

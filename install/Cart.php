@@ -236,6 +236,8 @@ class Cart
 
 			$loadCart['totalvat']=0;
 
+			$loadCart['totalusecoupon']=0;
+
 			$loadCart['total']=0;
 
 			$loadCart['weight']=0;
@@ -253,6 +255,24 @@ class Cart
 				$loadCart['weight']=(double)$loadCart['weight']+(double)$loadCart['product'][$theID]['weight'];
 			}
 			
+
+			// Cal Coupon
+			if(isset($loadCart['coupon']['code']) && $loadCart['coupon']['code']!='')
+			{
+				switch ($loadCart['coupon']['type']) {
+					case 'percent':
+						$loadCart['totalusecoupon']=(double)$loadCart['totalnovat']*((double)$loadCart['coupon']['amount']/100);
+
+						$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+						break;
+					case 'fixed':
+						$loadCart['totalusecoupon']=(double)$loadCart['coupon']['amount'];
+
+						$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+						break;
+					
+				}
+			}
 
 			$loadCart['totalvat']=((double)$loadCart['totalnovat']*(double)$vat)/100;
 
@@ -317,6 +337,8 @@ class Cart
 
 		$loadCart['totalvat']=0;
 
+		$loadCart['totalusecoupon']=0;
+
 		$loadCart['total']=0;
 
 		$loadCart['weight']=0;
@@ -344,6 +366,24 @@ class Cart
 
 		}
 		
+
+		// Cal Coupon
+		if(isset($loadCart['coupon']['code']) && $loadCart['coupon']['code']!='')
+		{
+			switch ($loadCart['coupon']['type']) {
+				case 'percent':
+					$loadCart['totalusecoupon']=(double)$loadCart['totalnovat']*((double)$loadCart['coupon']['amount']/100);
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				case 'fixed':
+					$loadCart['totalusecoupon']=(double)$loadCart['coupon']['amount'];
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				
+			}
+		}
 
 		$loadCart['totalvat']=((double)$loadCart['totalnovat']*(double)$vat)/100;
 
@@ -401,6 +441,8 @@ class Cart
 
 			$loadCart['total']=0;
 
+			$loadCart['totalusecoupon']=0;
+
 			$loadCart['total_product']=0;
 
 			$loadCart['tax']=0;
@@ -408,6 +450,8 @@ class Cart
 			$loadCart['shipping_fee']=0;
 
 			$loadCart['totalnovatFormat']=0;
+
+			$loadCart['totalusecouponFormat']=0;
 
 			$loadCart['weightFormat']=0;
 
@@ -456,9 +500,28 @@ class Cart
 
 		$loadCart['totalnovat']=(double)$totalnovat+(double)$loadCart['product'][$productid]['total'];
 
+		// Cal Coupon
+		if(isset($loadCart['coupon']['code']) && $loadCart['coupon']['code']!='')
+		{
+			switch ($loadCart['coupon']['type']) {
+				case 'percent':
+					$loadCart['totalusecoupon']=(double)$loadCart['totalnovat']*((double)$loadCart['coupon']['amount']/100);
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				case 'fixed':
+					$loadCart['totalusecoupon']=(double)$loadCart['coupon']['amount'];
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				
+			}
+		}
+
 		$loadCart['weight']=(double)$loadCart['weight']+(double)$loadCart['product'][$productid]['weight'];
 
 		$loadCart['totalvat']=((double)$loadCart['totalnovat']*(double)$vat)/100;
+
 
 		$loadCart['total']=(double)$loadCart['totalnovat']+(double)$loadCart['tax']+(double)$loadCart['shipping_fee']+(double)$loadCart['totalvat'];
 
@@ -482,6 +545,65 @@ class Cart
 		self::saveCache($ip,$loadCart);
 	}
 
+	public static function addCoupon($code='')
+	{
+		if($code=='')
+		{
+			throw new Exception('Coupon code not valid.');
+			
+		}
+
+		$loadData=Coupons::loadCache($code);
+
+		if(!$loadData)
+		{
+			throw new Exception('Coupon code not valid.');
+			
+		}
+
+		if((int)$loadData['status']==0)
+		{
+			throw new Exception('This coupon code not activate.');
+			
+		}
+
+		if(isset(self::$cartData['coupon']['code']) && self::$cartData['coupon']['code']!='')
+		{
+			throw new Exception('You can not use multiple coupon.');
+			
+		}
+
+		$ip=Http::get('ip');
+
+		$curTime=time();
+
+		$couponTimeStart=strtotime($loadData['date_start']);
+
+		$couponTimeEnd=strtotime($loadData['date_end']);
+
+
+
+		if((int)$curTime>=(int)$couponTimeStart && (int)$curTime<=(int)$couponTimeEnd)
+		{
+			self::$cartData['coupon']['type']=$loadData['type'];
+
+			self::$cartData['coupon']['code']=$loadData['code'];
+
+			self::$cartData['coupon']['amount']=$loadData['amount'];
+
+			self::saveCache($ip,self::$cartData);
+
+			self::refresh();
+
+		}
+		else
+		{
+			throw new Exception('Coupon code not valid.');
+		}
+
+
+	}
+
 	public static function loadCache($ip='')
 	{
 		self::$cartData=array(
@@ -493,6 +615,7 @@ class Cart
 			'shipping_fee'=>0,
 			'shipping_type'=>'',
 			'totalnovat'=>0,
+			'totalusecoupon'=>0,
 			'total_product'=>0,
 			'totalFormat'=>FastEcommerce::money_format(0),
 			'totalnovatFormat'=>FastEcommerce::money_format(0),
@@ -550,6 +673,7 @@ class Cart
 			'shipping_feeFormat'=>FastEcommerce::money_format(0),
 			'shipping_type'=>'',
 			'totalnovat'=>0,
+			'totalusecoupon'=>0,
 			'total_product'=>0,
 			'totalFormat'=>FastEcommerce::money_format(0),
 			'totalnovatFormat'=>FastEcommerce::money_format(0),
@@ -557,7 +681,7 @@ class Cart
 			'vat'=>0,
 			'vatFormat'=>FastEcommerce::money_format(0),
 			'payment_method'=>'paypal',
-			'coupon'=>array(),
+			'coupon'=>array('type'=>'','code'=>'','amount'=>0),
 			'discount'=>array()
 			);
 
@@ -588,6 +712,8 @@ class Cart
 
 		$loadCart['totalvat']=0;
 
+		$loadCart['totalusecoupon']=0;
+
 		$loadCart['total']=0;
 
 		$loadCart['weight']=0;
@@ -611,6 +737,24 @@ class Cart
 		}
 		
 
+		// Cal Coupon
+		if(isset($loadCart['coupon']['code']) && $loadCart['coupon']['code']!='')
+		{
+			switch ($loadCart['coupon']['type']) {
+				case 'percent':
+					$loadCart['totalusecoupon']=(double)$loadCart['totalnovat']*((double)$loadCart['coupon']['amount']/100);
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				case 'fixed':
+					$loadCart['totalusecoupon']=(double)$loadCart['coupon']['amount'];
+
+					$loadCart['totalnovat']=(double)$loadCart['totalnovat']-(double)$loadCart['totalusecoupon'];
+					break;
+				
+			}
+		}
+
 		$loadCart['totalvat']=((double)$loadCart['totalnovat']*(double)$vat)/100;
 
 		$loadCart['total']=(double)$loadCart['totalnovat']+(double)$loadCart['tax']+(double)$loadCart['shipping_fee']+(double)$loadCart['totalvat'];
@@ -633,6 +777,8 @@ class Cart
 		$inputData['totalnovatFormat']=FastEcommerce::money_format($inputData['totalnovat']);
 
 		$inputData['totalvatFormat']=FastEcommerce::money_format($inputData['totalvat']);
+
+		$inputData['totalusecouponFormat']=FastEcommerce::money_format($inputData['totalusecoupon']);
 
 		$inputData['vatFormat']=FastEcommerce::money_format($inputData['vat']);
 

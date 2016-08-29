@@ -114,7 +114,31 @@ class Coupons
 		
 	}
 
+	public static function format($code)
+	{
+		$result='';
 
+		$loadData=self::loadCache($code);
+
+		if(!$loadData)
+		{
+			$result='';
+		}
+		else
+		{
+			switch ($loadData['type']) {
+				case 'percent':
+					$result=$loadData['amount'].'%';
+					break;
+				case 'percent':
+					$result=FastEcommerce::money_format($loadData['amount']);
+					break;
+				
+			}
+		}
+
+		return $result;
+	}
 
 	public static function cachePath()
 	{
