@@ -25,11 +25,40 @@ class SelfApi
             'send_email'=>'sendEmail',
             'get_email_list_marketing'=>'getEmaiListMarketing',
             'download_in_order'=>'downloadInOrder',
+            'add_email_newsletter'=>'addEmailNewsletter',
             'get_product_autocomplete_by_title'=>'getProductAutocompleteByTitle',
 			);
 
 		return $listRoute;
 	}
+
+    public static function addEmailNewsletter()
+    {
+        $send_email=trim(Request::get('send_email',''));
+
+        if($send_email=='' || !preg_match('/^[a-z0-9A-Z_\-\.]+\@[a-z0-9A-Z_\.\-]+$/i', $send_email))
+        {
+            throw new Exception('Email not valid.');
+            
+        }
+
+        $loadData=NewsLetter::get(array(
+            'cache'=>'no',
+            'where'=>"where email='$send_email'"
+            ));
+
+        if(isset($loadData[0]['email']))
+        {
+            throw new Exception('This email have been exists added.');
+        }
+        else
+        {
+            NewsLetter::insert(array(
+                'email'=>$send_email
+                ));            
+        }
+
+    }
 
     public static function downloadInOrder()
     {
@@ -709,6 +738,7 @@ class SelfApi
 
     public static function addToCart()
     {
+
         $send_productid=trim(Request::get('send_productid',0));
 
         $send_quantity=trim(Request::get('send_quantity',1));
