@@ -61,7 +61,7 @@ class controlProduct
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/product'.$addPage,
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/product/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,

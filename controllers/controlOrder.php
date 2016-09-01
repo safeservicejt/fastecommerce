@@ -376,7 +376,7 @@ class controlOrder
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order'.$addPage,
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -450,7 +450,7 @@ class controlOrder
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order'.$addPage,
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,

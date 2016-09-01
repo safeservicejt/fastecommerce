@@ -74,7 +74,7 @@ class controlReview
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/review'.$addPage,
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/review/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,

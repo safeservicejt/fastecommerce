@@ -51,7 +51,7 @@ class controlCoupon
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/coupon'.$addPage,
+			'url'=>'admincp/plugins/privatecontroller/fastecommerce/coupon/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
