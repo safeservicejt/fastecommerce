@@ -151,6 +151,8 @@ class Downloads
 		{
 			$inputData['title']=String::encode($inputData['title']);
 		}
+		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		$keyNames=array_keys($inputData);
 

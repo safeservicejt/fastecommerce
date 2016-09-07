@@ -11,14 +11,15 @@ function adminStatsSummary()
 
 	$loadData=Orders::get(array(
 		'cache'=>'no',
-		'selectFields'=>'count(id)as totalRow'
+		'selectFields'=>'count(id)as totalRow',
+		'where'=>"where prefix='".System::getPrefix()."'"
 		));
 
 	$result['order']=isset($loadData[0]['totalRow'])?$loadData[0]['totalRow']:0;
 
 	$loadData=Orders::get(array(
 		'cache'=>'no',
-		'where'=>"where status<>'draft'",
+		'where'=>"where status<>'draft' AND  prefix='".System::getPrefix()."'",
 		'selectFields'=>'sum(total)as totalRow'
 		));
 
@@ -26,14 +27,16 @@ function adminStatsSummary()
 
 	$loadData=Users::get(array(
 		'cache'=>'no',
-		'selectFields'=>'count(userid)as totalRow'
+		'selectFields'=>'count(userid)as totalRow',
+		'where'=>"where prefix='".System::getPrefix()."'"
 		));
 
 	$result['customer']=isset($loadData[0]['totalRow'])?$loadData[0]['totalRow']:0;
 
 	$loadData=Products::get(array(
 		'cache'=>'no',
-		'selectFields'=>'count(id)as totalRow'
+		'selectFields'=>'count(id)as totalRow',
+		'where'=>"where prefix='".System::getPrefix()."'"
 		));
 
 	$result['product']=isset($loadData[0]['totalRow'])?$loadData[0]['totalRow']:0;
@@ -55,7 +58,7 @@ function customerStatsSummary()
 
 	$loadData=Orders::get(array(
 		'cache'=>'no',
-		'where'=>"where userid='$userid'",
+		'where'=>"where userid='$userid' AND  prefix='".System::getPrefix()."'",
 		'selectFields'=>'count(id)as totalRow'
 		));
 
@@ -63,7 +66,7 @@ function customerStatsSummary()
 
 	$loadData=Orders::get(array(
 		'cache'=>'no',
-		'where'=>"where userid='$userid' AND status='completed'",
+		'where'=>"where prefix='".System::getPrefix()."' AND userid='$userid' AND status='completed'",
 		'selectFields'=>'count(id)as totalRow'
 		));
 
@@ -71,7 +74,7 @@ function customerStatsSummary()
 
 	$loadData=Customers::get(array(
 		'cache'=>'no',
-		'where'=>"where userid='$userid'",
+		'where'=>"where userid='$userid' AND prefix='".System::getPrefix()."'",
 		));
 
 	$result['balance']=isset($loadData[0]['balance'])?$loadData[0]['balance']:0;

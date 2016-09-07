@@ -233,6 +233,8 @@ class Reviews
 			$inputData['content']=String::encode($inputData['content']);
 		}
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+
 		$keyNames=array_keys($inputData);
 
 		$insertKeys=implode(',', $keyNames);

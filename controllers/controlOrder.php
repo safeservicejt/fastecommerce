@@ -366,13 +366,13 @@ class controlOrder
 			'limitShow'=>30,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=Orders::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
@@ -433,7 +433,7 @@ class controlOrder
 
 		if($owner!='yes')
 		{
-			$addWhere.=!isset($addWhere[5])?"where userid='$userid'":" AND userid='$userid'";
+			$addWhere.=!isset($addWhere[5])?"where userid='$userid' AND prefix='".System::getPrefix()."'":" AND userid='$userid' AND prefix='".System::getPrefix()."'";
 		}		
 
 		$pageData['theList']=Orders::get(array(

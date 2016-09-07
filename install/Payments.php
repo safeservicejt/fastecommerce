@@ -243,6 +243,7 @@ class Payments
 
 		$addMultiAgrs='';
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 		
 
 		$keyNames=array_keys($inputData);

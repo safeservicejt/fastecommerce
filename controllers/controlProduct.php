@@ -17,7 +17,7 @@ class controlProduct
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere='';
+		$addWhere="where prefix='".System::getPrefix()."'";
 
 		$addPage='';		
 
@@ -35,7 +35,7 @@ class controlProduct
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%'";
+			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}

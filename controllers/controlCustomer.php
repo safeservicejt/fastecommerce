@@ -42,7 +42,7 @@ class controlCustomer
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$total=count($pageData['theList']);
@@ -58,7 +58,7 @@ class controlCustomer
 		$countPost=Customers::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(

@@ -166,10 +166,11 @@ class AffiliatesRanks
 
 	public static function saveCacheAll()
 	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks.cache';
+		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks'.System::getPrefix().'.cache';
 
 		$loadData=self::get(array(
 			'cache'=>'no',
+			'where'=>"where prefix='".System::getPrefix()."'",
 			'orderby'=>'order by title asc',
 			));
 
@@ -179,7 +180,7 @@ class AffiliatesRanks
 
 	public static function loadCacheAll()
 	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks.cache';
+		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks'.System::getPrefix().'.cache';
 
 		$loadData=false;
 
@@ -209,6 +210,8 @@ class AffiliatesRanks
 		$addMultiAgrs='';
 
 		$inputData['date_added']=date('Y-m-d H:i:s');
+
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		
 		$keyNames=array_keys($inputData);

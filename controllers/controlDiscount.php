@@ -41,13 +41,13 @@ class controlDiscount
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=Discounts::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(

@@ -139,6 +139,8 @@ class OrderProducts
 		CustomPlugins::load('before_orderproducts_insert',$inputData);
 
 		$addMultiAgrs='';
+		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		$keyNames=array_keys($inputData);
 

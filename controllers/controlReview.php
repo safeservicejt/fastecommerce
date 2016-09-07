@@ -40,7 +40,8 @@ class controlReview
 		$pageData['theList']=Reviews::get(array(
 			'limitShow'=>30,
 			'limitPage'=>$curPage,
-			'cache'=>'no'
+			'cache'=>'no',
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$totalRow=count($pageData['theList']);
@@ -70,7 +71,7 @@ class controlReview
 		$countPost=Reviews::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>$addWhere
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(

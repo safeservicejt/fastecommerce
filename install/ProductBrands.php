@@ -118,6 +118,8 @@ class ProductBrands
 		CustomPlugins::load('before_product_brand_insert',$inputData);
 
 		$addMultiAgrs='';
+		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		$keyNames=array_keys($inputData);
 

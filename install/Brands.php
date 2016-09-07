@@ -154,6 +154,7 @@ class Brands
 			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
 		}
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		$keyNames=array_keys($inputData);
 

@@ -76,14 +76,14 @@ class controlPaymentmethod
 
 		$loadData=Payments::get(array(
 			'cache'=>'no',
-			'where'=>"where foldername='$folderName'"
+			'where'=>"where foldername='$folderName' AND prefix='".System::getPrefix()."'"
 			));
 
 		if(isset($loadData[0]['foldername']))
 		{
 			Payments::update(0,array(
 				'status'=>1
-				),"foldername='$folderName'");	
+				),"foldername='$folderName' AND prefix='".System::getPrefix()."'");	
 		}
 		else
 		{
@@ -135,7 +135,7 @@ class controlPaymentmethod
 
 		$loadData=Payments::get(array(
 			'cache'=>'no',
-			'where'=>"where foldername='$folderName'"
+			'where'=>"where foldername='$folderName' AND prefix='".System::getPrefix()."'"
 			));
 
 
@@ -143,7 +143,7 @@ class controlPaymentmethod
 		{
 			Payments::update(0,array(
 				'status'=>0
-				),"foldername='$folderName'");	
+				),"foldername='$folderName' AND prefix='".System::getPrefix()."'");	
 		}
 		else
 		{

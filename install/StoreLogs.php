@@ -124,6 +124,8 @@ class StoreLogs
 
 		$inputData['date_added']=date('Y-m-d H:i:s');
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+
 		
 		if(isset($inputData['content']))
 		{

@@ -22,7 +22,7 @@ class controlTaxrate
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere='';
+		$addWhere="where prefix='".System::getPrefix()."'";
 
 		$addPage='';		
 
@@ -40,7 +40,7 @@ class controlTaxrate
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%'";
+			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}

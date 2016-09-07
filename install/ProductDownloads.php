@@ -138,6 +138,8 @@ class ProductDownloads
 
 		$inputData['content']=String::encode(strip_tags($inputData['content']));
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+
 		$keyNames=array_keys($inputData);
 
 		$insertKeys=implode(',', $keyNames);

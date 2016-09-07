@@ -190,6 +190,8 @@ class ShippingRates
 
 		$addMultiAgrs='';
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+
 		$keyNames=array_keys($inputData);
 
 		$insertKeys=implode(',', $keyNames);

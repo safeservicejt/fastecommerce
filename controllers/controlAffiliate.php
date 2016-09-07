@@ -24,7 +24,7 @@ class controlAffiliate
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere='';
+		$addWhere="where prefix='".System::getPrefix()."'";
 
 		$addPage='';		
 
@@ -42,7 +42,7 @@ class controlAffiliate
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%'";
+			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
@@ -127,11 +127,13 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesStats::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
@@ -376,6 +378,7 @@ class controlAffiliate
 		$pageData['ranksList']=AffiliatesRanks::get(array(
 			'cache'=>'no',
 			'cacheTime'=>60,
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		if($match=Uri::match('\/edit\/(\d+)'))
@@ -402,11 +405,13 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesRanks::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
@@ -456,7 +461,7 @@ class controlAffiliate
 
 			$loadData=AffiliatesWithdraws::get(array(
 				'cache'=>'no',
-				'where'=>"where id='$id'"
+				'where'=>"where id='$id' AND prefix='".System::getPrefix()."'"
 				));
 
 			if(!$loadData)
@@ -519,11 +524,13 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesWithdraws::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
+			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(

@@ -257,6 +257,8 @@ class customers
 			$inputData['commission']=FastEcommerce::$setting['affiliate_percent'];
 		}
 		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+		
 		$keyNames=array_keys($inputData);
 
 		$insertKeys=implode(',', $keyNames);

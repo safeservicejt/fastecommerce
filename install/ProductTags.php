@@ -220,6 +220,8 @@ class ProductTags
 			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
 		}
 		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+		
 		$inputData['title']=String::encode(strip_tags($inputData['title']));
 
 		$inputData['product_title']=String::encode(strip_tags($inputData['product_title']));

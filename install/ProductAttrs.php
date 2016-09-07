@@ -139,6 +139,8 @@ class ProductAttrs
 		$addMultiAgrs='';
 
 		$inputData['title']=String::encode(strip_tags($inputData['title']));
+		
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
 
 		$keyNames=array_keys($inputData);
 

@@ -968,6 +968,8 @@ class Products
 			$inputData['userid']=Users::getCookieUserId();
 		}
 
+		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+
 		$addMultiAgrs='';
 
 		$inputData['date_added']=date('Y-m-d H:i:s');
