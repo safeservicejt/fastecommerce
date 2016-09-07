@@ -23,7 +23,7 @@ class TaxRates
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,title,amount,type,countries".$moreFields;
+		$field="id,prefix,title,amount,type,countries".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

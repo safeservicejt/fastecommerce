@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Apr 19, 2016 at 12:19 PM
+-- Generation Time: Sep 07, 2016 at 01:15 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.11
 
@@ -23,32 +23,12 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Table structure for table `brands`
+-- Table structure for table `affiliate_ranks`
 --
-
-
-CREATE TABLE IF NOT EXISTS `vouchers` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `date_added` datetime NOT NULL,
-  `date_expires` datetime DEFAULT NULL,
-  `date_start` datetime NOT NULL,
-  `status` int(1) NOT NULL DEFAULT '1',
-  `code` varchar(255) NOT NULL,
-  `money` double NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
-
-CREATE TABLE IF NOT EXISTS `newsletters` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `date_added` datetime NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
 
 CREATE TABLE IF NOT EXISTS `affiliate_ranks` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `date_added` datetime NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
@@ -63,25 +43,22 @@ CREATE TABLE IF NOT EXISTS `affiliate_ranks` (
 -- Dumping data for table `affiliate_ranks`
 --
 
-INSERT INTO `affiliate_ranks` (`id`, `title`, `date_added`, `status`, `commission`, `orders`, `image`, `parentid`) VALUES
-(1, 'Level 1', '2016-08-19 21:36:45', 1, 6, 1, NULL, 0),
-(2, 'Level 2', '2016-08-19 21:51:22', 1, 7, 100, NULL, 0),
-(3, 'Level 3', '2016-08-19 21:51:46', 1, 8, 500, NULL, 0),
-(4, 'Level 4', '2016-08-19 21:52:14', 1, 9, 800, NULL, 0),
-(5, 'Level 5', '2016-08-19 21:52:26', 1, 10, 1000, NULL, 0);
+INSERT INTO `affiliate_ranks` (`id`, `prefix`, `title`, `date_added`, `status`, `commission`, `orders`, `image`, `parentid`) VALUES
+(1, NULL, 'Level 1', '2016-08-19 21:36:45', 1, 6, 1, NULL, 0),
+(2, NULL, 'Level 2', '2016-08-19 21:51:22', 1, 7, 100, NULL, 0),
+(3, NULL, 'Level 3', '2016-08-19 21:51:46', 1, 8, 500, NULL, 0),
+(4, NULL, 'Level 4', '2016-08-19 21:52:14', 1, 9, 800, NULL, 0),
+(5, NULL, 'Level 5', '2016-08-19 21:52:26', 1, 10, 1000, NULL, 0);
 
-CREATE TABLE IF NOT EXISTS `collections_products` (
-  `id` int(9) NOT NULL AUTO_INCREMENT,
-  `userid` int(11) NOT NULL,
-  `date_added` datetime NOT NULL,
-  `productid` int(9) NOT NULL,
-  `friendly_url` int(11) NOT NULL,
-  `views` int(9) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `affiliate_stats`
+--
 
 CREATE TABLE IF NOT EXISTS `affiliate_stats` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `userid` int(9) NOT NULL,
   `money` double NOT NULL,
   `date_added` datetime NOT NULL,
@@ -90,8 +67,35 @@ CREATE TABLE IF NOT EXISTS `affiliate_stats` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `affiliate_withdraws`
+--
+
+CREATE TABLE IF NOT EXISTS `affiliate_withdraws` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
+  `userid` int(9) NOT NULL,
+  `date_added` datetime NOT NULL,
+  `money` double NOT NULL DEFAULT '0',
+  `status` varchar(30) NOT NULL DEFAULT 'pending',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `affiliate_withdraws`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `brands`
+--
+
 CREATE TABLE IF NOT EXISTS `brands` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `friendly_url` varchar(255) NOT NULL,
   `views` int(9) NOT NULL DEFAULT '0',
@@ -103,11 +107,39 @@ CREATE TABLE IF NOT EXISTS `brands` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `collections`
+--
+
+CREATE TABLE IF NOT EXISTS `collections` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `userid` int(9) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `collections_products`
+--
+
+CREATE TABLE IF NOT EXISTS `collections_products` (
+  `collectionid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
+  `productid` int(9) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `coupons`
 --
 
 CREATE TABLE IF NOT EXISTS `coupons` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `type` varchar(30) NOT NULL DEFAULT 'percent',
   `code` varchar(150) NOT NULL,
   `amount` double NOT NULL,
@@ -117,7 +149,11 @@ CREATE TABLE IF NOT EXISTS `coupons` (
   `status` int(1) NOT NULL DEFAULT '1',
   `freeshipping` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `coupons`
+--
 
 -- --------------------------------------------------------
 
@@ -127,6 +163,7 @@ CREATE TABLE IF NOT EXISTS `coupons` (
 
 CREATE TABLE IF NOT EXISTS `customers` (
   `userid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `points` int(9) NOT NULL DEFAULT '0',
   `commission` double NOT NULL DEFAULT '0',
   `orders` int(9) NOT NULL DEFAULT '0',
@@ -137,6 +174,11 @@ CREATE TABLE IF NOT EXISTS `customers` (
   `affiliate_orders` int(9) NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Dumping data for table `customers`
+--
+
+
 -- --------------------------------------------------------
 
 --
@@ -145,13 +187,18 @@ CREATE TABLE IF NOT EXISTS `customers` (
 
 CREATE TABLE IF NOT EXISTS `discounts` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `date_discount` datetime NOT NULL,
   `date_enddiscount` datetime NOT NULL,
   `percent` double NOT NULL DEFAULT '0',
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `discounts`
+--
 
 -- --------------------------------------------------------
 
@@ -161,6 +208,7 @@ CREATE TABLE IF NOT EXISTS `discounts` (
 
 CREATE TABLE IF NOT EXISTS `downloads` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `path` varchar(255) NOT NULL,
   `title` varchar(255) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
@@ -171,12 +219,44 @@ CREATE TABLE IF NOT EXISTS `downloads` (
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `fe_plugins`
+--
+
+CREATE TABLE IF NOT EXISTS `fe_plugins` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
+  `foldername` varchar(155) NOT NULL,
+  `status` int(1) NOT NULL DEFAULT '1',
+  `title` varchar(255) NOT NULL,
+  `sort_order` int(9) NOT NULL DEFAULT '0',
+  `page` varchar(150) NOT NULL DEFAULT 'home',
+  `position` varchar(50) NOT NULL DEFAULT 'top',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `newsletters`
+--
+
+CREATE TABLE IF NOT EXISTS `newsletters` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
+  `email` varchar(255) NOT NULL,
+  `date_added` datetime NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `orders`
 --
 
-
 CREATE TABLE IF NOT EXISTS `orders` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `userid` int(9) NOT NULL,
   `shipping_firstname` varchar(30) NOT NULL,
@@ -203,8 +283,11 @@ CREATE TABLE IF NOT EXISTS `orders` (
   `total` double NOT NULL DEFAULT '0',
   `summary` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=52 ;
 
+--
+-- Dumping data for table `orders`
+--
 -- --------------------------------------------------------
 
 --
@@ -213,12 +296,18 @@ CREATE TABLE IF NOT EXISTS `orders` (
 
 CREATE TABLE IF NOT EXISTS `order_products` (
   `orderid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `productid` int(9) NOT NULL,
   `quantity` int(9) NOT NULL,
   `price` double NOT NULL DEFAULT '0',
   `total` double NOT NULL DEFAULT '0',
   `log` text
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `order_products`
+--
+
 
 -- --------------------------------------------------------
 
@@ -228,11 +317,16 @@ CREATE TABLE IF NOT EXISTS `order_products` (
 
 CREATE TABLE IF NOT EXISTS `payment_methods` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `foldername` varchar(155) NOT NULL,
   `title` varchar(255) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+
+--
+-- Dumping data for table `payment_methods`
+--
 
 -- --------------------------------------------------------
 
@@ -242,6 +336,7 @@ CREATE TABLE IF NOT EXISTS `payment_methods` (
 
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `catid` int(9) NOT NULL,
   `category_str` longtext,
   `title` varchar(255) NOT NULL,
@@ -295,15 +390,19 @@ CREATE TABLE IF NOT EXISTS `products` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=13 ;
 
+--
+-- Dumping data for table `products`
+--
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `product_attrs`
 --
 
-
 CREATE TABLE IF NOT EXISTS `product_attrs` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `title` varchar(50) NOT NULL,
   `productid` int(9) NOT NULL,
   `price` double NOT NULL DEFAULT '0',
@@ -319,6 +418,7 @@ CREATE TABLE IF NOT EXISTS `product_attrs` (
 
 CREATE TABLE IF NOT EXISTS `product_brands` (
   `productid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `brandid` int(9) NOT NULL,
   `product_title` varchar(255) DEFAULT NULL,
   `product_friendly_url` varchar(255) DEFAULT NULL,
@@ -334,12 +434,17 @@ CREATE TABLE IF NOT EXISTS `product_brands` (
 
 CREATE TABLE IF NOT EXISTS `product_categories` (
   `productid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `catid` int(9) NOT NULL,
   `product_title` varchar(255) DEFAULT NULL,
   `product_friendly_url` varchar(255) DEFAULT NULL,
   `cat_title` varchar(255) DEFAULT NULL,
   `cat_friendly_url` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `product_categories`
+--
 
 -- --------------------------------------------------------
 
@@ -349,6 +454,7 @@ CREATE TABLE IF NOT EXISTS `product_categories` (
 
 CREATE TABLE IF NOT EXISTS `product_discounts` (
   `productid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `date_discount` datetime NOT NULL,
   `date_enddiscount` datetime NOT NULL,
   `percent` double NOT NULL DEFAULT '0',
@@ -366,6 +472,7 @@ CREATE TABLE IF NOT EXISTS `product_discounts` (
 
 CREATE TABLE IF NOT EXISTS `product_downloads` (
   `productid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `downloadid` int(9) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -377,11 +484,16 @@ CREATE TABLE IF NOT EXISTS `product_downloads` (
 
 CREATE TABLE IF NOT EXISTS `product_images` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `productid` int(9) NOT NULL,
   `image` varchar(255) NOT NULL,
   `sort_order` int(9) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=49 ;
+
+--
+-- Dumping data for table `product_images`
+--
 
 -- --------------------------------------------------------
 
@@ -391,6 +503,7 @@ CREATE TABLE IF NOT EXISTS `product_images` (
 
 CREATE TABLE IF NOT EXISTS `product_reviews` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `userid` int(9) NOT NULL,
   `rating` int(1) NOT NULL DEFAULT '0',
   `content` longtext NOT NULL,
@@ -409,12 +522,17 @@ CREATE TABLE IF NOT EXISTS `product_reviews` (
 
 CREATE TABLE IF NOT EXISTS `product_tags` (
   `productid` int(9) NOT NULL,
+  `prefix` varchar(12) DEFAULT NULL,
   `title` varchar(150) NOT NULL,
   `friendly_url` varchar(150) NOT NULL,
   `views` int(9) NOT NULL DEFAULT '0',
   `product_title` varchar(255) DEFAULT NULL,
   `product_friendly_url` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Dumping data for table `product_tags`
+--
 
 -- --------------------------------------------------------
 
@@ -424,6 +542,7 @@ CREATE TABLE IF NOT EXISTS `product_tags` (
 
 CREATE TABLE IF NOT EXISTS `reviews` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `productid` int(9) NOT NULL,
   `fullname` varchar(50) NOT NULL,
   `url` varchar(150) DEFAULT NULL,
@@ -435,7 +554,35 @@ CREATE TABLE IF NOT EXISTS `reviews` (
   `report` int(1) NOT NULL DEFAULT '0',
   `rating` int(1) NOT NULL DEFAULT '5',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
+
+--
+-- Dumping data for table `reviews`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `shippingrates`
+--
+
+CREATE TABLE IF NOT EXISTS `shippingrates` (
+  `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `amount` double NOT NULL DEFAULT '0',
+  `status` int(1) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+
+--
+-- Dumping data for table `shippingrates`
+--
+
+INSERT INTO `shippingrates` (`id`, `prefix`, `title`, `amount`, `status`) VALUES
+(2, NULL, 'Free Shipping (60 days)', 0, 1),
+(3, NULL, 'Express Shipping (15 days)', 50, 1),
+(4, NULL, 'Fast Shipping', 50, 1);
 
 -- --------------------------------------------------------
 
@@ -445,40 +592,60 @@ CREATE TABLE IF NOT EXISTS `reviews` (
 
 CREATE TABLE IF NOT EXISTS `store_log` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `content` varchar(500) NOT NULL,
   `date_added` datetime NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
+--
+-- Table structure for table `taxrates`
+--
 
 CREATE TABLE IF NOT EXISTS `taxrates` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `title` varchar(255) NOT NULL,
   `amount` double NOT NULL DEFAULT '0',
   `type` varchar(30) NOT NULL DEFAULT 'fixed',
   `countries` longtext,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=6 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
 
-CREATE TABLE IF NOT EXISTS `shippingrates` (
+--
+-- Table structure for table `vouchers`
+--
+
+CREATE TABLE IF NOT EXISTS `vouchers` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
-  `title` varchar(255) NOT NULL,
-  `amount` double NOT NULL DEFAULT '0',
+  `prefix` varchar(12) DEFAULT NULL,
+  `date_added` datetime NOT NULL,
+  `date_expires` datetime DEFAULT NULL,
+  `date_start` datetime NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
+  `code` varchar(255) NOT NULL,
+  `money` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=5 ;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `wishlist`
+--
 
 CREATE TABLE IF NOT EXISTS `wishlist` (
   `id` int(9) NOT NULL AUTO_INCREMENT,
+  `prefix` varchar(12) DEFAULT NULL,
   `date_added` datetime NOT NULL,
   `userid` int(9) NOT NULL,
   `productid` int(9) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
-
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

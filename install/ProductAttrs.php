@@ -22,7 +22,7 @@ class ProductAttrs
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,title,productid,price,value".$moreFields;
+		$field="id,prefix,title,productid,price,value".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

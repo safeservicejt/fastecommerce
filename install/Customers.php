@@ -22,7 +22,7 @@ class customers
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="userid,points,commission,orders,reviews,balance,withdraw_summary,affiliaterankid,affiliate_orders".$moreFields;
+		$field="userid,prefix,points,commission,orders,reviews,balance,withdraw_summary,affiliaterankid,affiliate_orders".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

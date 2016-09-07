@@ -22,7 +22,7 @@ class NewsLetter
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,email,date_added".$moreFields;
+		$field="id,prefix,email,date_added".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

@@ -22,7 +22,7 @@ class ProductDiscounts
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="productid,date_discount,date_enddiscount,percent,date_added,status,product_title,product_friendly_url".$moreFields;
+		$field="productid,prefix,date_discount,date_enddiscount,percent,date_added,status,product_title,product_friendly_url".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

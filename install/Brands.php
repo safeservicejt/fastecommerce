@@ -22,7 +22,7 @@ class Brands
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,title,friendly_url,views,date_added,status".$moreFields;
+		$field="id,prefix,title,friendly_url,views,date_added,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

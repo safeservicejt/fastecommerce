@@ -22,7 +22,7 @@ class StoreLogs
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,content,date_added".$moreFields;
+		$field="id,prefix,content,date_added".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

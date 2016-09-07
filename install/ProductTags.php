@@ -22,7 +22,7 @@ class ProductTags
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="productid,title,friendly_url,views,product_title,product_friendly_url".$moreFields;
+		$field="productid,prefix,title,friendly_url,views,product_title,product_friendly_url".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

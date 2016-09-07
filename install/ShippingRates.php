@@ -23,7 +23,7 @@ class ShippingRates
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,title,amount,status".$moreFields;
+		$field="id,prefix,title,amount,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

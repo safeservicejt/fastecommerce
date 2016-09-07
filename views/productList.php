@@ -66,8 +66,13 @@
 
                                 $date_added.='<span title="Sale Price '.FastEcommerce::money_format($theList[$i]['sale_price']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Sale Price: '.FastEcommerce::money_format($theList[$i]['sale_price']).'</span>';
 
-                                $status='<span title="Click to unPublish this product" class="pointer product-status" data-type="unpublish" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:green;">'.ucfirst($theList[$i]['status']).'</span>';
+                                $date_added.='<span title="Quantity '.number_format($theList[$i]['quantity']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Quantity: '.number_format($theList[$i]['quantity']).'</span>';
 
+                                $date_added.='<span title="Orders '.number_format($theList[$i]['orders']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Orders: '.number_format($theList[$i]['orders']).'</span>';
+
+                                $date_added.='<span title="Reviews '.number_format($theList[$i]['reviews']).'" class="pointer product-release" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:#888;margin-right:10px;">Reviews: '.number_format($theList[$i]['reviews']).'</span>';
+
+                                $status='<span title="Click to unPublish this product" class="pointer product-status" data-type="unpublish" data-id="'.$theList[$i]['id'].'" style="font-size:13px;color:green;">'.ucfirst($theList[$i]['status']).'</span>';
 
                                 $featured='';
                                 if((int)$theList[$i]['is_featured']==1)

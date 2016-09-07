@@ -24,7 +24,7 @@ class Discounts
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,date_added,date_discount,date_enddiscount,percent,status".$moreFields;
+		$field="id,prefix,date_added,date_discount,date_enddiscount,percent,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

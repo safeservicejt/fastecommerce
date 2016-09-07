@@ -22,7 +22,7 @@ class Downloads
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,path,title,status,date_added".$moreFields;
+		$field="id,prefix,path,title,status,date_added".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

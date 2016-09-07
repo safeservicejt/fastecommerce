@@ -22,7 +22,7 @@ class Payments
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,foldername,title,status".$moreFields;
+		$field="id,prefix,foldername,title,status".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

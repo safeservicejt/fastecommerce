@@ -29,7 +29,7 @@ class Orders
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,date_added,userid,shipping_firstname,shipping_lastname,shipping_company,shipping_address1,shipping_address2,shipping_city,shipping_postcode,shipping_state,shipping_country,shipping_url,shipping_method,shipping_phone,shipping_fax,comment,affiliateid,commission,ip,status,products,vat,before_vat,total,summary".$moreFields;
+		$field="id,prefix,date_added,userid,shipping_firstname,shipping_lastname,shipping_company,shipping_address1,shipping_address2,shipping_city,shipping_postcode,shipping_state,shipping_country,shipping_url,shipping_method,shipping_phone,shipping_fax,comment,affiliateid,commission,ip,status,products,vat,before_vat,total,summary".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

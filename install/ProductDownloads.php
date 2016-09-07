@@ -22,7 +22,7 @@ class ProductDownloads
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="productid,downloadid".$moreFields;
+		$field="productid,prefix,downloadid".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

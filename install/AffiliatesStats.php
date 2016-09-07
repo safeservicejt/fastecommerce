@@ -22,7 +22,7 @@ class AffiliatesStats
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,userid,money,date_added,status,orderid".$moreFields;
+		$field="id,prefix,userid,money,date_added,status,orderid".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

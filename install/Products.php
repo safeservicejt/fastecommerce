@@ -22,7 +22,7 @@ class Products
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,catid,category_str,title,friendly_url,date_added,views,rating,likes,reviews,orders,points,sku,upc,model,content,shortdesc,image,userid,is_featured,date_featured,require_shipping,brandid,quantity,sort_order,require_minimum,date_available,date_expires,price,sale_price,sale_price_from,sale_price_to,status,type,category_data,brand_data,tag_data,attr_data,attr_str,download_data,image_data,discount_data,weight,shipping_class,is_stock_manage,purchase_note,enable_review,page_title,descriptions,keywords,review_data".$moreFields;
+		$field="id,prefix,catid,category_str,title,friendly_url,date_added,views,rating,likes,reviews,orders,points,sku,upc,model,content,shortdesc,image,userid,is_featured,date_featured,require_shipping,brandid,quantity,sort_order,require_minimum,date_available,date_expires,price,sale_price,sale_price_from,sale_price_to,status,type,category_data,brand_data,tag_data,attr_data,attr_str,download_data,image_data,discount_data,weight,shipping_class,is_stock_manage,purchase_note,enable_review,page_title,descriptions,keywords,review_data".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

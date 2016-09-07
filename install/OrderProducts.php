@@ -22,7 +22,7 @@ class OrderProducts
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="orderid,productid,quantity,price,total,log".$moreFields;
+		$field="orderid,prefix,productid,quantity,price,total,log".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

@@ -22,7 +22,7 @@ class Reviews
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,productid,fullname,url,email,date_added,status,content,userid,report,rating".$moreFields;
+		$field="id,prefix,productid,fullname,url,email,date_added,status,content,userid,report,rating".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

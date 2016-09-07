@@ -24,7 +24,7 @@ class WishList
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,date_added,userid,productid".$moreFields;
+		$field="id,prefix,date_added,userid,productid".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

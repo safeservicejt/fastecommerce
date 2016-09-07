@@ -22,7 +22,7 @@ class Vouchers
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,date_added,date_expires,date_start,status,code,money".$moreFields;
+		$field="id,prefix,date_added,date_expires,date_start,status,code,money".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

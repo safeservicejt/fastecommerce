@@ -22,7 +22,7 @@ class Coupons
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,type,code,amount,date_start,date_end,date_added,status,freeshipping".$moreFields;
+		$field="id,prefix,type,code,amount,date_start,date_end,date_added,status,freeshipping".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

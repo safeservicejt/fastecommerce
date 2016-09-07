@@ -22,7 +22,7 @@ class ProductImages
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,productid,image,sort_order".$moreFields;
+		$field="id,prefix,productid,image,sort_order".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 
