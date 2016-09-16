@@ -39,6 +39,17 @@ class Downloads
 		return $url;
 	}
 	
+	public static function urlOutOrder($productid,$filePath)
+	{
+		$url=$productid.':'.$filePath;
+
+		$hash=base64_encode(String::encrypt($url));
+
+		$url=System::getUrl().'api/plugin/fastecommerce/download_in_order/'.$hash;
+
+		return $url;
+	}
+	
 	public static function insert($inputData=array())
 	{
 		Table::setTable('downloads');

@@ -25,6 +25,7 @@ class SelfApi
             'send_email'=>'sendEmail',
             'get_email_list_marketing'=>'getEmaiListMarketing',
             'download_in_order'=>'downloadInOrder',
+            'download_file'=>'downloadFile',
             'add_email_newsletter'=>'addEmailNewsletter',
             'get_product_autocomplete_by_title'=>'getProductAutocompleteByTitle',
 			);
@@ -98,13 +99,41 @@ class SelfApi
             Alert::make('Data not valid.');
         }
 
-        // $filePath=ROOT_PATH.$filePath;
+        $filePath=ROOT_PATH.$filePath;
 
-        // echo $filePath;die();
-        // if(!file_exists($filePath))
-        // {
-        //     Alert::make('File not exists.');
-        // }
+        if(!file_exists($filePath))
+        {
+            Alert::make('File not exists.');
+        }
+
+        File::download($filePath);
+
+        die();
+    }
+
+    public static function downloadFile()
+    {
+        if(!$match=Uri::match('download_file\/([a-z0-9A-Z_\-\+\=]+)$'))
+        {
+            Alert::make('Page not found');
+        }
+
+        $hash=$match[1];
+
+        $data=String::decrypt(base64_decode($hash));
+
+        $parse=explode(':', $data);
+
+        $productid=(int)$parse[0];
+
+        $filePath=$parse[1];
+
+        $filePath=ROOT_PATH.$filePath;
+
+        if(!file_exists($filePath))
+        {
+            Alert::make('File not exists.');
+        }
 
         File::download($filePath);
 
