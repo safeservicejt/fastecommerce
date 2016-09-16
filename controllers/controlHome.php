@@ -4,7 +4,7 @@ class controlHome
 {
 	public function index()
 	{
-		CtrPlugin::model('report');
+		Models::load('report');
 		
 		$pageData=array();
 
@@ -18,15 +18,13 @@ class controlHome
 		
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		Views::make('addHeader');
 
-		CtrPlugin::view('addHeader');
+		Views::make('adminStats',$pageData);
 
-		CtrPlugin::view('adminStats',$pageData);
-
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 }

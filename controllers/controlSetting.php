@@ -12,22 +12,22 @@ class controlSetting
 		$pageData=array('alert'=>'');
 
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 	
 
 		System::setTitle('Email Templates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('settingEmailTemplates',$pageData);
+		Views::make('settingEmailTemplates',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit_email_template()
@@ -46,7 +46,7 @@ class controlSetting
 			Alert::make('Page not found');
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -80,15 +80,15 @@ class controlSetting
 
 		System::setTitle($title);
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('editEmailTemplates',$pageData);
+		Views::make('editEmailTemplates',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function general()
@@ -114,7 +114,7 @@ class controlSetting
 			$pageData['alert']='<div class="alert alert-success">Save changes success.</div>';
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 	
@@ -126,15 +126,15 @@ class controlSetting
 
 		System::setTitle('Setting General');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('settingGeneral',$pageData);
+		Views::make('settingGeneral',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function shippingrates()
@@ -164,7 +164,7 @@ class controlSetting
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -180,7 +180,7 @@ class controlSetting
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/setting/shippingrates/',
+			'url'=>'npanel/plugins/controller/fastecommerce/setting/shippingrates/',
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -194,15 +194,15 @@ class controlSetting
 
 		System::setTitle('Shipping Rates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('listShippingRates',$pageData);
+		Views::make('listShippingRates',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function addnew_shipping_rate()
@@ -221,21 +221,21 @@ class controlSetting
 			
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
 		System::setTitle('Add New Shipping Rates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('shippingRateAdd',$pageData);
+		Views::make('shippingRateAdd',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit_shipping_rate()
@@ -261,7 +261,7 @@ class controlSetting
 			
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -279,15 +279,15 @@ class controlSetting
 
 		System::setTitle('Edit Shipping Rates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('shippingRateEdit',$pageData);
+		Views::make('shippingRateEdit',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function currency()
@@ -303,7 +303,7 @@ class controlSetting
 			$pageData['alert']='<div class="alert alert-success">Save changes success.</div>';
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 	
@@ -311,15 +311,15 @@ class controlSetting
 
 		System::setTitle('Setting Currency');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('settingCurrency',$pageData);
+		Views::make('settingCurrency',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

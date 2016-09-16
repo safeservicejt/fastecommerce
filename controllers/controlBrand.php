@@ -13,7 +13,7 @@ class controlProduct
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -55,7 +55,7 @@ class controlProduct
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/brand'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/brand'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -69,15 +69,14 @@ class controlProduct
 
 		System::setTitle('Brands');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('brandList',$pageData);
+		Views::make('brandList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

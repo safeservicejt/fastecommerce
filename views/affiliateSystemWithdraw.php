@@ -72,8 +72,8 @@
 									<td class="text-right"><span  data-id="'.$theList[$i]['id'].'" data-userid="'.$theList[$i]['userid'].'" data-toggle="modal" data-target="#myModal">'.$status.'</span></td>
 									<td class="text-right">
 									<a  data-id="'.$theList[$i]['id'].'" data-userid="'.$theList[$i]['userid'].'" data-toggle="modal" data-target="#myModal"  class="btn btn-primary btn-sm"><span class="glyphicon glyphicon-list-alt"></span></a>
-									<a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw/set/completed/'.$theList[$i]['id'].'" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok-sign"></span></a>
-									<a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw/set/cancel/'.$theList[$i]['id'].'" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove-sign"></span></a>
+									<a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw/set/completed/'.$theList[$i]['id'].'" class="btn btn-success btn-sm"><span class="glyphicon glyphicon-ok-sign"></span></a>
+									<a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw/set/cancel/'.$theList[$i]['id'].'" class="btn btn-danger btn-sm"><span class="glyphicon glyphicon-remove-sign"></span></a>
 									</td>
 								</tr>
 

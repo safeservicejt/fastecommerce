@@ -2,260 +2,81 @@
 
 class StoreLogs
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('store_log');
 
-		$limitQuery="";
+		Table::setFields('id,content,date_added');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$total=count($rows);
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+			for ($i=0; $i < $total; $i++) { 
 
-		$limitPosition=$limitPage*(int)$limitShow;
+				if(isset($rows[$i]['content']))
+				{
+					$rows[$i]['content']=stripslashes($rows[$i]['content']);
+				}
 
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
-
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
-
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
-
-		$field="id,prefix,content,date_added".$moreFields;
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."store_log $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/store_log/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
 			}
 
-			// end load			
-		}
+			return $rows;
 
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-				
-
-				if(isset($row['content']))
-				{
-					$row['content']=String::decode($row['content']);
-
-					// die($row['content']);
-				}
-
-				if(isset($row['date_added']))
-				{
-					$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
-				}
-									
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/store_log/'.$md5Query,serialize($result));
-
-		// end save
-
+		});
 
 		return $result;
-		
 	}
-
-
 
 	public static function insert($inputData=array())
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		// CustomPlugins::load('before_review_insert',$inputData);
+		Table::setTable('store_log');
 
-		$addMultiAgrs='';
+		$result=Table::insert($inputData,function($inputData){
 
-		$inputData['date_added']=date('Y-m-d H:i:s');
+			if(!isset($inputData['date_added']))
+			{
+				$inputData['date_added']=date('Y-m-d H:i:s');
+			}
 
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=addslashes($inputData['content']);
+			}
+			return $inputData;
 
-		
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=String::encode($inputData['content']);
-		}
+		});
 
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."store_log($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
-
-			// CustomPlugins::load('after_review_insert',$inputData);
-
-			return $id;	
-		}
-
-		return false;
-	
+		return $result;
 	}
 
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$updateData=array())
 	{
+		Table::setTable('store_log');
 
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		CustomPlugins::load('before_review_remove',$post);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."store_log where $whereQuery $addWhere";
+		$result=Table::update($listID,$updateData,function($inputData){
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=addslashes($inputData['content']);
+			}
 
 
-		$result=array();
+			return $inputData;
+		});
 
 
-		Database::query($command);	
-
-		// CustomPlugins::load('after_review_remove',$post);
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
+		return $result;
 	}
 
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function remove($inputIDs=array(),$whereQuery='')
 	{
+		Table::setTable('store_log');
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
+		$result=Table::remove($inputIDs,$whereQuery);
 
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		// CustomPlugins::load('before_review_update',$listID);
-				
-	
-		if(isset($post['content']))
-		{
-			$post['content']=String::encode($post['content']);
-		}
-	
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."store_log set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			// CustomPlugins::load('after_review_update',$listID);
-
-			return true;
-		}
-
-		return false;
+		return $result;
 	}
+
 
 
 }

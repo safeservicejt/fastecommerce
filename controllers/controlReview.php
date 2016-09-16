@@ -13,7 +13,7 @@ class controlReview
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -40,8 +40,7 @@ class controlReview
 		$pageData['theList']=Reviews::get(array(
 			'limitShow'=>30,
 			'limitPage'=>$curPage,
-			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'cache'=>'no'
 			));
 
 		$totalRow=count($pageData['theList']);
@@ -71,11 +70,11 @@ class controlReview
 		$countPost=Reviews::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/review/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/review/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -89,15 +88,15 @@ class controlReview
 
 		System::setTitle('Reviews');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('reviewList',$pageData);
+		Views::make('reviewList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

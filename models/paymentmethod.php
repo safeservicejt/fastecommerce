@@ -9,8 +9,7 @@ function theList()
 
 	$listDB=Payments::get(array(
 		'cache'=>'no',
-		'limitShow'=>300,
-		'where'=>"where prefix='".System::getPrefix()."'"
+		'limitShow'=>300
 		));
 
 	$reList=array();

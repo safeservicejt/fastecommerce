@@ -1,4 +1,4 @@
-<a href="<?php echo CtrPlugin::url('coupon','addnew');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
+<a href="<?php echo Plugins::url('coupon','addnew');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Coupons</h3>
@@ -71,7 +71,7 @@
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/coupon/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'plugins/controller/fastecommerce/coupon/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

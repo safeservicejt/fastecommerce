@@ -2,150 +2,189 @@
 
 class Coupons
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('coupons');
 
-		$limitQuery="";
+		Table::setFields('id,type,code,amount,date_start,date_end,date_added,status,freeshipping');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$total=count($rows);
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+			for ($i=0; $i < $total; $i++) { 
 
-		$limitPosition=$limitPage*(int)$limitShow;
+				if(isset($rows[$i]['friendly_url']))
+				{
+					$rows[$i]['url']=System::getUrl().'post/'.$rows[$i]['friendly_url'].'.html';
+				}
 
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
+				if(isset($rows[$i]['image']))
+				{
+					$rows[$i]['imageUrl']=System::getUrl().$rows[$i]['image'];
+				}
 
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+				if(isset($rows[$i]['title']))
+				{
+					$rows[$i]['title']=stripslashes($rows[$i]['title']);
+				}
 
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+				if(isset($rows[$i]['page_title']))
+				{
+					$rows[$i]['page_title']=stripslashes($rows[$i]['page_title']);
+				}
 
-		$field="id,prefix,type,code,amount,date_start,date_end,date_added,status,freeshipping".$moreFields;
+				if(isset($rows[$i]['descriptions']))
+				{
+					$rows[$i]['descriptions']=stripslashes($rows[$i]['descriptions']);
+				}
 
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
+				if(isset($rows[$i]['keywords']))
+				{
+					$rows[$i]['keywords']=stripslashes($rows[$i]['keywords']);
+				}
 
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
+				if(isset($rows[$i]['images_data']) && isset($rows[$i]['images_data'][5]))
+				{
+					$rows[$i]['images_data']=unserialize($rows[$i]['images_data']);
+				}
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
+				if(isset($rows[$i]['category_data']) && isset($rows[$i]['category_data'][5]))
+				{
+					$rows[$i]['category_data']=unserialize($rows[$i]['category_data']);
+				}
 
-		$result=array();
+				if(isset($rows[$i]['tag_data']) && isset($rows[$i]['tag_data'][5]))
+				{
+					$rows[$i]['tag_data']=unserialize($rows[$i]['tag_data']);
+				}
 
-		$dbPrefix=Database::getPrefix();
+				if(isset($rows[$i]['content']))
+				{
+					$rows[$i]['content']=stripslashes($rows[$i]['content']);
+					
+					if($inputData['isHook']=='yes')
+					{
 
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."coupons $whereQuery";
+					}
+				}
 
-		$command.=" $orderBy";
 
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
 
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/coupons/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
 			}
 
-			// end load			
-		}
+			return $rows;
 
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-
-				if(isset($row['date_start']))
-				{
-					$row['date_startFormat']=Render::dateFormat($row['date_start']);	
-				}
-
-				if(isset($row['date_end']))
-				{
-					$row['date_endFormat']=Render::dateFormat($row['date_end']);	
-				}
-
-				if(isset($row['date_added']))
-				{
-					$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
-				}
-									
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/coupons/'.$md5Query,serialize($result));
-
-		// end save
-
-
-		return $result;
-		
-	}
-
-	public static function format($code)
-	{
-		$result='';
-
-		$loadData=self::loadCache($code);
-
-		if(!$loadData)
-		{
-			$result='';
-		}
-		else
-		{
-			switch ($loadData['type']) {
-				case 'percent':
-					$result=$loadData['amount'].'%';
-					break;
-				case 'percent':
-					$result=FastEcommerce::money_format($loadData['amount']);
-					break;
-				
-			}
-		}
+		});
 
 		return $result;
 	}
 
-	public static function cachePath()
+	public static function insert($inputData=array())
 	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/coupons/';
+		Table::setTable('coupons');
+
+		$result=Table::insert($inputData,function($inputData){
+			if(!isset($inputData['userid']))
+			{
+				$inputData['userid']=Users::$id;
+			}
+
+			if(!isset($inputData['date_added']))
+			{
+				$inputData['date_added']=date('Y-m-d H:i:s');
+			}
+
+
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
+
+			if(!isset($inputData['page_title']) || !isset($inputData['page_title'][5]))
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
+
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=addslashes($inputData['descriptions']);
+			}
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=addslashes($inputData['page_title']);
+			}
+
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=addslashes($inputData['keywords']);
+			}
+			
+
+			return $inputData;
+
+		},function($inputData){
+			if(isset($inputData['id']))
+			{
+				self::update($inputData['id'],array(
+					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					));
+			}
+		});
 
 		return $result;
-	}	
+	}
+
+	public static function update($listID,$updateData=array())
+	{
+		Table::setTable('coupons');
+
+		$result=Table::update($listID,$updateData,function($inputData){
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=addslashes($inputData['page_title']);
+			}
+
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=addslashes($inputData['descriptions']);
+			}
+
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=addslashes($inputData['keywords']);
+			}
+
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=addslashes($inputData['content']);
+			}
+
+			
+
+			return $inputData;
+		});
+
+		Post::saveCache($listID);
+
+		return $result;
+	}
+
+	public static function remove($inputIDs=array(),$whereQuery='')
+	{
+		Table::setTable('coupons');
+
+		$result=Table::remove($inputIDs,$whereQuery);
+
+		return $result;
+	}
+
 
 	public static function exists($code='')
 	{
@@ -211,138 +250,44 @@ class Coupons
 			
 	}
 
-	public static function insert($inputData=array())
+	public static function format($code)
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		CustomPlugins::load('before_coupon_insert',$inputData);
+		$result='';
 
-		$addMultiAgrs='';
+		$loadData=self::loadCache($code);
 
-		$inputData['date_added']=date('Y-m-d H:i:s');
-		
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
-
-		
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."coupons($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
+		if(!$loadData)
 		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
-
-			CustomPlugins::load('after_coupon_insert',$inputData);
-
-			return $id;	
+			$result='';
 		}
-
-		return false;
-	
-	}
-
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($post))
+		else
 		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		CustomPlugins::load('before_coupon_remove',$post);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."coupons where $whereQuery $addWhere";
-
-
-		$result=array();
-
-
-		Database::query($command);	
-
-		CustomPlugins::load('after_coupon_remove',$post);
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
-	}
-
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		CustomPlugins::load('before_coupon_update',$listID);
+			switch ($loadData['type']) {
+				case 'percent':
+					$result=$loadData['amount'].'%';
+					break;
+				case 'percent':
+					$result=FastEcommerce::money_format($loadData['amount']);
+					break;
 				
+			}
+		}
+
+		return $result;
+	}
 	
-		$keyNames=array_keys($post);
+	public static function up($field,$num=1,$addWhere='')
+	{
+		Table::setTable('coupons');
 
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."coupons set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			CustomPlugins::load('after_coupon_update',$listID);
-
-			return true;
-		}
-
-		return false;
+		Table::up($field,$num,$addWhere);
 	}
 
+	public static function down($field,$num=1,$addWhere='')
+	{
+		Table::setTable('coupons');
+
+		Table::down($field,$num,$addWhere);
+	}
 
 }

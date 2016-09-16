@@ -54,7 +54,7 @@ function showMenu()
 	var li='';
 
 
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/order"><span class="glyphicon glyphicon-globe"></span>&nbsp;'+lang['orders']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/order"><span class="glyphicon glyphicon-globe"></span>&nbsp;'+lang['orders']+'</a></li>';
 
 
 	$('.navbar-left').append(li);
@@ -65,7 +65,7 @@ function showMenu()
 	li='<li class="dropdown li-adssystem-navbar">';
 	li+='<a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-cog"></span>&nbsp;&nbsp;'+lang['setting']+' <span class="caret"></span></a>';
 	li+='<ul class="dropdown-menu dropdown-adssystem-navbar" role="menu">';
-	li+='<li class="dropdown"><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw" class="dropdown-toggle">'+lang['payments']+'</a></li>';
+	li+='<li class="dropdown"><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/affiliate/withdraw" class="dropdown-toggle">'+lang['payments']+'</a></li>';
 	// li+='<li class="dropdown"><a href="#" class="dropdown-toggle show-modal-contact">Contact Us</a></li>';
 
 	li+='</ul>';
@@ -77,9 +77,9 @@ function showMenu()
 	li='<li class="li-publisher">';
 	li+='<a href="javascript:;" data-toggle="collapse" data-target="#li-publisher"><span class="glyphicon glyphicon-user"></span> '+lang['customer']+' <i class="fa fa-fw fa-caret-down"></i></a>';
 	li+='<ul id="li-publisher" class="collapse in" aria-expanded="true">';
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/order">'+lang['orders']+'</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/users/profile">'+lang['accountInformation']+'</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/users/profile">'+lang['changePassword']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/order">'+lang['orders']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/users/profile">'+lang['accountInformation']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/users/profile">'+lang['changePassword']+'</a></li>';
 
 	li+='</ul>';
 	li+='</li>';
@@ -90,11 +90,11 @@ function showMenu()
 	li='<li class="li-adsvertiser">';
 	li+='<a href="javascript:;" data-toggle="collapse" data-target="#li-adsvertiser"><span class="glyphicon glyphicon-user"></span> '+lang['affiliate']+' <i class="fa fa-fw fa-caret-down"></i></a>';
 	li+='<ul id="li-adsvertiser" class="collapse in" aria-expanded="true">';
-	// li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/adssystem/adsvertiser/reports">Reports</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/affiliate/report">'+lang['reports']+'</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/affiliate/linkbuilding">'+lang['linkBuilding']+'</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw">'+lang['withdraw']+'</a></li>';
-	li+='<li><a href="'+adminUrl+'admincp/plugins/privatecontroller/fastecommerce/affiliate/collection">'+lang['collectionproduct']+'</a></li>';
+	// li+='<li><a href="'+adminUrl+'npanel/plugins/controller/adssystem/adsvertiser/reports">Reports</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/affiliate/report">'+lang['reports']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/affiliate/linkbuilding">'+lang['linkBuilding']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/affiliate/withdraw">'+lang['withdraw']+'</a></li>';
+	li+='<li><a href="'+adminUrl+'npanel/plugins/controller/fastecommerce/affiliate/collection">'+lang['collectionproduct']+'</a></li>';
 
 	li+='</ul>';
 	li+='</li>';

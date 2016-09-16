@@ -13,7 +13,7 @@ class controlCoupon
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -41,17 +41,17 @@ class controlCoupon
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$countPost=Coupons::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/coupon/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/coupon/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -65,15 +65,15 @@ class controlCoupon
 
 		System::setTitle('Coupons');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('couponList',$pageData);
+		Views::make('couponList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function addnew()
@@ -100,17 +100,17 @@ class controlCoupon
 
 		System::setTitle('Add Coupon');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('couponAdd',$pageData);
+		Views::make('couponAdd',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit()
@@ -159,17 +159,17 @@ class controlCoupon
 
 		System::setTitle('Edit Coupon');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('couponEdit',$pageData);
+		Views::make('couponEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

@@ -13,7 +13,7 @@ class controlDiscount
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -41,17 +41,17 @@ class controlDiscount
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$countPost=Discounts::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/discount/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/discount/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -65,15 +65,15 @@ class controlDiscount
 
 		System::setTitle('Discounts');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('discountList',$pageData);
+		Views::make('discountList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function addnew()
@@ -100,17 +100,17 @@ class controlDiscount
 
 		System::setTitle('Add Discount');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('discountAdd',$pageData);
+		Views::make('discountAdd',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit()
@@ -159,17 +159,17 @@ class controlDiscount
 
 		System::setTitle('Edit Discount');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('discountEdit',$pageData);
+		Views::make('discountEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

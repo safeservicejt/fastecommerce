@@ -68,6 +68,15 @@ class CollectionsProducts
 
 			$products=$result['product'];
 
+			$discountData=array();
+
+			if(isset(Discounts::$data['id']))
+			{
+				$discountData=Discounts::$data;
+			}	
+
+			$todayTime=time();			
+
 			$total=count($products);
 
 			$loadData=array();
@@ -83,45 +92,33 @@ class CollectionsProducts
 				}
 
 
-
-				if(!is_array($prodData['attr_data']))
+				if(isset($prodData['sale_price_from']))
 				{
-					$prodData['attr_data']=unserialize($prodData['attr_data']);
+					$sale_price_from=strtotime($prodData['sale_price_from']);
+
+					$sale_price_to=strtotime($prodData['sale_price_to']);
+					
+					if((int)$sale_price_from > (int)$todayTime)
+					{
+						$prodData['sale_price']=$prodData['price'];
+					}				
 				}
-				
-				$discountData=array();
-
-				if(isset(Discounts::$data['id']))
-				{
-					$discountData=Discounts::$data;
-				}	
-
-				$todayTime=time();
-
+			
 				if(isset($prodData['sale_price']))
 				{
 					$prodData['discount_price']=$prodData['sale_price'];
-				}
-
-				if(isset($prodData['sale_price']) && $prodData['sale_price_from'])
-				{
-					$sale_price_from_time=strtotime($prodData['sale_price_from']);
-
-					$prodData['active_sale_price']=0;
-					
-					if((int)$todayTime<=(int)$sale_price_from_time)
-					{
-						$prodData['active_sale_price']=1;
-					}
 				}
 
 				if(isset($discountData['id']) && isset($prodData['sale_price']))
 				{
 					$percent=$discountData['percent'];
 
-					$prodData['discount_price']=((double)$prodData['discount_price']*(double)$percent)/100;
+					$prodData['discount_price']=(double)$prodData['discount_price']-((double)$prodData['discount_price']*((double)$percent/100));
 
-					$prodData['active_sale_price']=1;
+					$prodData['price']=$prodData['sale_price'];
+
+					$prodData['sale_price']=$prodData['discount_price'];
+
 				}
 
 				if(isset($prodData['price']) && isset($prodData['sale_price']))
@@ -177,8 +174,8 @@ class CollectionsProducts
 
 					if($totalReview < 5)
 					{
-						for ($i=0; $i < $totalReview; $i++) { 
-							$prodData['review_data'][$i]=isset($prodData['review_data'][$i])?$prodData['review_data'][$i]:0;
+						for ($k=0; $k < $totalReview; $k++) { 
+							$prodData['review_data'][$k]=isset($prodData['review_data'][$k])?$prodData['review_data'][$k]:0;
 						}						
 					}
 
@@ -189,6 +186,10 @@ class CollectionsProducts
 					$prodData['tag_data']=unserialize($prodData['tag_data']);
 				}
 
+				if(isset($prodData['attr_data'][10]))
+				{
+					$prodData['attr_data']=unserialize($prodData['attr_data']);
+				}
 
 				if(isset($prodData['download_data'][10]))
 				{
@@ -207,7 +208,7 @@ class CollectionsProducts
 
 				if(isset($prodData['friendly_url']))
 				{
-					$prodData['url']=self::url($prodData['friendly_url']);
+					$prodData['url']=System::getUrl().'product/'.$prodData['friendly_url'].'.html';
 				}
 
 				if(isset($prodData['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $prodData['image']))
@@ -277,7 +278,26 @@ class CollectionsProducts
 				{
 					$prodData['pointsFormat']=number_format($prodData['points']);
 
-				}				
+				}
+
+				if(isset($prodData['date_added']))
+				{
+					$prodData['date_addedFormat']=Render::dateFormat($prodData['date_added']);	
+				}
+				
+
+				if($inputData['isHook']=='yes')
+				{
+					if(isset($prodData['content']))
+					{
+						$prodData['content']=String::decode($prodData['content']);
+
+						$prodData['content']=html_entity_decode($prodData['content']);
+						
+						$prodData['content']=Shortcode::render($prodData['content']);
+					}
+					
+				}					
 
 				$loadData[]=$prodData;
 			}

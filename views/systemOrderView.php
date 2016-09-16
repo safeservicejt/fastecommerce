@@ -26,7 +26,7 @@
     	</form>		
 	</div>
 	<div class="col-lg-6 col-md-6 col-sm-6 text-right">
-		<a href="<?php echo System::getUrl();?>admincp/plugins/privatecontroller/fastecommerce/order/sendemail/<?php echo $orderData['id'];?>" class="btn btn-primary"><span class="glyphicon glyphicon-comment"></span> Send Email</a>
+		<a href="<?php echo System::getUrl();?>npanel/plugins/controller/fastecommerce/order/sendemail/<?php echo $orderData['id'];?>" class="btn btn-primary"><span class="glyphicon glyphicon-comment"></span> Send Email</a>
 	</div>
 </div>
 

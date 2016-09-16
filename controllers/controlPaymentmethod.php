@@ -13,7 +13,7 @@ class controlPaymentmethod
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -40,15 +40,15 @@ class controlPaymentmethod
 	
 		System::setTitle('Payment methods');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('paymentMethodList',$pageData);
+		Views::make('paymentMethodList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function activate()
@@ -76,14 +76,14 @@ class controlPaymentmethod
 
 		$loadData=Payments::get(array(
 			'cache'=>'no',
-			'where'=>"where foldername='$folderName' AND prefix='".System::getPrefix()."'"
+			'where'=>"where foldername='$folderName'"
 			));
 
 		if(isset($loadData[0]['foldername']))
 		{
 			Payments::update(0,array(
 				'status'=>1
-				),"foldername='$folderName' AND prefix='".System::getPrefix()."'");	
+				),"foldername='$folderName'");	
 		}
 		else
 		{
@@ -107,7 +107,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}		
 
-		Redirect::to(CtrPlugin::url('paymentmethod','index'));
+		Redirect::to(Views::url('paymentmethod','index'));
 	}
 
 	public function deactivate()
@@ -135,7 +135,7 @@ class controlPaymentmethod
 
 		$loadData=Payments::get(array(
 			'cache'=>'no',
-			'where'=>"where foldername='$folderName' AND prefix='".System::getPrefix()."'"
+			'where'=>"where foldername='$folderName'"
 			));
 
 
@@ -143,7 +143,7 @@ class controlPaymentmethod
 		{
 			Payments::update(0,array(
 				'status'=>0
-				),"foldername='$folderName' AND prefix='".System::getPrefix()."'");	
+				),"foldername='$folderName'");	
 		}
 		else
 		{
@@ -169,7 +169,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}
 
-		Redirect::to(CtrPlugin::url('paymentmethod','index'));
+		Redirect::to(Views::url('paymentmethod','index'));
 	}
 
 	public function setting()
@@ -192,47 +192,60 @@ class controlPaymentmethod
 
 		$savePath=ROOT_PATH.'contents/plugins/fastecommerce/paymentmethods/'.$folderName.'/';
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
 			Alert::make('Page not found');
 		}
 
-		if(!is_dir($savePath.'controllers') || !file_exists($savePath.'controllers/controlSetting.php'))
-		{
-			Alert::make('This payment method not support setting');
-		}
 
 		$loadData=file($savePath.'info.txt');
 
 		$pageData['title']=$loadData[0].' - '.$loadData[1];
 
-		include($savePath.'controllers/controlSetting.php');
+		$controlName='setting';
 
-		if(file_exists($savePath.'models/setting.php'))
+		$funcName='index';
+
+		if($match=Uri::match('fastecommerce\/paymentmethod\/setting\/paypal\/(\w+)'))
 		{
-			include($savePath.'models/setting.php');
+			$controlName=$match[1];
+
+			if($match=Uri::match('fastecommerce\/paymentmethod\/setting\/paypal\/(\w+)\/(\w+)'))
+			{
+				$funcName=$match[2];
+			}
+
 		}
 
-		if(!class_exists('controlSetting') || !method_exists('controlSetting', $route))
-		{
-			Alert::make('This payment method not support setting');
-		}
-
-		define('THIS_VIEW_PATH',$savePath.'views/');
-	
 		System::setTitle($pageData['title']);
 
-		CtrPlugin::admincpHeader();
+		Controllers::load($controlName,$funcName,'contents/plugins/fastecommerce/paymentmethods/'.$folderName);
 
-		CtrPlugin::admincpLeft();
+		// include($savePath.'controllers/controlSetting.php');
 
-		CtrPlugin::view('addHeader');
+		// if(file_exists($savePath.'models/setting.php'))
+		// {
+		// 	include($savePath.'models/setting.php');
+		// }
 
-		controlSetting::$route();
+		// if(!class_exists('controlSetting') || !method_exists('controlSetting', $route))
+		// {
+		// 	Alert::make('This payment method not support setting');
+		// }
 
-		CtrPlugin::admincpFooter();
+		// define('THIS_VIEW_PATH',$savePath.'views/');
+	
+		// System::setTitle($pageData['title']);
+
+		// Views::nPanelHeader();
+
+		// Views::make('addHeader');
+
+		// controlSetting::$route();
+
+		// Views::nPanelFooter();
 	}
 
 

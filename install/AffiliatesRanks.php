@@ -2,99 +2,15 @@
 
 class AffiliatesRanks
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('affiliate_ranks');
 
-		$limitQuery="";
+		Table::setFields('id,title,date_added,status,commission,orders,image,parentid');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
-
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
-
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
-
-		$limitPosition=$limitPage*(int)$limitShow;
-
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
-
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
-
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
-
-		$field="id,prefix,title,date_added,status,commission,orders,image,parentid".$moreFields;
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."affiliate_ranks $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/affiliate_ranks/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
-			}
-
-			// end load			
-		}
-
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{		
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/affiliate_ranks/'.$md5Query,serialize($result));
-		// end save
-
+		$result=Table::get($inputData);
 
 		return $result;
-		
 	}
 
 	public static function changeRank($userid,$rankid)
@@ -120,57 +36,123 @@ class AffiliatesRanks
 
 	}
 
-	public static function cachePath()
+	public static function insert($inputData=array())
 	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/affiliate_ranks/';
+		Table::setTable('affiliate_ranks');
 
-		return $result;
-	}	
-
-	public static function loadCache($id='')
-	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/'.$id.'.cache';
-
-		$result=false;
-
-		if(!file_exists($savePath))
-		{
-			
-			self::saveCache($id);
-
-			if(!file_exists($savePath))
+		$result=Table::insert($inputData,function($inputData){
+		
+			if(!isset($inputData['date_added']))
 			{
-				return false;
+				$inputData['date_added']=date('Y-m-d H:i:s');
 			}
-		}
 
-		$result=unserialize(file_get_contents($savePath));
+
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
+
+
+			return $inputData;
+
+		});
+
+		AffiliatesRanks::saveCacheAll();
 
 		return $result;
 	}
 
-	public static function saveCache($id)
+	public static function update($listID,$updateData=array())
 	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/';
+		Table::setTable('affiliate_ranks');
 
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'where'=>"where id='$id'"
-			));
+		$result=Table::update($listID,$updateData,function($inputData){
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
 
-		$filePath=$savePath.$id.'.cache';
-
-		File::create($filePath,serialize($loadData[0]));	
 			
+
+			return $inputData;
+		});
+
+		AffiliatesRanks::saveCache($listID);
+
+		AffiliatesRanks::saveCacheAll();
+
+		return $result;
+	}
+
+	public static function remove($inputIDs=array(),$whereQuery='')
+	{
+		Table::setTable('affiliate_ranks');
+
+		$result=Table::remove($inputIDs,$whereQuery);
+
+		AffiliatesRanks::saveCacheAll();
+
+		return $result;
+	}
+
+
+	public static function exists($id)
+	{
+		Table::setTable('affiliate_ranks');
+
+		$result=Table::exists($id);
+
+		return $result;
+	}
+
+	public static function loadCache($id)
+	{
+		Table::setTable('affiliate_ranks');
+
+		$result=Table::loadCache($id,function($id){
+			AffiliatesRanks::saveCache($id);
+		});
+
+		return $result;
+	}
+
+	public static function removeCache($id)
+	{
+		Table::setTable('affiliate_ranks');
+
+		Table::removeCache($id);
+
+	}
+
+	public static function saveCache($listID)
+	{
+		Table::setTable('affiliate_ranks');
+
+
+		if(!is_array($listID))
+		{
+			$tmp=$listID;
+
+			$listID=array($tmp);
+		}
+
+		$total=count($listID);
+
+		for ($i=0; $i < $total; $i++) { 
+			$id=$listID[$i];
+
+			Table::saveCache($id);			
+		}
+
 	}
 
 	public static function saveCacheAll()
 	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks'.System::getPrefix().'.cache';
+		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks.cache';
 
 		$loadData=self::get(array(
 			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'",
 			'orderby'=>'order by title asc',
 			));
 
@@ -180,7 +162,7 @@ class AffiliatesRanks
 
 	public static function loadCacheAll()
 	{
-		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks'.System::getPrefix().'.cache';
+		$savePath=ROOT_PATH.'contents/fastecommerce/affiliateranks/listRanks.cache';
 
 		$loadData=false;
 
@@ -203,127 +185,18 @@ class AffiliatesRanks
 		return $loadData;	
 	}
 
-	public static function insert($inputData=array())
+	public static function up($field,$num=1,$addWhere='')
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		$addMultiAgrs='';
+		Table::setTable('affiliate_ranks');
 
-		$inputData['date_added']=date('Y-m-d H:i:s');
-
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
-
-		
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."affiliate_ranks($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
-
-
-			return $id;	
-		}
-
-		return false;
-	
+		Table::up($field,$num,$addWhere);
 	}
 
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function down($field,$num=1,$addWhere='')
 	{
+		Table::setTable('affiliate_ranks');
 
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."affiliate_ranks where $whereQuery $addWhere";
-
-
-		$result=array();
-
-
-		Database::query($command);	
-
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
+		Table::down($field,$num,$addWhere);
 	}
-
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."affiliate_ranks set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			return true;
-		}
-
-		return false;
-	}
-
 
 }

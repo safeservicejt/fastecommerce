@@ -13,11 +13,11 @@ class controlProduct
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere="where prefix='".System::getPrefix()."'";
+		$addWhere='';
 
 		$addPage='';		
 
@@ -35,7 +35,7 @@ class controlProduct
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
+			$addWhere="where title LIKE '%$txtKeywords%'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
@@ -61,7 +61,7 @@ class controlProduct
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/product/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/product/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -75,15 +75,15 @@ class controlProduct
 
 		System::setTitle('Products');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('productList',$pageData);
+		Views::make('productList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function addnew()
@@ -115,17 +115,17 @@ class controlProduct
 
 		System::setTitle('Add Product');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('productAdd',$pageData);
+		Views::make('productAdd',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit()
@@ -178,17 +178,17 @@ class controlProduct
 
 		System::setTitle('Edit Product');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('productEdit',$pageData);
+		Views::make('productEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

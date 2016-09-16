@@ -6,113 +6,40 @@ class TaxRates
 
 	public static function get($inputData=array())
 	{
+		Table::setTable('taxrates');
 
-		$limitQuery="";
+		Table::setFields('id,title,amount,type,countries');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$total=count($rows);
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+			for ($i=0; $i < $total; $i++) { 
 
-		$limitPosition=$limitPage*(int)$limitShow;
-
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
-
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
-
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
-
-		$field="id,prefix,title,amount,type,countries".$moreFields;
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."taxrates $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/taxrates/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
-			}
-
-			// end load			
-		}
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-
-				if(isset($row['countries']) && isset($row['countries'][5]))
+				if(isset($rows[$i]['countries']) && isset($rows[$i]['countries'][5]))
 				{
-					$row['countries']=unserialize($row['countries']);
+					$rows[$i]['countries']=unserialize($rows[$i]['countries']);
 				}
-				if(isset($row['amount']))
+				if(isset($rows[$i]['amount']))
 				{
-					if($row['type']=='percent')
+					if($rows[$i]['type']=='percent')
 					{
-						$row['amountFormat'].=' %';
+						$rows[$i]['amountFormat'].=' %';
 					}
 					else
 					{
-						$row['amountFormat']=FastEcommerce::money_format($row['amount']);
+						$rows[$i]['amountFormat']=FastEcommerce::money_format($rows[$i]['amount']);
 					}
 					
 				}
-									
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/taxrates/'.$md5Query,serialize($result));
 
-		// end save
+			}
 
+			return $rows;
+
+		});
 
 		return $result;
-		
 	}
 
 	public static function getTax($country='')
@@ -129,13 +56,6 @@ class TaxRates
 
 		return $result;
 	}
-
-	public static function cachePath()
-	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/taxrates/';
-
-		return $result;
-	}	
 
 	public static function loadCache($countryName='all')
 	{
@@ -278,123 +198,107 @@ class TaxRates
 
 	public static function insert($inputData=array())
 	{
-		// End addons
-		// $totalArgs=count($inputData);
+		Table::setTable('taxrates');
 
-		$addMultiAgrs='';
+		$result=Table::insert($inputData,function($inputData){
+			if(!isset($inputData['userid']))
+			{
+				$inputData['userid']=Users::$id;
+			}
 
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."taxrates($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
+			if(!isset($inputData['date_added']))
+			{
+				$inputData['date_added']=date('Y-m-d H:i:s');
+			}
 
 
-			return $id;	
-		}
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
 
-		return false;
-	
+			if(!isset($inputData['page_title']) || !isset($inputData['page_title'][5]))
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
+
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=addslashes($inputData['descriptions']);
+			}
+
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=addslashes($inputData['page_title']);
+			}
+
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=addslashes($inputData['keywords']);
+			}
+			
+
+			return $inputData;
+
+		},function($inputData){
+			if(isset($inputData['id']))
+			{
+				self::update($inputData['id'],array(
+					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					));
+			}
+		});
+
+		return $result;
 	}
 
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$updateData=array())
 	{
+		Table::setTable('taxrates');
 
-		if(is_numeric($post))
-		{
-			$id=$post;
+		$result=Table::update($listID,$updateData,function($inputData){
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
 
-			unset($post);
+			if(isset($inputData['page_title']))
+			{
+				$inputData['page_title']=addslashes($inputData['page_title']);
+			}
 
-			$post=array($id);
-		}
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=addslashes($inputData['descriptions']);
+			}
 
-		$total=count($post);
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=addslashes($inputData['keywords']);
+			}
 
-		$listID="'".implode("','",$post)."'";
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=addslashes($inputData['content']);
+			}
 
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
+			
 
-		$addWhere=isset($addWhere[5])?$addWhere:"";
+			return $inputData;
+		});
 
-		$command="delete from ".Database::getPrefix()."taxrates where $whereQuery $addWhere";
+		Post::saveCache($listID);
 
-
-		$result=array();
-
-
-		Database::query($command);	
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
+		return $result;
 	}
 
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function remove($inputIDs=array(),$whereQuery='')
 	{
+		Table::setTable('taxrates');
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
+		$result=Table::remove($inputIDs,$whereQuery);
 
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-	
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."taxrates set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			return true;
-		}
-
-		return false;
+		return $result;
 	}
-
 
 }

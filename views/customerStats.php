@@ -99,8 +99,8 @@
 								<td class="col-lg-2 col-md-2 col-sm-2 ">'.$status.'</td>
 								<td class="col-lg-3 col-md-3 col-sm-3 "><strong class="text-success">'.FastEcommerce::money_format($listOrders[$i]['total']).'</strong></td>
 								<td class="col-lg-2 col-md-2 col-sm-2 text-right">
-								<a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order/view/'.$listOrders[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">'.Lang::get('usercp/index.view').'</a>
-                                <button type="button" data-href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order/cancel/'.$listOrders[$i]['id'].'" class="btn btn-danger btn-customer-cancel-order btn-sm">'.Lang::get('usercp/index.cancel').'</button>
+								<a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/order/view/'.$listOrders[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">'.Lang::get('usercp/index.view').'</a>
+                                <button type="button" data-href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/order/cancel/'.$listOrders[$i]['id'].'" class="btn btn-danger btn-customer-cancel-order btn-sm">'.Lang::get('usercp/index.cancel').'</button>
 								</td>
 							</tr>
 

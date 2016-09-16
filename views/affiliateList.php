@@ -83,7 +83,7 @@
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/product/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'plugins/controller/fastecommerce/product/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

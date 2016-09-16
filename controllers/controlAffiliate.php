@@ -15,7 +15,7 @@ class controlAffiliate
 
 		Alert::make('Page not found');
 		
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -24,7 +24,7 @@ class controlAffiliate
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere="where prefix='".System::getPrefix()."'";
+		$addWhere='';
 
 		$addPage='';		
 
@@ -42,7 +42,7 @@ class controlAffiliate
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
+			$addWhere="where title LIKE '%$txtKeywords%'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
@@ -62,7 +62,7 @@ class controlAffiliate
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/affiliate/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -76,21 +76,21 @@ class controlAffiliate
 
 		System::setTitle('Affiliates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateList',$pageData);
+		Views::make('affiliateList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 
 	public function report()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -127,17 +127,15 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesStats::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/report',
+			'url'=>'npanel/plugins/controller/fastecommerce/affiliate/report',
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -166,15 +164,15 @@ class controlAffiliate
 
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateSystemReport',$pageData);
+		Views::make('affiliateSystemReport',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function userReport()
@@ -214,20 +212,20 @@ class controlAffiliate
 
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateReport',$pageData);
+		Views::make('affiliateReport',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function collection()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -256,15 +254,15 @@ class controlAffiliate
 
 		System::setTitle('Add new collection');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateAddCollection',$pageData);
+		Views::make('affiliateAddCollection',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 
@@ -285,20 +283,20 @@ class controlAffiliate
 
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('linkBuildingView',$pageData);
+		Views::make('linkBuildingView',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function withdraw()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -316,7 +314,7 @@ class controlAffiliate
 	public function ranks()
 	{
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -378,7 +376,6 @@ class controlAffiliate
 		$pageData['ranksList']=AffiliatesRanks::get(array(
 			'cache'=>'no',
 			'cacheTime'=>60,
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		if($match=Uri::match('\/edit\/(\d+)'))
@@ -405,17 +402,15 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesRanks::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks',
+			'url'=>'npanel/plugins/controller/fastecommerce/affiliate/ranks',
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -431,15 +426,15 @@ class controlAffiliate
 
 		System::setTitle('Affiliates Ranks');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateRanks',$pageData);
+		Views::make('affiliateRanks',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function systemWithdraw()
@@ -461,12 +456,12 @@ class controlAffiliate
 
 			$loadData=AffiliatesWithdraws::get(array(
 				'cache'=>'no',
-				'where'=>"where id='$id' AND prefix='".System::getPrefix()."'"
+				'where'=>"where id='$id'"
 				));
 
 			if(!$loadData)
 			{
-				Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw');
+				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 			}
 
 			$userid=$loadData[0]['userid'];
@@ -481,7 +476,7 @@ class controlAffiliate
 
 					if($loadData[0]['status']=='completed')
 					{
-						Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw');
+						Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 					}
 
 					$balance=(double)$userData[0]['balance']+(double)$loadData[0]['money'];
@@ -496,7 +491,7 @@ class controlAffiliate
 
 					if($loadData[0]['status']=='canceled')
 					{
-						Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw');
+						Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 					}
 
 					$balance=(double)$userData[0]['balance']+(double)$loadData[0]['money'];
@@ -514,7 +509,7 @@ class controlAffiliate
 					break;
 			}
 
-			Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw');
+			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 		}
 
 		$pageData=array('requestAlert'=>'');
@@ -524,17 +519,15 @@ class controlAffiliate
 			'limitPage'=>$curPage,
 			'cache'=>'no',
 			'cacheTime'=>60,
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$countPost=AffiliatesWithdraws::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/withdraw',
+			'url'=>'npanel/plugins/controller/fastecommerce/affiliate/withdraw',
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -548,15 +541,13 @@ class controlAffiliate
 
 		System::setTitle('Withdraw');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		Views::make('addHeader');
 
-		CtrPlugin::view('addHeader');
+		Views::make('affiliateSystemWithdraw',$pageData);
 
-		CtrPlugin::view('affiliateSystemWithdraw',$pageData);
-
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function userWithdraw()
@@ -590,15 +581,15 @@ class controlAffiliate
 
 		System::setTitle('Withdraw');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateWithdraw',$pageData);
+		Views::make('affiliateWithdraw',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function billing()
@@ -618,15 +609,15 @@ class controlAffiliate
 
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('affiliateReport',$pageData);
+		Views::make('affiliateReport',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

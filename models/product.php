@@ -12,11 +12,11 @@ function actionProcess()
 	switch ($action) {
 		case 'delete':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{
-				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_remove_product');
+				$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_remove_product');
 
 				if($valid!='yes')
 				{
@@ -53,11 +53,11 @@ function actionProcess()
 
 		case 'publish':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{
-				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_update_product');
+				$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_update_product');
 
 				if($valid!='yes')
 				{
@@ -101,11 +101,11 @@ function actionProcess()
 
 		case 'unpublish':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{
-				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_update_product');
+				$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_update_product');
 
 				if($valid!='yes')
 				{
@@ -149,11 +149,11 @@ function actionProcess()
 
 		case 'setFeatured':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{
-				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_update_product');
+				$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_update_product');
 
 				if($valid!='yes')
 				{
@@ -197,11 +197,11 @@ function actionProcess()
 
 		case 'unsetFeatured':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{
-				$valid=UserGroups::getPermission(Users::getCookieGroupId(),'can_update_product');
+				$valid=Usergroups::getPermission(Users::getCookieGroupId(),'can_update_product');
 
 				if($valid!='yes')
 				{
@@ -309,7 +309,7 @@ function insertProcess()
 
 	Products::saveCache($id);
 
-	Redirect::to(CtrPlugin::url('product','edit').$id);
+	Redirect::to(Plugins::url('product','edit').$id);
 
 }
 

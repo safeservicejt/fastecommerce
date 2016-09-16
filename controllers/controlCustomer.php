@@ -13,7 +13,7 @@ class controlCustomer
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -42,7 +42,7 @@ class controlCustomer
 			'limitShow'=>20,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$total=count($pageData['theList']);
@@ -58,11 +58,11 @@ class controlCustomer
 		$countPost=Customers::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/affiliate/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/affiliate/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -76,15 +76,15 @@ class controlCustomer
 
 		System::setTitle('Customers');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('customersList',$pageData);
+		Views::make('customersList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 	public function edit()
 	{
@@ -133,17 +133,17 @@ class controlCustomer
 
 		System::setTitle('Edit Customer');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('customerEdit',$pageData);
+		Views::make('customerEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

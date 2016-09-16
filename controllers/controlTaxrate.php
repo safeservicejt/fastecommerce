@@ -13,7 +13,7 @@ class controlTaxrate
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{
@@ -22,7 +22,7 @@ class controlTaxrate
 
 		$userid=Users::getCookieUserId();
 
-		$addWhere="where prefix='".System::getPrefix()."'";
+		$addWhere='';
 
 		$addPage='';		
 
@@ -40,7 +40,7 @@ class controlTaxrate
 		{
 			$txtKeywords=addslashes(trim(Request::get('txtKeywords','')));
 
-			$addWhere="where title LIKE '%$txtKeywords%' AND prefix='".System::getPrefix()."'";
+			$addWhere="where title LIKE '%$txtKeywords%'";
 
 			$addPage='/search/'.base64_encode($txtKeywords);
 		}
@@ -60,7 +60,7 @@ class controlTaxrate
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/taxrate'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/taxrate'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>20,
 			'limitPage'=>5,
@@ -74,15 +74,15 @@ class controlTaxrate
 
 		System::setTitle('Tax Rates');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('taxrateList',$pageData);
+		Views::make('taxrateList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function addnew()
@@ -115,17 +115,17 @@ class controlTaxrate
 
 		System::setTitle('Add Tax Rate');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('taxrateAdd',$pageData);
+		Views::make('taxrateAdd',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit()
@@ -178,17 +178,17 @@ class controlTaxrate
 
 		System::setTitle('Edit Product');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('productEdit',$pageData);
+		Views::make('productEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

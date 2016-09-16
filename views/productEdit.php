@@ -1,7 +1,7 @@
-  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
-<script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
-    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/datepicker/css/datepicker.css">
-  <script src="<?php echo ROOT_URL;?>bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstraps/chosen/bootstrap-chosen.css">
+<script src="<?php echo System::getUrl(); ?>bootstraps/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstraps/datepicker/css/datepicker.css">
+  <script src="<?php echo ROOT_URL;?>bootstraps/datepicker/js/bootstrap-datepicker.js"></script>
   <script src="<?php echo ROOT_URL;?>contents/plugins/fastecommerce/js/jquery-sortable.js"></script>
 
 <style type="text/css">
@@ -486,8 +486,8 @@ ol.list-images li img
 CKEDITOR.replace( 'editor' ,{
   extraPlugins: 'wordcount,notification,texttransform,justify',
 
-  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
+  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
 
 </script>
@@ -498,12 +498,12 @@ CKEDITOR.replace( 'editor' ,{
 CKEDITOR.replace( 'shortdesc' ,{
   extraPlugins: 'wordcount,notification,texttransform,justify',
 
-  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
+  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
 
 </script>
-<script src="<?php echo ROOT_URL;?>bootstrap/chosen/chosen.jquery.js"></script>  
+<script src="<?php echo ROOT_URL;?>bootstraps/chosen/chosen.jquery.js"></script>  
 
 
 <script>

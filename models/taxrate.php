@@ -17,7 +17,7 @@ function actionProcess()
 	switch ($action) {
 		case 'delete':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='no')
 			{

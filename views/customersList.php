@@ -52,7 +52,7 @@
                                     '.$orders.'
                                     </td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/customer/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'plugins/controller/fastecommerce/customer/edit/'.$theList[$i]['userid'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

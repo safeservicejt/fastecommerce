@@ -31,7 +31,7 @@ class FastEcommerce
 	
 		// if($match=Uri::match('\/?member\/(.*?)'))
 		// {
-		// 	System::setUri('/admincp/'.$match[1]);
+		// 	System::setUri('/npanel/'.$match[1]);
 		// }		
 	}
 
@@ -85,21 +85,21 @@ class FastEcommerce
 	    return $number < 0 ? "({$formatted})" : "{$formatted}";
 	} 
 	
-	public static function before_admincp_start()
+	public static function before_npanel_start()
 	{
 
 		System::setSetting('default_adminpage_method','url');
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner!='yes')
 		{	
-			System::setSetting('default_adminpage_url','plugins/privatecontroller/fastecommerce/report/customerstats');
+			System::setSetting('default_adminpage_url','plugins/controller/fastecommerce/report/customerstats');
 
 		}
 		else
 		{
-			System::setSetting('default_adminpage_url','plugins/privatecontroller/fastecommerce/report/adminstats');
+			System::setSetting('default_adminpage_url','plugins/controller/fastecommerce/report/adminstats');
 		}		
 
 		self::admincp_header_content();
@@ -124,7 +124,7 @@ class FastEcommerce
 	{
 		System::defineVar('admincp_navbar_hide_tools','yes');
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		if($owner=='no')
 		{	
@@ -160,7 +160,7 @@ class FastEcommerce
 
 		if(!System::issetVar('site_header'))
 		{
-			System::defineGlobalVar('site_header',$codeHead);
+			System::defineVar('site_header',$codeHead);
 		}
 		else
 		{
@@ -175,7 +175,7 @@ class FastEcommerce
 		
 		// if(!System::issetVar('site_footer'))
 		// {
-		// 	System::defineGlobalVar('site_footer',$codeHead);
+		// 	System::defineVar('site_footer',$codeHead);
 		// }
 		// else
 		// {

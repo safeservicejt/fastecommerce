@@ -16,6 +16,10 @@ class controlSetting
 			}
 		}
 
-		View::makeWithPath('home',$pageData,THIS_VIEW_PATH);
+		Views::nPanelHeader();
+
+		Views::make('home',$pageData);
+
+		Views::nPanelFooter();
 	}
 }

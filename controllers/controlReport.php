@@ -4,7 +4,7 @@ class controlReport
 {
 	public function index()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -34,15 +34,15 @@ class controlReport
 		
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('adminStats',$pageData);
+		Views::make('adminStats',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function customerstats()
@@ -62,15 +62,15 @@ class controlReport
 
 		System::setTitle('Statistics');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('customerStats',$pageData);
+		Views::make('customerStats',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

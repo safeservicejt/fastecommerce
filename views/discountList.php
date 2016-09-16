@@ -1,4 +1,4 @@
-<a href="<?php echo CtrPlugin::url('discount','addnew');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
+<a href="<?php echo Plugins::url('discount','addnew');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
 <div class="panel panel-default">
   <div class="panel-heading">
     <h3 class="panel-title">Discount</h3>
@@ -67,7 +67,7 @@
                                     </td>
                                     <td class="col-lg-1 text-right">'.$status.'</td>
                                     <td class="col-lg-1 text-right">
-                                    <a href="'.System::getAdminUrl().'plugins/privatecontroller/fastecommerce/discount/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getAdminUrl().'plugins/controller/fastecommerce/discount/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 	    						</tr>    						
 	    						<!-- tr -->

@@ -1,4 +1,4 @@
-<script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
+<script src="<?php echo System::getUrl(); ?>bootstraps/ckeditor/ckeditor.js"></script>
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -52,8 +52,8 @@
 CKEDITOR.replace( 'editor' ,{
   extraPlugins: 'wordcount,notification,texttransform,justify',
 
-  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
-  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstrap/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
+  filebrowserBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=2&editor=ckeditor&fldr=',
+  filebrowserImageBrowseUrl : '<?php echo System::getUrl();?>bootstraps/ckeditor/filemanager/dialog.php?type=1&editor=ckeditor&fldr='
 });   
 
 </script>

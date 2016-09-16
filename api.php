@@ -113,7 +113,7 @@ class SelfApi
 
     public static function getEmaiListMarketing()
     {
-        $owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+        $owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
         $userid=Users::getCookieUserId();
 
@@ -166,7 +166,7 @@ class SelfApi
 
     public static function sendEmail()
     {
-        $owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+        $owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
         $userid=Users::getCookieUserId();
 

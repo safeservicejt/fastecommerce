@@ -91,7 +91,7 @@
                                     <td class="col-lg-2 col-md-2 col-sm-2 "><strong class="text-success">'.FastEcommerce::money_format($theList[$i]['total']).'</strong></td>                                    
                                     <td class="col-lg-2 col-md-2 col-sm-2 ">'.$status.'</td>
 
-                                    <td class="col-lg-2 col-md-2 col-sm-2 text-right"><a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order/view/'.$theList[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">View</a>
+                                    <td class="col-lg-2 col-md-2 col-sm-2 text-right"><a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/order/view/'.$theList[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">View</a>
                                     <button type="button" class="btn btn-danger btn-sm btn-remove-order" data-id="4">Remove</button>
                                     </td>
                                 </tr>

@@ -2,142 +2,58 @@
 
 class Reviews
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('reviews');
 
-		$limitQuery="";
+		Table::setFields('id,productid,fullname,url,email,date_added,status,content,userid,report,rating');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$total=count($rows);
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+			for ($i=0; $i < $total; $i++) { 
 
-		$limitPosition=$limitPage*(int)$limitShow;
+				if(isset($rows[$i]['title']))
+				{
+					$rows[$i]['title']=String::decode($rows[$i]['title']);
+				}
 
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
+				if(isset($rows[$i]['fullname']))
+				{
+					$rows[$i]['fullname']=String::decode($rows[$i]['fullname']);
+				}
 
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+				if(isset($rows[$i]['url']))
+				{
+					$rows[$i]['url']=String::decode($rows[$i]['url']);
+				}
 
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
+				if(isset($rows[$i]['email']))
+				{
+					$rows[$i]['email']=String::decode($rows[$i]['email']);
+				}
 
-		$field="id,prefix,productid,fullname,url,email,date_added,status,content,userid,report,rating".$moreFields;
+				if(isset($rows[$i]['content']))
+				{
+					$rows[$i]['content']=String::decode($rows[$i]['content']);
 
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
+					// die($rows[$i]['content']);
+				}
 
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
+				if(isset($rows[$i]['date_added']))
+				{
+					$rows[$i]['date_addedFormat']=Render::dateFormat($rows[$i]['date_added']);	
+				}
 
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."reviews $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/reviews/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
 			}
 
-			// end load			
-		}
+			return $rows;
 
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-				if(isset($row['title']))
-				{
-					$row['title']=String::decode($row['title']);
-				}
-
-				if(isset($row['fullname']))
-				{
-					$row['fullname']=String::decode($row['fullname']);
-				}
-
-				if(isset($row['url']))
-				{
-					$row['url']=String::decode($row['url']);
-				}
-
-				if(isset($row['email']))
-				{
-					$row['email']=String::decode($row['email']);
-				}
-
-				if(isset($row['content']))
-				{
-					$row['content']=String::decode($row['content']);
-
-					// die($row['content']);
-				}
-
-				if(isset($row['date_added']))
-				{
-					$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
-				}
-									
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/reviews/'.$md5Query,serialize($result));
-
-		// end save
-
+		});
 
 		return $result;
-		
 	}
-
-
-
-	public static function cachePath()
-	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/reviews/';
-
-		return $result;
-	}	
 
 
 	public static function saveCache($productid)
@@ -203,177 +119,91 @@ class Reviews
 		}
 	}
 
+
 	public static function insert($inputData=array())
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		CustomPlugins::load('before_review_insert',$inputData);
+		Table::setTable('reviews');
 
-		$addMultiAgrs='';
+		$result=Table::insert($inputData,function($inputData){
 
-		$inputData['date_added']=date('Y-m-d H:i:s');
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
-		if(isset($inputData['fullname']))
-		{
-			$inputData['fullname']=String::encode($inputData['fullname']);
-		}
+			if(isset($inputData['fullname']))
+			{
+				$inputData['fullname']=String::encode($inputData['fullname']);
+			}
 
-		if(isset($inputData['url']))
-		{
-			$inputData['url']=String::encode($inputData['url']);
-		}
+			if(isset($inputData['url']))
+			{
+				$inputData['url']=String::encode($inputData['url']);
+			}
 
-		if(isset($inputData['email']))
-		{
-			$inputData['email']=String::encode($inputData['email']);
-		}
+			if(isset($inputData['email']))
+			{
+				$inputData['email']=String::encode($inputData['email']);
+			}
 
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=String::encode($inputData['content']);
-		}
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=String::encode($inputData['content']);
+			}
 
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
+			return $inputData;
 
-		$keyNames=array_keys($inputData);
+		},function($inputData){
+			if(isset($inputData['id']))
+			{
+				self::update($inputData['id'],array(
+					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					));
+			}
+		});
 
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."reviews($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
-
-			CustomPlugins::load('after_review_insert',$inputData);
-
-			return $id;	
-		}
-
-		return false;
-	
+		return $result;
 	}
 
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$updateData=array())
 	{
+		Table::setTable('reviews');
 
-		if(is_numeric($post))
-		{
-			$id=$post;
+		$result=Table::update($listID,$updateData,function($inputData){
+	
+		
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=String::encode($inputData['content']);
+			}
+		
+			if(isset($inputData['fullname']))
+			{
+				$inputData['fullname']=String::encode($inputData['fullname']);
+			}
+		
+			if(isset($inputData['url']))
+			{
+				$inputData['url']=String::encode($inputData['url']);
+			}
+		
+			if(isset($inputData['email']))
+			{
+				$inputData['email']=String::encode($inputData['email']);
+			}
 
-			unset($post);
+			return $inputData;
+		});
 
-			$post=array($id);
-		}
+		Post::saveCache($listID);
 
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		CustomPlugins::load('before_review_remove',$post);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."reviews where $whereQuery $addWhere";
-
-
-		$result=array();
-
-
-		Database::query($command);	
-
-		CustomPlugins::load('after_review_remove',$post);
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
+		return $result;
 	}
 
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function remove($inputIDs=array(),$whereQuery='')
 	{
+		Table::setTable('reviews');
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
+		$result=Table::remove($inputIDs,$whereQuery);
 
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		CustomPlugins::load('before_review_update',$listID);
-				
-	
-		if(isset($post['content']))
-		{
-			$post['content']=String::encode($post['content']);
-		}
-	
-		if(isset($post['fullname']))
-		{
-			$post['fullname']=String::encode($post['fullname']);
-		}
-	
-		if(isset($post['url']))
-		{
-			$post['url']=String::encode($post['url']);
-		}
-	
-		if(isset($post['email']))
-		{
-			$post['email']=String::encode($post['email']);
-		}
-	
-				
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."reviews set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			CustomPlugins::load('after_review_update',$listID);
-
-			return true;
-		}
-
-		return false;
+		return $result;
 	}
 
 

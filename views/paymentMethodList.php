@@ -35,13 +35,13 @@
 
 						$status='<span class="text-danger">Deactivate</span>';
 
-						$install='<a href="'.CtrPlugin::url('paymentmethod','activate').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Activate</a>';
+						$install='<a href="'.Plugins::url('paymentmethod','activate').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Activate</a>';
 
 						if((int)$theList[$keyName]['status']==1)
 						{
 							$status='<span class="text-success">Activated</span>';
 
-							$install='<a href="'.CtrPlugin::url('paymentmethod','deactivate').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Deactivate</a>';							
+							$install='<a href="'.Plugins::url('paymentmethod','deactivate').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Deactivate</a>';							
 						}
 
 						$li.='
@@ -50,7 +50,7 @@
 							<td>
 								<div>'.$theList[$keyName]['title'].'</div>
 								<div>
-									<a href="'.CtrPlugin::url('paymentmethod','setting').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Setting</a>
+									<a href="'.Plugins::url('paymentmethod','setting').$theList[$keyName]['foldername'].'" style="font-size:13px;margin-right:15px;">Setting</a>
 									'.$install.'
 								</div>
 							</td>

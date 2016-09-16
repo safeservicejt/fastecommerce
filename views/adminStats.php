@@ -112,7 +112,7 @@
 								</td>
 								<td class="col-lg-3 col-md-3 col-sm-3 ">'.$status.'</td>
 								<td class="col-lg-3 col-md-3 col-sm-3 "><strong class="text-success">'.FastEcommerce::money_format($listOrders[$i]['total']).'</strong></td>
-								<td class="col-lg-2 col-md-2 col-sm-2 text-right"><a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order/view/'.$listOrders[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">View</a></td>
+								<td class="col-lg-2 col-md-2 col-sm-2 text-right"><a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/order/view/'.$listOrders[$i]['id'].'" class="btn btn-primary btn-sm" target="_blank">View</a></td>
 							</tr>
 
 							';

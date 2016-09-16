@@ -2,335 +2,241 @@
 
 class Products
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('products');
 
-		$limitQuery="";
+		Table::setFields('id,catid,category_str,title,friendly_url,date_added,views,rating,likes,reviews,orders,points,sku,upc,model,content,shortdesc,image,userid,is_featured,date_featured,require_shipping,brandid,quantity,sort_order,require_minimum,date_available,date_expires,price,sale_price,sale_price_from,sale_price_to,status,type,category_data,brand_data,tag_data,attr_data,attr_str,download_data,image_data,discount_data,weight,shipping_class,is_stock_manage,purchase_note,enable_review,page_title,descriptions,keywords,review_data');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$discountData=array();
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
-
-		$limitPosition=$limitPage*(int)$limitShow;
-
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
-
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
-
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
-
-		$field="id,prefix,catid,category_str,title,friendly_url,date_added,views,rating,likes,reviews,orders,points,sku,upc,model,content,shortdesc,image,userid,is_featured,date_featured,require_shipping,brandid,quantity,sort_order,require_minimum,date_available,date_expires,price,sale_price,sale_price_from,sale_price_to,status,type,category_data,brand_data,tag_data,attr_data,attr_str,download_data,image_data,discount_data,weight,shipping_class,is_stock_manage,purchase_note,enable_review,page_title,descriptions,keywords,review_data".$moreFields;
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."products $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		// $result=array();
-
-		
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/products/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
+			if(isset(Discounts::$data['id']))
 			{
-				$result=unserialize($loadCache);
-				// return $loadCache;
-			}
+				$discountData=Discounts::$data;
+			}	
 
-			// end load			
-		}
-		else
-		{
-			$query=Database::query($queryCMD);
-			
+			$todayTime=time();
 
-			if(isset(Database::$error[5]))
-			{
-				return false;
-			}
+			$total=count($rows);
 
-			$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-		
-			if((int)$query->num_rows > 0)
-			{
+			for ($i=0; $i < $total; $i++) { 
 
-				while($row=Database::fetch_assoc($query))
+				if(isset($rows[$i]['sale_price_from']))
 				{
-												
-					$result[]=$row;
+					$sale_price_from=strtotime($rows[$i]['sale_price_from']);
+
+					$sale_price_to=strtotime($rows[$i]['sale_price_to']);
+					
+					if((int)$sale_price_from > (int)$todayTime)
+					{
+						$rows[$i]['sale_price']=$rows[$i]['price'];
+					}				
+				}
+			
+				if(isset($rows[$i]['sale_price']))
+				{
+					$rows[$i]['discount_price']=$rows[$i]['sale_price'];
+				}
+
+				if(isset($discountData['id']) && isset($rows[$i]['sale_price']))
+				{
+					$percent=$discountData['percent'];
+
+					$rows[$i]['discount_price']=(double)$rows[$i]['discount_price']-((double)$rows[$i]['discount_price']*((double)$percent/100));
+
+					$rows[$i]['price']=$rows[$i]['sale_price'];
+
+					$rows[$i]['sale_price']=$rows[$i]['discount_price'];
+
+				}
+
+				if(isset($rows[$i]['price']) && isset($rows[$i]['sale_price']))
+				{
+					$rows[$i]['percent_discount']=intval((1-((double)$rows[$i]['discount_price']/(double)$rows[$i]['price']))*100);
+				}
+
+				if(isset($rows[$i]['title']))
+				{
+					$rows[$i]['title']=String::decode($rows[$i]['title']);
+				}
+				
+				if(isset($rows[$i]['shortdesc']))
+				{
+					$rows[$i]['shortdesc']=String::decode($rows[$i]['shortdesc']);
+				}
+				
+				if(isset($rows[$i]['page_title']))
+				{
+					$rows[$i]['page_title']=String::decode($rows[$i]['page_title']);
+				}
+				
+				if(isset($rows[$i]['descriptions']))
+				{
+					$rows[$i]['descriptions']=String::decode($rows[$i]['descriptions']);
+				}
+				
+				if(isset($rows[$i]['keywords']))
+				{
+					$rows[$i]['keywords']=String::decode($rows[$i]['keywords']);
+				}
+				
+				if(isset($rows[$i]['purchase_note']))
+				{
+					$rows[$i]['purchase_note']=String::decode($rows[$i]['purchase_note']);
+				}
+
+				if(isset($rows[$i]['category_data'][10]))
+				{
+					$rows[$i]['category_data']=unserialize($rows[$i]['category_data']);
+				}
+
+				if(isset($rows[$i]['brand_data'][10]))
+				{
+					$rows[$i]['brand_data']=unserialize($rows[$i]['brand_data']);
+				}
+
+				if(isset($rows[$i]['review_data'][10]))
+				{
+					$rows[$i]['review_data']=unserialize($rows[$i]['review_data']);
+
+					$totalReview=count($rows[$i]['review_data']);
+
+					if($totalReview < 5)
+					{
+						for ($k=0; $k < $totalReview; $k++) { 
+							$rows[$k]['review_data'][$k]=isset($rows[$k]['review_data'][$k])?$rows[$k]['review_data'][$k]:0;
+						}						
+					}
+
+				}
+
+				if(isset($rows[$i]['tag_data'][10]))
+				{
+					$rows[$i]['tag_data']=unserialize($rows[$i]['tag_data']);
+				}
+
+				if(isset($rows[$i]['attr_data'][10]))
+				{
+					$rows[$i]['attr_data']=unserialize($rows[$i]['attr_data']);
+				}
+
+				if(isset($rows[$i]['download_data'][10]))
+				{
+					$rows[$i]['download_data']=unserialize($rows[$i]['download_data']);
+				}
+
+				if(isset($rows[$i]['image_data'][10]))
+				{
+					$rows[$i]['image_data']=unserialize($rows[$i]['image_data']);
+				}
+
+				if(isset($rows[$i]['discount_data'][10]))
+				{
+					$rows[$i]['discount_data']=unserialize($rows[$i]['discount_data']);
+				}
+
+				if(isset($rows[$i]['friendly_url']))
+				{
+					$rows[$i]['url']=System::getUrl().'product/'.$rows[$i]['friendly_url'].'.html';
+				}
+
+				if(isset($rows[$i]['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $rows[$i]['image']))
+				{
+					if(!preg_match('/^http/i', $rows[$i]['image']))
+					{
+						$rows[$i]['imageUrl']=System::getUrl().$rows[$i]['image'];
+					}
+					else
+					{
+						$rows[$i]['imageUrl']=System::getUrl().'plugins/fastecommerce/images/noimg.jpg';
+					}
+					
+				}
+
+				if(isset($rows[$i]['content']))
+				{
+					$rows[$i]['content']=String::decode($rows[$i]['content']);
+
+				}
+
+				if(isset($rows[$i]['weight']))
+				{
+					$rows[$i]['weightFormat']=number_format($rows[$i]['weight']);
+
+				}
+
+				if(isset($rows[$i]['price']))
+				{
+					$rows[$i]['priceFormat']=FastEcommerce::money_format($rows[$i]['price']);
+
+				}
+
+				if(isset($rows[$i]['sale_price']))
+				{
+					$rows[$i]['sale_priceFormat']=FastEcommerce::money_format($rows[$i]['sale_price']);
+
+				}
+
+
+
+				if(isset($rows[$i]['views']))
+				{
+					$rows[$i]['viewsFormat']=number_format($rows[$i]['views']);
+
+				}
+
+				if(isset($rows[$i]['likes']))
+				{
+					$rows[$i]['likesFormat']=number_format($rows[$i]['likes']);
+
+				}
+
+				if(isset($rows[$i]['reviews']))
+				{
+					$rows[$i]['reviewsFormat']=number_format($rows[$i]['reviews']);
+
+				}
+
+				if(isset($rows[$i]['orders']))
+				{
+					$rows[$i]['ordersFormat']=number_format($rows[$i]['orders']);
+
+				}
+
+				if(isset($rows[$i]['points']))
+				{
+					$rows[$i]['pointsFormat']=number_format($rows[$i]['points']);
+
+				}
+
+				if(isset($rows[$i]['date_added']))
+				{
+					$rows[$i]['date_addedFormat']=Render::dateFormat($rows[$i]['date_added']);	
+				}
+				
+
+				if($inputData['isHook']=='yes')
+				{
+					if(isset($rows[$i]['content']))
+					{
+						$rows[$i]['content']=String::decode($rows[$i]['content']);
+
+						$rows[$i]['content']=html_entity_decode($rows[$i]['content']);
+						
+						$rows[$i]['content']=Shortcode::render($rows[$i]['content']);
+					}
+					
 				}		
-			}
-			else
-			{
-				return false;
-			}
-		}
-
-		$discountData=array();
-
-		if(isset(Discounts::$data['id']))
-		{
-			$discountData=Discounts::$data;
-		}	
-
-		$todayTime=time();
-
-		$total=count($result);
-
-		for ($i=0; $i < $total; $i++) { 
-
-			$row=$result[$i];
-
-			if(isset($row['sale_price_from']))
-			{
-				$sale_price_from=strtotime($row['sale_price_from']);
-
-				$sale_price_to=strtotime($row['sale_price_to']);
-				
-				if((int)$sale_price_from > (int)$todayTime)
-				{
-					$row['sale_price']=$row['price'];
-				}				
-			}
-		
-			if(isset($row['sale_price']))
-			{
-				$row['discount_price']=$row['sale_price'];
-			}
-
-			if(isset($discountData['id']) && isset($row['sale_price']))
-			{
-				$percent=$discountData['percent'];
-
-				$row['discount_price']=(double)$row['discount_price']-((double)$row['discount_price']*((double)$percent/100));
-
-				$row['price']=$row['sale_price'];
-
-				$row['sale_price']=$row['discount_price'];
 
 			}
 
-			if(isset($row['price']) && isset($row['sale_price']))
-			{
-				$row['percent_discount']=intval((1-((double)$row['discount_price']/(double)$row['price']))*100);
-			}
+			return $rows;
 
-			if(isset($row['title']))
-			{
-				$row['title']=String::decode($row['title']);
-			}
-			
-			if(isset($row['shortdesc']))
-			{
-				$row['shortdesc']=String::decode($row['shortdesc']);
-			}
-			
-			if(isset($row['page_title']))
-			{
-				$row['page_title']=String::decode($row['page_title']);
-			}
-			
-			if(isset($row['descriptions']))
-			{
-				$row['descriptions']=String::decode($row['descriptions']);
-			}
-			
-			if(isset($row['keywords']))
-			{
-				$row['keywords']=String::decode($row['keywords']);
-			}
-			
-			if(isset($row['purchase_note']))
-			{
-				$row['purchase_note']=String::decode($row['purchase_note']);
-			}
-
-			if(isset($row['category_data'][10]))
-			{
-				$row['category_data']=unserialize($row['category_data']);
-			}
-
-			if(isset($row['brand_data'][10]))
-			{
-				$row['brand_data']=unserialize($row['brand_data']);
-			}
-
-			if(isset($row['review_data'][10]))
-			{
-				$row['review_data']=unserialize($row['review_data']);
-
-				$totalReview=count($row['review_data']);
-
-				if($totalReview < 5)
-				{
-					for ($i=0; $i < $totalReview; $i++) { 
-						$row['review_data'][$i]=isset($row['review_data'][$i])?$row['review_data'][$i]:0;
-					}						
-				}
-
-			}
-
-			if(isset($row['tag_data'][10]))
-			{
-				$row['tag_data']=unserialize($row['tag_data']);
-			}
-
-			if(isset($row['attr_data'][10]))
-			{
-				$row['attr_data']=unserialize($row['attr_data']);
-			}
-
-			if(isset($row['download_data'][10]))
-			{
-				$row['download_data']=unserialize($row['download_data']);
-			}
-
-			if(isset($row['image_data'][10]))
-			{
-				$row['image_data']=unserialize($row['image_data']);
-			}
-
-			if(isset($row['discount_data'][10]))
-			{
-				$row['discount_data']=unserialize($row['discount_data']);
-			}
-
-			if(isset($row['friendly_url']))
-			{
-				$row['url']=self::url($row['friendly_url']);
-			}
-
-			if(isset($row['image']) && preg_match('/.*?\.(gif|png|jpe?g)/i', $row['image']))
-			{
-				if(!preg_match('/^http/i', $row['image']))
-				{
-					$row['imageUrl']=System::getUrl().$row['image'];
-				}
-				else
-				{
-					$row['imageUrl']=System::getUrl().'plugins/fastecommerce/images/noimg.jpg';
-				}
-				
-			}
-
-			if(isset($row['content']))
-			{
-				$row['content']=String::decode($row['content']);
-
-			}
-
-			if(isset($row['weight']))
-			{
-				$row['weightFormat']=number_format($row['weight']);
-
-			}
-
-			if(isset($row['price']))
-			{
-				$row['priceFormat']=FastEcommerce::money_format($row['price']);
-
-			}
-
-			if(isset($row['sale_price']))
-			{
-				$row['sale_priceFormat']=FastEcommerce::money_format($row['sale_price']);
-
-			}
-
-
-
-			if(isset($row['views']))
-			{
-				$row['viewsFormat']=number_format($row['views']);
-
-			}
-
-			if(isset($row['likes']))
-			{
-				$row['likesFormat']=number_format($row['likes']);
-
-			}
-
-			if(isset($row['reviews']))
-			{
-				$row['reviewsFormat']=number_format($row['reviews']);
-
-			}
-
-			if(isset($row['orders']))
-			{
-				$row['ordersFormat']=number_format($row['orders']);
-
-			}
-
-			if(isset($row['points']))
-			{
-				$row['pointsFormat']=number_format($row['points']);
-
-			}
-
-			if(isset($row['date_added']))
-			{
-				$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
-			}
-			
-
-			if($inputData['isHook']=='yes')
-			{
-				if(isset($row['content']))
-				{
-					$row['content']=String::decode($row['content']);
-
-					$row['content']=html_entity_decode($row['content']);
-					
-					$row['content']=Shortcode::loadInTemplate($row['content']);
-
-					$row['content']=Shortcode::load($row['content']);
-					
-					$row['content']=Shortcode::toHTML($row['content']);
-				}
-				
-			}		
-
-			$result[$i]=$row;	
-		}
-
-		// Save dbcache
-		Cache::saveKey('dbcache/system/products/'.$md5Query,serialize($result));
-
-		// end save
-
+		});
 
 		return $result;
-		
 	}
 
 	public static function addReview($prodID,$userid,$rating,$content)
@@ -630,25 +536,18 @@ class Products
 
 	public static function upToCategories($addWhere,$total=1)
 	{
-		Database::query("update ".Database::getPrefix()."categories set products=products+$total $addWhere");
+		Database::query("update categories set products=products+$total $addWhere");
 	}
 
 	public static function up($addWhere='',$field='',$total=1)
 	{
-		Database::query("update ".Database::getPrefix()."products set $field=$field+$total $addWhere");
+		Database::query("update products set $field=$field+$total $addWhere");
 	}
 
 	public static function down($addWhere='',$field='',$total=1)
 	{
-		Database::query("update ".Database::getPrefix()."products set $field=$field-$total $addWhere");
+		Database::query("update products set $field=$field-$total $addWhere");
 	}
-
-	public static function cachePath()
-	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/products/';
-
-		return $result;
-	}	
 
 	public static function exists($id)
 	{
@@ -794,8 +693,8 @@ class Products
 
 			if($totalReview < 5)
 			{
-				for ($i=0; $i < $totalReview; $i++) { 
-					$loadData['review_data'][$i]=isset($loadData['review_data'][$i])?$loadData['review_data'][$i]:0;
+				for ($k=0; $k < $totalReview; $k++) { 
+					$loadData['review_data'][$k]=isset($loadData['review_data'][$k])?$loadData['review_data'][$k]:0;
 				}						
 			}
 
@@ -911,12 +810,8 @@ class Products
 			$loadData['content']=String::decode($loadData['content']);
 
 			$loadData['content']=html_entity_decode($loadData['content']);
-			
-			$loadData['content']=Shortcode::loadInTemplate($loadData['content']);
 
-			$loadData['content']=Shortcode::load($loadData['content']);
-			
-			$loadData['content']=Shortcode::toHTML($loadData['content']);
+			$loadData['content']=Shortcode::render($loadData['content']);
 		}
 		return $loadData;
 
@@ -954,279 +849,163 @@ class Products
 
 	public static function insert($inputData=array())
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		CustomPlugins::load('before_product_insert',$inputData);
+		Table::setTable('products');
 
-		if(!isset($inputData['title']))
-		{
-			return false;
-		}
+		$result=Table::insert($inputData,function($inputData){
 
-		if(!isset($inputData['userid']))
-		{
-			$inputData['userid']=Users::getCookieUserId();
-		}
-
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
-
-		$addMultiAgrs='';
-
-		$inputData['date_added']=date('Y-m-d H:i:s');
-
-		$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
-
-		if(!isset($inputData['friendly_url']))
-		{
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
-
-		}
-		
-		$inputData['title']=String::encode(strip_tags($inputData['title']));
-
-		if(isset($inputData['content']))
-		{
-			$inputData['content']=String::encode($inputData['content']);
-		}
-
-		if(isset($inputData['keywords']))
-		{
-			$inputData['keywords']=String::encode($inputData['keywords']);
-		}
-
-		if(isset($inputData['descriptions']))
-		{
-			$inputData['descriptions']=String::encode($inputData['descriptions']);
-		}
-
-		if(isset($inputData['page_title']) && isset($inputData['page_title'][2]))
-		{
-			$inputData['page_title']=String::encode($inputData['page_title']);
-		}
-		else
-		{
-			$inputData['page_title']=$inputData['title'];
-		}
-
-		if(isset($inputData['shortdesc']))
-		{
-			$inputData['shortdesc']=String::encode($inputData['shortdesc']);
-		}
-
-		if(isset($inputData['purchase_note']))
-		{
-			$inputData['purchase_note']=String::encode($inputData['purchase_note']);
-		}
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."products($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$friendly_url=$inputData['friendly_url'].'-'.$id;
-
-			Database::query("update ".Database::getPrefix()."products set friendly_url='".$friendly_url."' where id='$id'");
-
-			$inputData['id']=$id;
-
-			CustomPlugins::load('after_product_insert',$inputData);
-
-			return $id;	
-		}
-
-		return false;
-	
-	}
-
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($post))
-		{
-			$id=$post;
-
-			unset($post);
-
-			$post=array($id);
-		}
-
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		CustomPlugins::load('before_product_remove',$post);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."products where $whereQuery $addWhere";
-
-
-		$result=array();
-
-		$loadData=self::get(array(
-			'cache'=>'no',
-			'isHook'=>'no',
-			'selectFields'=>'id',
-			'where'=>"where  $whereQuery $addWhere"
-			));
-
-		if(isset($loadData[0]['id']))
-		{
-			$total=count($loadData);
-
-			for ($i=0; $i < $total; $i++) { 
-				$result[]=$loadData[$i]['id'];
-			}
-
-			$listID="'".implode("','",$result)."'";
-
-			ProductTags::remove(array(0),"productid IN ($listID)");
-
-			ProductImages::remove(array(0),"productid IN ($listID)");
-
-			ProductBrands::remove(array(0),"productid IN ($listID)");
-
-			ProductDiscounts::remove(array(0),"productid IN ($listID)");
-
-			ProductDownloads::remove(array(0),"productid IN ($listID)");
-
-			ProductReviews::remove(array(0),"productid IN ($listID)");
-
-			ProductCategories::remove(array(0),"productid IN ($listID)");
-			
-		}
-
-		Database::query($command);	
-
-		CustomPlugins::load('after_product_remove',$post);
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
-	}
-
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
-	{
-
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
-
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		CustomPlugins::load('before_product_update',$listID);
-				
-		if(isset($post['title']))
-		{
-			$postTitle=isset($post['addTitle'])?$post['addTitle']:$post['title'];
-
-			$post['title']=String::encode(strip_tags($post['title']));
-		}
-
-		if(isset($post['friendly_url']))
-		{
-			$loadData=self::get(array(
-				'cache'=>'no',
-				'where'=>"where friendly_url='".$post['friendly_url']."' AND id<>'".$listID[0]."'"
-				));
-
-			if(isset($loadData[0]['id']))
+			if(!isset($inputData['title']))
 			{
 				return false;
 			}
 
-		}
+			if(!isset($inputData['userid']))
+			{
+				$inputData['userid']=Users::getCookieUserId();
+			}
 
-		if(isset($post['content']))
-		{
-			$post['content']=String::encode($post['content']);
-		}
+			$addMultiAgrs='';
 
-		if(isset($post['keywords']))
-		{
-			$post['keywords']=String::encode($post['keywords']);
-		}
+			$inputData['date_added']=date('Y-m-d H:i:s');
 
-		if(isset($post['descriptions']))
-		{
-			$post['descriptions']=String::encode($post['descriptions']);
-		}
+			$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
 
-		if(isset($post['page_title']) && isset($post['title']) )
-		{
-			$post['page_title']=String::encode($post['page_title']);
-		}
-		elseif(isset($post['title']))
-		{
-			$post['page_title']=$post['title'];
-		}
+			if(!isset($inputData['friendly_url']))
+			{
+				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
 
-		if(isset($post['shortdesc']))
-		{
-			$post['shortdesc']=String::encode($post['shortdesc']);
-		}
+			}
+			
+			$inputData['title']=String::encode(strip_tags($inputData['title']));
 
-		if(isset($post['purchase_note']))
-		{
-			$post['purchase_note']=String::encode($post['purchase_note']);
-		}
-				
-		$keyNames=array_keys($post);
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=String::encode($inputData['content']);
+			}
 
-		$total=count($post);
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=String::encode($inputData['keywords']);
+			}
 
-		$setUpdates='';
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=String::encode($inputData['descriptions']);
+			}
 
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
+			if(isset($inputData['page_title']) && isset($inputData['page_title'][2]))
+			{
+				$inputData['page_title']=String::encode($inputData['page_title']);
+			}
+			else
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
 
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
+			if(isset($inputData['shortdesc']))
+			{
+				$inputData['shortdesc']=String::encode($inputData['shortdesc']);
+			}
 
-		Database::query("update ".Database::getPrefix()."products set $setUpdates where $whereQuery $addWhere");
+			if(isset($inputData['purchase_note']))
+			{
+				$inputData['purchase_note']=String::encode($inputData['purchase_note']);
+			}
+			
 
-		// DBCache::removeDir('system/post');
+			return $inputData;
 
-		// DBCache::removeCache($listIDs,'system/post');
+		},function($inputData){
+			if(isset($inputData['id']))
+			{
+				self::update($inputData['id'],array(
+					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					));
+			}
+		});
 
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			CustomPlugins::load('after_product_update',$listID);
-
-			return true;
-		}
-
-		return false;
+		return $result;
 	}
+
+	public static function update($listID,$updateData=array())
+	{
+		Table::setTable('products');
+
+		$result=Table::update($listID,$updateData,function($inputData){
+
+			if(isset($inputData['title']))
+			{
+				$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
+
+				$inputData['title']=String::encode(strip_tags($inputData['title']));
+			}
+
+			if(isset($inputData['content']))
+			{
+				$inputData['content']=String::encode($inputData['content']);
+			}
+
+			if(isset($inputData['keywords']))
+			{
+				$inputData['keywords']=String::encode($inputData['keywords']);
+			}
+
+			if(isset($inputData['descriptions']))
+			{
+				$inputData['descriptions']=String::encode($inputData['descriptions']);
+			}
+
+			if(isset($inputData['page_title']) && isset($inputData['title']) )
+			{
+				$inputData['page_title']=String::encode($inputData['page_title']);
+			}
+			elseif(isset($inputData['title']))
+			{
+				$inputData['page_title']=$inputData['title'];
+			}
+
+			if(isset($inputData['shortdesc']))
+			{
+				$inputData['shortdesc']=String::encode($inputData['shortdesc']);
+			}
+
+			if(isset($inputData['purchase_note']))
+			{
+				$inputData['purchase_note']=String::encode($inputData['purchase_note']);
+			}
+
+			return $inputData;
+		});
+
+
+		return $result;
+	}
+
+	public static function remove($inputIDs=array(),$whereQuery='')
+	{
+		Table::setTable('products');
+
+		$result=Table::remove($inputIDs,$whereQuery);
+
+		$listID="'".implode("','", $inputIDs)."'";
+
+		ProductTags::remove(array(0),"productid IN ($listID)");
+
+		ProductImages::remove(array(0),"productid IN ($listID)");
+
+		ProductBrands::remove(array(0),"productid IN ($listID)");
+
+		ProductDiscounts::remove(array(0),"productid IN ($listID)");
+
+		ProductDownloads::remove(array(0),"productid IN ($listID)");
+
+		ProductReviews::remove(array(0),"productid IN ($listID)");
+
+		ProductCategories::remove(array(0),"productid IN ($listID)");
+
+
+		return $result;
+	}
+
 
 
 }

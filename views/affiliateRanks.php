@@ -69,7 +69,7 @@
                                     <td class="col-lg-2">'.$theList[$i]['commission'].' %</td>
                                     <td class="col-lg-2 text-right">'.$status.'</td>
  	    							<td class="col-lg-1 text-right">
-                                    <a href="'.System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="'.System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/ranks/edit/'.$theList[$i]['id'].'" class="btn btn-warning btn-xs">Edit</a>
                                     </td>
 
 	    						</tr>    						
@@ -213,7 +213,7 @@
                 </p>   
 	    		<p>
 	    			<button type="submit" class="btn btn-primary" name="btnSave">Save changes</button>
-                    <a href="<?php echo System::getUrl();?>admincp/plugins/privatecontroller/fastecommerce/affiliate/ranks" class="btn btn-default pull-right">Back</a>
+                    <a href="<?php echo System::getUrl();?>npanel/plugins/controller/fastecommerce/affiliate/ranks" class="btn btn-default pull-right">Back</a>
 	    		</p>   		
                 </form> 	
     		</div>

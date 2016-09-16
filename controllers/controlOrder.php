@@ -4,7 +4,7 @@ class controlOrder
 {
 	public function index()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -20,7 +20,7 @@ class controlOrder
 
 	public function view()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -36,7 +36,7 @@ class controlOrder
 
 	public function emailmarketing()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -69,21 +69,21 @@ class controlOrder
 
 		System::setTitle('Email Marketing');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('systemEmailMarketing',$pageData);
+		Views::make('systemEmailMarketing',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 
 	}
 
 	public function sendemail()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -140,21 +140,21 @@ class controlOrder
 
 		System::setTitle('Send Email');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('systemOrderSendEmail',$pageData);
+		Views::make('systemOrderSendEmail',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 
 	}
 
 	public function cancel()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -173,7 +173,7 @@ class controlOrder
 
 			Orders::saveCache($orderid);	
 
-			Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order');
+			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 		}
 		else
 		{
@@ -181,12 +181,12 @@ class controlOrder
 
 			if(!$loadOrder)
 			{
-				Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order');
+				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 			}
 
 			if((int)$userid!=(int)$loadOrder['userid'])
 			{
-				Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order');
+				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 			}
 
 			Orders::update($orderid,array(
@@ -197,7 +197,7 @@ class controlOrder
 
         	Notifies::sendOrderCanceledEmail($orderid);
 
-			Redirect::to(System::getUrl().'admincp/plugins/privatecontroller/fastecommerce/order');
+			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 		}
 	}
 
@@ -212,7 +212,7 @@ class controlOrder
 			$orderid=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 		
@@ -253,15 +253,15 @@ class controlOrder
 
 		System::setTitle('Orders');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('systemOrderView',$pageData);
+		Views::make('systemOrderView',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function userView()
@@ -275,7 +275,7 @@ class controlOrder
 			$orderid=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -304,20 +304,20 @@ class controlOrder
 
 		System::setTitle('Orders');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('userOrderView',$pageData);
+		Views::make('userOrderView',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function edit()
 	{
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -342,7 +342,7 @@ class controlOrder
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 
 		$userid=Users::getCookieUserId();
@@ -366,17 +366,17 @@ class controlOrder
 			'limitShow'=>30,
 			'limitPage'=>$curPage,
 			'cache'=>'no',
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$countPost=Orders::get(array(
 			'cache'=>'no',
 			'selectFields'=>"count(id) as totalRow",
-			'where'=>"where prefix='".System::getPrefix()."'"
+			'where'=>$addWhere
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/order/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -390,15 +390,15 @@ class controlOrder
 
 		System::setTitle('Orders');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('systemOrderList',$pageData);
+		Views::make('systemOrderList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function userOrder()
@@ -412,7 +412,7 @@ class controlOrder
 			$curPage=$match[1];
 		}
 
-		$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
@@ -433,7 +433,7 @@ class controlOrder
 
 		if($owner!='yes')
 		{
-			$addWhere.=!isset($addWhere[5])?"where userid='$userid' AND prefix='".System::getPrefix()."'":" AND userid='$userid' AND prefix='".System::getPrefix()."'";
+			$addWhere.=!isset($addWhere[5])?"where userid='$userid'":" AND userid='$userid'";
 		}		
 
 		$pageData['theList']=Orders::get(array(
@@ -450,7 +450,7 @@ class controlOrder
 			));
 
 		$pageData['pages']=Misc::genSmallPage(array(
-			'url'=>'admincp/plugins/privatecontroller/fastecommerce/order/index/'.$addPage,
+			'url'=>'npanel/plugins/controller/fastecommerce/order/index/'.$addPage,
 			'curPage'=>$curPage,
 			'limitShow'=>30,
 			'limitPage'=>5,
@@ -464,15 +464,15 @@ class controlOrder
 
 		System::setTitle('Orders');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('userOrderList',$pageData);
+		Views::make('userOrderList',$pageData);
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 	public function systemEdit()
@@ -525,17 +525,17 @@ class controlOrder
 
 		System::setTitle('Edit Product');
 
-		CtrPlugin::admincpHeader();
+		Views::nPanelHeader();
 
-		CtrPlugin::admincpLeft();
+		
 
-		CtrPlugin::view('addHeader');
+		Views::make('addHeader');
 
-		CtrPlugin::view('productEdit',$pageData);
+		Views::make('productEdit',$pageData);
 
-		CtrPlugin::view('addFooter');
+		Views::make('addFooter');
 
-		CtrPlugin::admincpFooter();
+		Views::nPanelFooter();
 	}
 
 

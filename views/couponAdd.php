@@ -1,7 +1,7 @@
-  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
-<script src="<?php echo System::getUrl(); ?>bootstrap/ckeditor/ckeditor.js"></script>
-    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/datepicker/css/datepicker.css">
-  <script src="<?php echo ROOT_URL;?>bootstrap/datepicker/js/bootstrap-datepicker.js"></script>
+  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstraps/chosen/bootstrap-chosen.css">
+<script src="<?php echo System::getUrl(); ?>bootstraps/ckeditor/ckeditor.js"></script>
+    <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstraps/datepicker/css/datepicker.css">
+  <script src="<?php echo ROOT_URL;?>bootstraps/datepicker/js/bootstrap-datepicker.js"></script>
 
 
 <form action="" method="post" enctype="multipart/form-data">
@@ -88,7 +88,7 @@
 
 </form>
 
-<script src="<?php echo ROOT_URL;?>bootstrap/chosen/chosen.jquery.js"></script>  
+<script src="<?php echo ROOT_URL;?>bootstraps/chosen/chosen.jquery.js"></script>  
 <script>
 $(document).ready(function(){
   $('.datepicker').datepicker({

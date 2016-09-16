@@ -22,7 +22,7 @@ class FEPLugins
 
 		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
 
-		$field="id,prefix,foldername,status,title,sort_order,page,position".$moreFields;
+		$field="id,foldername,status,title,sort_order,page,position".$moreFields;
 
 		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
 

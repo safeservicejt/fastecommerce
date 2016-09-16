@@ -12,7 +12,7 @@ function adminActionProcess()
 	switch ($action) {
 		case 'delete':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -44,7 +44,7 @@ function adminActionProcess()
 			break;
 		case 'pending':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -80,7 +80,7 @@ function adminActionProcess()
 			break;
 		case 'shipping':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -119,7 +119,7 @@ function adminActionProcess()
 			break;
 		case 'approved':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -176,7 +176,7 @@ function adminActionProcess()
 			break;
 		case 'canceled':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -214,7 +214,7 @@ function adminActionProcess()
 			break;
 		case 'refund':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{
@@ -253,7 +253,7 @@ function adminActionProcess()
 			break;
 		case 'completed':
 
-			$owner=UserGroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
+			$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 			if($owner=='yes')
 			{

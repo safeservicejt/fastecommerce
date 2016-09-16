@@ -1,4 +1,4 @@
-  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstrap/chosen/bootstrap-chosen.css">
+  <link rel="stylesheet" href="<?php echo ROOT_URL;?>bootstraps/chosen/bootstrap-chosen.css">
 
 <div class="panel panel-default">
   <div class="panel-heading">
@@ -161,7 +161,7 @@
   </div>
 </div>
 
-<script src="<?php echo ROOT_URL;?>bootstrap/chosen/chosen.jquery.js"></script>  
+<script src="<?php echo ROOT_URL;?>bootstraps/chosen/chosen.jquery.js"></script>  
 <script>
   $(function() {
     $('.chosen-select').chosen();

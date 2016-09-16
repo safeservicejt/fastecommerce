@@ -2,286 +2,147 @@
 
 class Brands
 {
-
 	public static function get($inputData=array())
 	{
+		Table::setTable('brands');
 
-		$limitQuery="";
+		Table::setFields('id,title,friendly_url,views,date_added,status');
 
-		$limitShow=isset($inputData['limitShow'])?$inputData['limitShow']:0;
+		$result=Table::get($inputData,function($rows,$inputData){
 
-		$limitPage=isset($inputData['limitPage'])?$inputData['limitPage']:0;
+			$total=count($rows);
 
-		$limitPage=((int)$limitPage > 0)?$limitPage:0;
+			for ($i=0; $i < $total; $i++) { 
 
-		$limitPosition=$limitPage*(int)$limitShow;
+				if(isset($rows[$i]['friendly_url']))
+				{
+					$rows[$i]['url']=System::getUrl().'post/'.$rows[$i]['friendly_url'].'.html';
+				}
 
-		$limitQuery=((int)$limitShow==0)?'':" limit $limitPosition,$limitShow";
 
-		$limitQuery=isset($inputData['limitQuery'])?$inputData['limitQuery']:$limitQuery;
+				if(isset($rows[$i]['title']))
+				{
+					$rows[$i]['title']=stripslashes($rows[$i]['title']);
+				}
 
-		$moreFields=isset($inputData['moreFields'])?','.$inputData['moreFields']:'';
-
-		$field="id,prefix,title,friendly_url,views,date_added,status".$moreFields;
-
-		$selectFields=isset($inputData['selectFields'])?$inputData['selectFields']:$field;
-
-		$whereQuery=isset($inputData['where'])?$inputData['where']:'';
-
-		$orderBy=isset($inputData['orderby'])?$inputData['orderby']:'order by id desc';
-
-		$result=array();
-
-		$dbPrefix=Database::getPrefix();
-
-		$prefix=isset($inputData['prefix'])?$inputData['prefix']:$dbPrefix;
-		
-		$command="select $selectFields from ".$prefix."brands $whereQuery";
-
-		$command.=" $orderBy";
-
-		$queryCMD=isset($inputData['query'])?$inputData['query']:$command;
-
-		$queryCMD.=$limitQuery;
-
-		$cache=isset($inputData['cache'])?$inputData['cache']:'yes';
-		
-		$cacheTime=isset($inputData['cacheTime'])?$inputData['cacheTime']:-1;
-
-		$md5Query=md5($queryCMD);
-
-		if($cache=='yes')
-		{
-			// Load dbcache
-			$loadCache=Cache::loadKey('dbcache/system/brands/'.$md5Query,$cacheTime);
-
-			if($loadCache!=false)
-			{
-				$loadCache=unserialize($loadCache);
-				return $loadCache;
 			}
 
-			// end load			
-		}
+			return $rows;
 
-
-
-		$query=Database::query($queryCMD);
-		
-
-		if(isset(Database::$error[5]))
-		{
-			return false;
-		}
-
-		$inputData['isHook']=isset($inputData['isHook'])?$inputData['isHook']:'yes';
-	
-
-		if((int)$query->num_rows > 0)
-		{
-			while($row=Database::fetch_assoc($query))
-			{
-				if(isset($row['title']))
-				{
-					$row['title']=String::decode($row['title']);
-				}
-
-				if(isset($row['fullname']))
-				{
-					$row['fullname']=String::decode($row['fullname']);
-				}
-
-				if(isset($row['friendly_url']))
-				{
-					$row['url']=self::url($row['friendly_url']);
-				}
-
-				if(isset($row['date_added']))
-				{
-					$row['date_addedFormat']=Render::dateFormat($row['date_added']);	
-				}
-									
-				$result[]=$row;
-			}		
-		}
-		else
-		{
-			return false;
-		}
-		// Save dbcache
-		Cache::saveKey('dbcache/system/brands/'.$md5Query,serialize($result));
-
-		// end save
-
+		});
 
 		return $result;
-		
-	}
-
-	public static function url($friendly_url='')
-	{
-		$url=System::getUrl().'brand/'.$friendly_url;
-
-		return $url;
-	}
-
-	public static function cachePath()
-	{
-		$result=ROOT_PATH.'application/caches/dbcache/system/brands/';
-
-		return $result;
-	}	
-
-	public static function saveCache()
-	{
-		
 	}
 
 	public static function insert($inputData=array())
 	{
-		// End addons
-		// $totalArgs=count($inputData);
-		CustomPlugins::load('before_brand_insert',$inputData);
+		Table::setTable('brands');
 
-		$addMultiAgrs='';
+		$result=Table::insert($inputData,function($inputData){
+			
 
-		$inputData['date_added']=date('Y-m-d H:i:s');
+			if(!isset($inputData['date_added']))
+			{
+				$inputData['date_added']=date('Y-m-d H:i:s');
+			}
 
-		if(isset($inputData['title']))
-		{
-			$inputData['title']=String::encode($inputData['title']);
+			return $inputData;
 
-			$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
-		}
+		});
 
-		$inputData['prefix']=!isset($inputData['prefix'])?System::getPrefix():$inputData['prefix'];
-
-		$keyNames=array_keys($inputData);
-
-		$insertKeys=implode(',', $keyNames);
-
-		$keyValues=array_values($inputData);
-
-		$insertValues="'".implode("','", $keyValues)."'";	
-
-		$addMultiAgrs="($insertValues)";	
-
-		Database::query("insert into ".Database::getPrefix()."brands($insertKeys) values".$addMultiAgrs);
-
-		if(!$error=Database::hasError())
-		{
-			$id=Database::insert_id();
-
-			$inputData['id']=$id;
-
-			$friendly_url=$inputData['friendly_url'].'-'.$id;
-
-			Database::query("update ".Database::getPrefix()."brands set friendly_url='$friendly_url' where id='$id'");
-
-			CustomPlugins::load('after_brand_insert',$inputData);
-
-			return $id;	
-		}
-
-		return false;
-	
+		return $result;
 	}
 
-	public static function remove($post=array(),$whereQuery='',$addWhere='')
+	public static function update($listID,$updateData=array())
 	{
+		Table::setTable('brands');
 
-		if(is_numeric($post))
-		{
-			$id=$post;
+		$result=Table::update($listID,$updateData,function($inputData){
+			if(isset($inputData['title']))
+			{
+				$inputData['title']=addslashes($inputData['title']);
+			}
 
-			unset($post);
+			return $inputData;
+		});
 
-			$post=array($id);
-		}
+		Brands::saveCache($listID);
 
-		$total=count($post);
-
-		$listID="'".implode("','",$post)."'";
-
-		CustomPlugins::load('before_brand_remove',$post);
-
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listID)";
-
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		$command="delete from ".Database::getPrefix()."brands where $whereQuery $addWhere";
-
-		$result=array();
-
-		Database::query($command);	
-
-		CustomPlugins::load('after_brand_remove',$post);
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listID,'system/post');
-
-		return true;
+		return $result;
 	}
 
-	public static function update($listID,$post=array(),$whereQuery='',$addWhere='')
+	public static function remove($inputIDs=array(),$whereQuery='')
 	{
+		Table::setTable('brands');
 
-		if(is_numeric($listID))
-		{
-			$catid=$listID;
+		$result=Table::remove($inputIDs,$whereQuery);
 
-			unset($listID);
-
-			$listID=array($catid);
-		}
-
-		$listIDs="'".implode("','",$listID)."'";	
-
-		CustomPlugins::load('before_brand_update',$listID);
-				
-	
-		if(isset($post['title']))
-		{
-			$post['title']=String::encode($post['title']);
-		}
-	
-		$keyNames=array_keys($post);
-
-		$total=count($post);
-
-		$setUpdates='';
-
-		for($i=0;$i<$total;$i++)
-		{
-			$keyName=$keyNames[$i];
-			$setUpdates.="$keyName='$post[$keyName]', ";
-		}
-
-		$setUpdates=substr($setUpdates,0,strlen($setUpdates)-2);
-		
-		$whereQuery=isset($whereQuery[5])?$whereQuery:"id in ($listIDs)";
-		
-		$addWhere=isset($addWhere[5])?$addWhere:"";
-
-		Database::query("update ".Database::getPrefix()."brands set $setUpdates where $whereQuery $addWhere");
-
-		// DBCache::removeDir('system/post');
-
-		// DBCache::removeCache($listIDs,'system/post');
-
-
-
-		if(!$error=Database::hasError())
-		{
-			// self::saveCache();
-			CustomPlugins::load('after_brand_update',$listID);
-
-			return true;
-		}
-
-		return false;
+		return $result;
 	}
 
+
+	public static function exists($id)
+	{
+		Table::setTable('brands');
+
+		$result=Table::exists($id);
+
+		return $result;
+	}
+
+	public static function loadCache($id)
+	{
+		Table::setTable('brands');
+
+		$result=Table::loadCache($id,function($id){
+			Brands::saveCache($id);
+		});
+
+		return $result;
+	}
+
+	public static function removeCache($id)
+	{
+		Table::setTable('brands');
+
+		Table::removeCache($id);
+
+	}
+
+	public static function saveCache($listID)
+	{
+		Table::setTable('brands');
+
+
+		if(!is_array($listID))
+		{
+			$tmp=$listID;
+
+			$listID=array($tmp);
+		}
+
+		$total=count($listID);
+
+		for ($i=0; $i < $total; $i++) { 
+			$id=$listID[$i];
+
+			Table::saveCache($id);			
+		}
+
+	}
+
+	public static function up($field,$num=1,$addWhere='')
+	{
+		Table::setTable('brands');
+
+		Table::up($field,$num,$addWhere);
+	}
+
+	public static function down($field,$num=1,$addWhere='')
+	{
+		Table::setTable('brands');
+
+		Table::down($field,$num,$addWhere);
+	}
 
 }

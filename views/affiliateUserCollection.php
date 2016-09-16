@@ -1,4 +1,4 @@
-<a href="<?php echo CtrPlugin::url('affiliate','addnew_collection');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
+<a href="<?php echo Plugins::url('affiliate','addnew_collection');?>" class="btn btn-primary margin-bottom-10"><span class="glyphicon glyphicon-plus-sign"></span> Add new</a>
 <!-- row -->
 <div class="row">
 	<div class="col-lg-12">
