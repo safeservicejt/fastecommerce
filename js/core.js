@@ -816,3 +816,16 @@ $( document ).on( "click", ".rating > .full", function() {
 }); 
 
 
+
+$( document ).on( "click", ".btn_oneclick_payment", function() {
+
+  var productid=$(this).data('productid');
+
+  if($('.oneclick_payment_'+productid).length > 0)
+  {
+    $('.oneclick_payment_'+productid+':eq(0)').submit();
+  }
+
+}); 
+
+

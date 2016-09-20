@@ -175,7 +175,7 @@ class Payments
 		return $result;
 	}
 
-	public static function paymentProcess($paymentMethod='paypal',$funcCall='')
+	public static function paymentProcess($paymentMethod='paypal',$funcCall='',$inputData='')
 	{
 		if(!isset($paymentMethod[2]) || !isset($funcCall[2]))
 		{
@@ -201,7 +201,7 @@ class Payments
 		if(function_exists($funcCall))
 		{
 			try {
-				$result=$funcCall();
+				$result=$funcCall($inputData);
 			} catch (Exception $e) {
 				throw new Exception($e->getMessage());
 			}

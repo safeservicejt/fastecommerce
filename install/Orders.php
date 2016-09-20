@@ -275,6 +275,4 @@ class Orders
 		return $result;
 	}
 
-
-
 }
