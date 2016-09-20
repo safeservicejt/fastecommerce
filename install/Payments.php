@@ -192,7 +192,11 @@ class Payments
 
 		$result='';
 
-		include($paymentPath.'payment_process.php');
+		if(!function_exists($funcCall))
+		{
+			include($paymentPath.'payment_process.php');
+		}
+		
 
 		if(function_exists($funcCall))
 		{
