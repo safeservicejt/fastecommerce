@@ -712,6 +712,20 @@ $( document ).on( "click", ".btn-next-step", function() {
 
   var target=$(this).attr('data-target');
 
+  if(target=='panel-step6')
+  {
+    updateTax();
+    updateTax();
+  }  
+
+  if(target=='panel-step3')
+  {
+    if($('.'+target).length==0)
+    {
+      target='panel-step5';
+    }
+  }
+
   var pos= $('.'+target).children('.panel-body').offset().top;
 
   $('.'+target+' .panel-body').fadeIn('fast');
@@ -760,17 +774,6 @@ $( document ).on( "change", ".txt-shipping-country", function() {
 
 }); 
 
-$( document ).on( "click", ".btn-next-step", function() {
-
-  var target=$(this).attr('data-target');
-
-  if(target=='panel-step6')
-  {
-    updateTax();
-    updateTax();
-  }
-
-}); 
 
 
 $( document ).on( "click", "#btnConfirm", function() {

@@ -686,6 +686,12 @@ class SelfApi
 
         $loadCart['tax']=$result['tax'];
 
+        if(FastEcommerce::$setting['require_shipping']=='no')
+        {
+            $loadCart['tax']=0;
+            $result['shipping_fee']=0;
+        }
+
         Cart::saveCache($ip,$loadCart);
 
         Cart::refresh();
