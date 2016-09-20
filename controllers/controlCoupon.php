@@ -2,7 +2,7 @@
 
 class controlCoupon
 {
-	public function index()
+	public static function index()
 	{
 		$pageData=array('alert'=>'');
 
@@ -76,7 +76,7 @@ class controlCoupon
 		Views::nPanelFooter();
 	}
 
-	public function addnew()
+	public static function addnew()
 	{
 		$pageData=array('alert'=>'');
 
@@ -113,7 +113,7 @@ class controlCoupon
 		Views::nPanelFooter();
 	}
 
-	public function edit()
+	public static function edit()
 	{
 		$pageData=array('alert'=>'');
 

@@ -2,7 +2,7 @@
 
 class controlCustomer
 {
-	public function index()
+	public static function index()
 	{
 		$pageData=array('alert'=>'');
 
@@ -86,7 +86,7 @@ class controlCustomer
 
 		Views::nPanelFooter();
 	}
-	public function edit()
+	public static function edit()
 	{
 		$pageData=array('alert'=>'');
 

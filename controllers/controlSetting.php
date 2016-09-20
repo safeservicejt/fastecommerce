@@ -2,12 +2,12 @@
 
 class controlSetting
 {
-	public function index()
+	public static function index()
 	{
-		$this->general();
+		self::general();
 	}
 
-	public function emailtemplates()
+	public static function emailtemplates()
 	{
 		$pageData=array('alert'=>'');
 
@@ -30,7 +30,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function edit_email_template()
+	public static function edit_email_template()
 	{
 		$pageData=array('alert'=>'');
 
@@ -91,7 +91,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function general()
+	public static function general()
 	{
 		$pageData=array('alert'=>'');
 
@@ -137,7 +137,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function shippingrates()
+	public static function shippingrates()
 	{
 		$pageData=array('alert'=>'');
 
@@ -205,7 +205,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function addnew_shipping_rate()
+	public static function addnew_shipping_rate()
 	{
 		$pageData=array('alert'=>'');
 
@@ -238,7 +238,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function edit_shipping_rate()
+	public static function edit_shipping_rate()
 	{
 		$pageData=array('alert'=>'');
 
@@ -290,7 +290,7 @@ class controlSetting
 		Views::nPanelFooter();
 	}
 
-	public function currency()
+	public static function currency()
 	{
 		$pageData=array('alert'=>'');
 

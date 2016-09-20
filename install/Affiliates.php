@@ -23,7 +23,7 @@ class Affiliates
 		
 		if(isset($match[1][5]))
 		{
-			Redirects::to(System::getUrl().$match[1]);
+			Redirect::to(System::getUrl().$match[1]);
 		}
 		
 	}
@@ -232,6 +232,8 @@ class Affiliates
 	{
 		$savePath=ROOT_PATH.'contents/fastecommerce/affiliate/'.$userid.'.cache';
 
+		$savePath = strval(str_replace("\0", "", $savePath));
+
 		$result=0;
 
 		if(file_exists($savePath))
@@ -246,7 +248,10 @@ class Affiliates
 
 	public static function getClicks($userid)
 	{
+
 		$savePath=ROOT_PATH.'contents/fastecommerce/affiliate/'.$userid.'.cache';
+
+		$savePath = strval(str_replace("\0", "", $savePath));
 
 		$result=0;
 

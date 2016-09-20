@@ -2,7 +2,7 @@
 
 class controlReport
 {
-	public function index()
+	public static function index()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -10,17 +10,17 @@ class controlReport
 
 		if($owner=='yes')
 		{
-			$this->adminstats();
+			self::adminstats();
 		}
 		else
 		{
-			$this->customerstats();
+			self::customerstats();
 		}
 
 	}
 
 
-	public function adminstats()
+	public static function adminstats()
 	{
 		$pageData=array();
 
@@ -45,7 +45,7 @@ class controlReport
 		Views::nPanelFooter();
 	}
 
-	public function customerstats()
+	public static function customerstats()
 	{
 		$userid=Users::getCookieUserId();
 

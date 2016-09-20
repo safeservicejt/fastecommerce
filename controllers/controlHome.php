@@ -2,7 +2,7 @@
 
 class controlHome
 {
-	public function index()
+	public static function index()
 	{
 		Models::load('report');
 		

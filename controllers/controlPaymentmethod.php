@@ -2,7 +2,7 @@
 
 class controlPaymentmethod
 {
-	public function index()
+	public static function index()
 	{
 		$pageData=array('alert'=>'');
 
@@ -51,7 +51,7 @@ class controlPaymentmethod
 		Views::nPanelFooter();
 	}
 
-	public function activate()
+	public static function activate()
 	{
 		$folderName=0;
 
@@ -110,7 +110,7 @@ class controlPaymentmethod
 		Redirects::to(Views::url('paymentmethod','index'));
 	}
 
-	public function deactivate()
+	public static function deactivate()
 	{
 		$folderName=0;
 
@@ -172,7 +172,7 @@ class controlPaymentmethod
 		Redirects::to(Views::url('paymentmethod','index'));
 	}
 
-	public function setting()
+	public static function setting()
 	{
 		$pageData=array('alert'=>'');
 

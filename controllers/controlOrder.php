@@ -2,7 +2,7 @@
 
 class controlOrder
 {
-	public function index()
+	public static function index()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -10,15 +10,15 @@ class controlOrder
 
 		if($owner=='yes')
 		{
-			$this->systemOrder();
+			self::systemOrder();
 		}
 		else
 		{
-			$this->userOrder();
+			self::userOrder();
 		}
 	}
 
-	public function view()
+	public static function view()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -26,15 +26,15 @@ class controlOrder
 
 		if($owner=='yes')
 		{
-			$this->systemView();
+			self::systemView();
 		}
 		else
 		{
-			$this->userView();
+			self::userView();
 		}
 	}
 
-	public function emailmarketing()
+	public static function emailmarketing()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -81,7 +81,7 @@ class controlOrder
 
 	}
 
-	public function sendemail()
+	public static function sendemail()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -152,7 +152,7 @@ class controlOrder
 
 	}
 
-	public function cancel()
+	public static function cancel()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -201,7 +201,7 @@ class controlOrder
 		}
 	}
 
-	public function systemView()
+	public static function systemView()
 	{
 		$pageData=array('alert'=>'');
 
@@ -264,7 +264,7 @@ class controlOrder
 		Views::nPanelFooter();
 	}
 
-	public function userView()
+	public static function userView()
 	{
 		$pageData=array('alert'=>'');
 
@@ -315,7 +315,7 @@ class controlOrder
 		Views::nPanelFooter();
 	}
 
-	public function edit()
+	public static function edit()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -323,7 +323,7 @@ class controlOrder
 
 		if($owner=='yes')
 		{
-			$this->systemEdit();
+			self::systemEdit();
 		}
 		else
 		{
@@ -331,7 +331,7 @@ class controlOrder
 		}
 	}
 
-	public function systemOrder()
+	public static function systemOrder()
 	{
 		$pageData=array('alert'=>'');
 
@@ -401,7 +401,7 @@ class controlOrder
 		Views::nPanelFooter();
 	}
 
-	public function userOrder()
+	public static function userOrder()
 	{
 		$pageData=array('alert'=>'');
 
@@ -475,7 +475,7 @@ class controlOrder
 		Views::nPanelFooter();
 	}
 
-	public function systemEdit()
+	public static function systemEdit()
 	{
 		$pageData=array('alert'=>'');
 

@@ -2,7 +2,7 @@
 
 class controlAffiliate
 {
-	public function index()
+	public static function index()
 	{
 		$pageData=array('alert'=>'');
 
@@ -88,7 +88,7 @@ class controlAffiliate
 	}
 
 
-	public function report()
+	public static function report()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -96,17 +96,17 @@ class controlAffiliate
 
 		if($owner=='yes')
 		{
-			$this->systemReport();
+			self::systemReport();
 		}
 		else
 		{
-			$this->userReport();
+			self::userReport();
 		}
 	}
 
 
 
-	public function systemReport()
+	public static function systemReport()
 	{
 
 		$userid=Users::getCookieUserId();
@@ -175,7 +175,7 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function userReport()
+	public static function userReport()
 	{
 
 		$userid=Users::getCookieUserId();
@@ -223,16 +223,16 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function collection()
+	public static function collection()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
 		$userid=Users::getCookieUserId();
 
-		$this->userCollection();
+		self::userCollection();
 	}
 
-	public function userCollection()
+	public static function userCollection()
 	{
 
 		$userid=Users::getCookieUserId();
@@ -266,7 +266,7 @@ class controlAffiliate
 	}
 
 
-	public function linkbuilding()
+	public static function linkbuilding()
 	{
 		$userid=Users::getCookieUserId();
 
@@ -294,7 +294,7 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function withdraw()
+	public static function withdraw()
 	{
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
 
@@ -302,16 +302,16 @@ class controlAffiliate
 
 		if($owner=='yes')
 		{
-			$this->systemWithdraw();
+			self::systemWithdraw();
 		}
 		else
 		{
-			$this->userWithdraw();
+			self::userWithdraw();
 		}
 
 	}
 
-	public function ranks()
+	public static function ranks()
 	{
 
 		$owner=Usergroups::getPermission(Users::getCookieGroupId(),'is_fastecommerce_owner');
@@ -437,7 +437,7 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function systemWithdraw()
+	public static function systemWithdraw()
 	{
 		$userid=Users::getCookieUserId();
 
@@ -550,7 +550,7 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function userWithdraw()
+	public static function userWithdraw()
 	{
 		$userid=Users::getCookieUserId();
 
@@ -567,10 +567,12 @@ class controlAffiliate
 			}
 		}
 
-		$pageData['userData']=Customers::get(array(
+		$userData=Customers::get(array(
 			'cache'=>'no',
 			'where'=>"where userid='$userid'"
 			));
+
+		$pageData['userData']=$userData[0];
 
 		$pageData['theList']=AffiliatesWithdraws::get(array(
 			'limitShow'=>30,
@@ -592,7 +594,7 @@ class controlAffiliate
 		Views::nPanelFooter();
 	}
 
-	public function billing()
+	public static function billing()
 	{
 		$userid=Users::getCookieUserId();
 

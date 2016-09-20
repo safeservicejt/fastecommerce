@@ -31,7 +31,7 @@ class Customers
 
 		});
 
-		CustomPlugins::load('after_customer_insert',$inputData);
+		Plugins::load('after_customer_insert',$inputData);
 
 		return $result;
 	}
@@ -69,6 +69,8 @@ class Customers
 	{
 		$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$userid.'.cache';
 
+		$savePath = strval(str_replace("\0", "", $savePath));
+
 		if(!file_exists($savePath))
 		{
 			return false;
@@ -88,6 +90,8 @@ class Customers
 
 			$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$id.'.cache';
 
+			$savePath = strval(str_replace("\0", "", $savePath));
+
 			if(file_exists($savePath))
 			{
 				unlink($savePath);
@@ -99,6 +103,8 @@ class Customers
 	public static function loadCache($userid)
 	{
 		$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$userid.'.cache';
+
+		$savePath = strval(str_replace("\0", "", $savePath));
 
 		$loadData=false;
 
@@ -122,6 +128,8 @@ class Customers
 	public static function saveCache($userid)
 	{
 		$savePath=ROOT_PATH.'contents/fastecommerce/customer/'.$userid.'.cache';
+
+		$savePath = strval(str_replace("\0", "", $savePath));
 
 		$loadData=Users::loadCache($userid);
 

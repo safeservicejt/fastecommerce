@@ -67,6 +67,7 @@ elseif($orderData['status']=='draft')
 		    	<?php } ?>
 
 		    </div>   
+		
 		<h3>Billing</h3>    
 		<hr>
 		<p>
@@ -84,6 +85,7 @@ elseif($orderData['status']=='draft')
 		<p>
 		<span class="text-primary">Address: <?php echo $billing['address_1'];?>, <?php echo $billing['address_2'];?>, <?php echo $billing['city'];?>, <?php echo $billing['postcode'];?>, <?php echo $billing['state'];?>, <?php echo $billing['country'];?> </span>
 		</p>
+		<?php if(FastEcommerce::$setting['require_shipping']=='yes'){ ?>
 		<hr>		    
 		<h3>Shipping to</h3>    
 		<hr>
@@ -97,10 +99,11 @@ elseif($orderData['status']=='draft')
 
 		<p>
 		<span class="text-info">Company: <?php echo $orderData['shipping_company'];?></span>
-		</p>		     
+		</p>	
+		<?php } ?>	     
 		<h3><?php echo Lang::get('usercp/index.comments');?></h3>    
 		<hr>
-		<span><?php echo $orderData['comment'];?></span>		     	
+		<span><?php echo $orderData['comment'];?></span>	
     	</div>
     </div>
   </div>

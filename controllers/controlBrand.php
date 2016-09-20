@@ -2,7 +2,7 @@
 
 class controlProduct
 {
-	public function index()
+	public static function index()
 	{
 		$pageData=array('alert'=>'');
 
