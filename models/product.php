@@ -46,7 +46,10 @@ function actionProcess()
 				sort($id);
 			}
 			
+			Products::remove($id);
+
 			Products::removeCache($id);
+			
 			Reviews::removeCache($id);
 			break;
 
