@@ -461,7 +461,7 @@ class controlAffiliate
 
 			if(!$loadData)
 			{
-				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
+				Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 			}
 
 			$userid=$loadData[0]['userid'];
@@ -476,7 +476,7 @@ class controlAffiliate
 
 					if($loadData[0]['status']=='completed')
 					{
-						Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
+						Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 					}
 
 					$balance=(double)$userData[0]['balance']+(double)$loadData[0]['money'];
@@ -491,7 +491,7 @@ class controlAffiliate
 
 					if($loadData[0]['status']=='canceled')
 					{
-						Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
+						Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 					}
 
 					$balance=(double)$userData[0]['balance']+(double)$loadData[0]['money'];
@@ -509,7 +509,7 @@ class controlAffiliate
 					break;
 			}
 
-			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
+			Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/affiliate/withdraw');
 		}
 
 		$pageData=array('requestAlert'=>'');

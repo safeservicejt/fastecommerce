@@ -52,7 +52,7 @@ class Products
 
 				}
 
-				if(isset($rows[$i]['price']) && isset($rows[$i]['sale_price']))
+				if(isset($rows[$i]['price']) && isset($rows[$i]['sale_price']) && (double)$rows[$i]['sale_price'] > 0)
 				{
 					$rows[$i]['percent_discount']=intval((1-((double)$rows[$i]['discount_price']/(double)$rows[$i]['price']))*100);
 				}

@@ -297,9 +297,9 @@ function insertProcess()
 
 	ProductTags::add($id,Request::get('tags',''));
 
-	$tagFriendy=String::makeFriendlyUrl(strip_tags(Request::get('tags','')));
+	// $tagFriendy=String::makeFriendlyUrl(strip_tags(Request::get('tags','')));
 
-	ProductTags::saveCache($tagFriendy);
+	// ProductTags::saveCache($tagFriendy);
 
 	ProductCategories::add($id,Request::get('catid',array()));	
 
@@ -309,7 +309,7 @@ function insertProcess()
 
 	Products::saveCache($id);
 
-	Redirect::to(Plugins::url('product','edit').$id);
+	Redirects::to(Plugins::url('product','edit').$id);
 
 }
 

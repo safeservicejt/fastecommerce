@@ -107,7 +107,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}		
 
-		Redirect::to(Views::url('paymentmethod','index'));
+		Redirects::to(Views::url('paymentmethod','index'));
 	}
 
 	public function deactivate()
@@ -169,7 +169,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}
 
-		Redirect::to(Views::url('paymentmethod','index'));
+		Redirects::to(Views::url('paymentmethod','index'));
 	}
 
 	public function setting()

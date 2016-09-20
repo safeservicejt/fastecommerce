@@ -23,7 +23,16 @@
 						<option value="vn" <?php if($setting['language']=='vn')echo 'selected';?>>Vietnamese</option>
 					</select>		    	
 				
-		    	</p>		    	
+		    	</p>
+		    	<p>
+		    		<strong>Require Shipping</strong>
+					<select class="form-control" name="send[require_shipping]">
+						<option value="yes" <?php if($setting['require_shipping']=='yes')echo 'selected';?>>Yes</option>
+						<option value="no" <?php if($setting['require_shipping']=='no')echo 'selected';?>>No</option>
+					</select>		    	
+				
+		    	</p>
+
 		    	<p>
 		    		<strong>Store Name</strong>
 		    		<input type="text" class="form-control input-size-medium" name="send[store_name]" value="<?php echo Request::get('send.store_name',$setting['store_name']);?>" maxlength="255" />

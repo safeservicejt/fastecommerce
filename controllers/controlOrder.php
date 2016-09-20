@@ -44,7 +44,7 @@ class controlOrder
 		{
 			$refer=Http::get('refer');
 
-			Redirect::to($refer);
+			Redirects::to($refer);
 		}
 
 
@@ -91,7 +91,7 @@ class controlOrder
 		{
 			$refer=Http::get('refer');
 
-			Redirect::to($refer);
+			Redirects::to($refer);
 		}
 
 		$orderid=0;
@@ -100,7 +100,7 @@ class controlOrder
 		{
 			$refer=Http::get('refer');
 
-			Redirect::to($refer);			
+			Redirects::to($refer);			
 		}
 
 		$orderid=$match[1];
@@ -117,7 +117,7 @@ class controlOrder
 		{
 			$refer=Http::get('refer');
 
-			Redirect::to($refer);				
+			Redirects::to($refer);				
 		}
 
 		$pageData['userData']=Customers::loadCache($pageData['orderData']['userid']);
@@ -173,7 +173,7 @@ class controlOrder
 
 			Orders::saveCache($orderid);	
 
-			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
+			Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 		}
 		else
 		{
@@ -181,12 +181,12 @@ class controlOrder
 
 			if(!$loadOrder)
 			{
-				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
+				Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 			}
 
 			if((int)$userid!=(int)$loadOrder['userid'])
 			{
-				Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
+				Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 			}
 
 			Orders::update($orderid,array(
@@ -197,7 +197,7 @@ class controlOrder
 
         	Notifies::sendOrderCanceledEmail($orderid);
 
-			Redirect::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
+			Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/order');
 		}
 	}
 

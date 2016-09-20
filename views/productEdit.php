@@ -343,7 +343,7 @@ ol.list-images li img
         ?>
             <label><strong>Category</strong></label>
             <select name="catid[]" multiple class="form-control chosen-select selected-parentid">
-                <?php if(isset($listCat[0]['catid'])){ ?>
+                <?php if(isset($listCat[0]['id'])){ ?>
                 <?php
                 $total=count($listCat);
 
@@ -351,13 +351,13 @@ ol.list-images li img
 
                 for ($i=0; $i < $total; $i++) { 
 
-                    if(in_array($listCat[$i]['catid'], $catSelected))
+                    if(in_array($listCat[$i]['id'], $catSelected))
                     {
-                      $li.='<option selected value="'.$listCat[$i]['catid'].'">'.$listCat[$i]['title'].'</option>';
+                      $li.='<option selected value="'.$listCat[$i]['id'].'">'.$listCat[$i]['title'].'</option>';
                     }
                     else
                     {
-                      $li.='<option value="'.$listCat[$i]['catid'].'">'.$listCat[$i]['title'].'</option>';
+                      $li.='<option value="'.$listCat[$i]['id'].'">'.$listCat[$i]['title'].'</option>';
                     }
                     
                 }

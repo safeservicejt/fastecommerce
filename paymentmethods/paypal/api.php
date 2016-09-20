@@ -29,7 +29,7 @@ class SelfApi
 
         Orders::saveCache($orderid);
 
-        Redirect::to(System::getUrl());
+        Redirects::to(System::getUrl());
 
     }
 
@@ -141,7 +141,7 @@ class SelfApi
             
         }
 
-        Redirect::to(System::getUrl());
+        Redirects::to(System::getUrl());
 
     }
 

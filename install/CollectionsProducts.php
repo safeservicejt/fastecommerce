@@ -21,7 +21,7 @@ class CollectionsProducts
 
 				$hash=self::saveCache($userid,$listID);
 
-				Redirect::to('collection/'.$hash.'.html');
+				Redirects::to('collection/'.$hash.'.html');
 			}
 		}
 		elseif(preg_match('/collection\/([a-zA-Z0-9_]+)\.html$/i', $uri,$match))
@@ -34,7 +34,7 @@ class CollectionsProducts
 		}
 		else
 		{
-			Redirect::to('404page');
+			Redirects::to('404page');
 		}
 	}
 

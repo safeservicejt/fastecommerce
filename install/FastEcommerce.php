@@ -252,6 +252,8 @@ class FastEcommerce
 
 			'new_order_alert_mail'=>'yes',
 			
+			'require_shipping'=>'yes',
+			
 			'invoice_prefix'=>'Invoice',
 
 			'currency'=>'usd',

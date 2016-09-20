@@ -62,11 +62,6 @@ Plugins::add('before_register_user',array(
 	'funcname'=>'before_register_user'
 	));
 
-Plugins::add('before_register_user',array(
-	'type'=>'fly',
-	'classname'=>'FastEcommerce',
-	'funcname'=>'before_register_user'
-	));
 
 Usergroups::changePermissionAll(array(
 	'can_control_plugin'=>'yes',

@@ -163,7 +163,7 @@
             <div id="tab-virtualdownload">
               <p>
                   <label><strong>Upload Files</strong></label>
-                  <input type="file" multiple="" name="downloads" />
+                  <input type="file" multiple="" name="downloads[]" />
               </p>               
             </div>
             <!-- #tab-virtualdownload -->
@@ -215,7 +215,7 @@
         <p>
             <label><strong>Category</strong></label>
             <select name="catid[]" multiple class="form-control chosen-select selected-parentid">
-                <?php if(isset($listCat[0]['catid'])){ ?>
+                <?php if(isset($listCat[0]['id'])){ ?>
                 <?php
                 $total=count($listCat);
 
@@ -223,7 +223,7 @@
 
                 for ($i=0; $i < $total; $i++) { 
 
-                    $li.='<option value="'.$listCat[$i]['catid'].'">'.$listCat[$i]['title'].'</option>';
+                    $li.='<option value="'.$listCat[$i]['id'].'">'.$listCat[$i]['title'].'</option>';
                 }
 
                 echo $li;
