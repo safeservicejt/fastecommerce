@@ -157,11 +157,11 @@ class Payments
 		return $result;
 	}
 
-	public static function update($listID,$updateData=array())
+	public static function update($listID,$updateData=array(),$beforeUpdate='')
 	{
 		Table::setTable('payment_methods');
 
-		$result=Table::update($listID,$updateData);
+		$result=Table::update($listID,$updateData,$beforeUpdate);
 
 		return $result;
 	}

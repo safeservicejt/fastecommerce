@@ -43,7 +43,6 @@ class controlPaymentmethod
 		Views::nPanelHeader();
 
 		
-
 		Views::make('addHeader');
 
 		Views::make('paymentMethodList',$pageData);
@@ -107,7 +106,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}		
 
-		Redirects::to(Views::url('paymentmethod','index'));
+		Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/paymentmethod');
 	}
 
 	public static function deactivate()
@@ -137,7 +136,6 @@ class controlPaymentmethod
 			'cache'=>'no',
 			'where'=>"where foldername='$folderName'"
 			));
-
 
 		if(isset($loadData[0]['foldername']))
 		{
@@ -169,7 +167,7 @@ class controlPaymentmethod
 			FastEcommerce::saveSetting(array('payments'=>FastEcommerce::$setting['payments']));
 		}
 
-		Redirects::to(Views::url('paymentmethod','index'));
+		Redirects::to(System::getUrl().'npanel/plugins/controller/fastecommerce/paymentmethod');
 	}
 
 	public static function setting()
@@ -223,29 +221,6 @@ class controlPaymentmethod
 
 		Controllers::load($controlName,$funcName,'contents/plugins/fastecommerce/paymentmethods/'.$folderName);
 
-		// include($savePath.'controllers/controlSetting.php');
-
-		// if(file_exists($savePath.'models/setting.php'))
-		// {
-		// 	include($savePath.'models/setting.php');
-		// }
-
-		// if(!class_exists('controlSetting') || !method_exists('controlSetting', $route))
-		// {
-		// 	Alert::make('This payment method not support setting');
-		// }
-
-		// define('THIS_VIEW_PATH',$savePath.'views/');
-	
-		// System::setTitle($pageData['title']);
-
-		// Views::nPanelHeader();
-
-		// Views::make('addHeader');
-
-		// controlSetting::$route();
-
-		// Views::nPanelFooter();
 	}
 
 
