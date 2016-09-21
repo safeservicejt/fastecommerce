@@ -596,6 +596,7 @@ class SelfApi
 
             OrderProducts::insert(array(
                 'orderid'=>$orderid,
+                'userid'=>$userid,
                 'productid'=>$prodID,
                 'quantity'=>$loadCart['product'][$prodID]['quantity'],
                 'price'=>$loadCart['product'][$prodID]['price'],

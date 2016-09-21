@@ -6,7 +6,7 @@ class OrderProducts
 	{
 		Table::setTable('order_products');
 
-		Table::setFields('orderid,productid,quantity,price,total,log');
+		Table::setFields('orderid,productid,userid,quantity,price,total,log');
 
 		$inputData['orderby']=!isset($inputData['orderby'])?'order by orderid desc':$inputData['orderby'];
 

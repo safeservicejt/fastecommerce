@@ -361,13 +361,14 @@ class SelfApi
                          {
                             OrderProducts::insert(array(
                                 'orderid'=>$orderid,
+                                'userid'=>$userid,
                                 'productid'=>$productid,
                                 'quantity'=>$quantity,
                                 'price'=>$prodData['sale_price'],
                                 'total'=>$orderData['total'],
                                 ));
 
-                             Orders::saveCache($orderid);
+                            Orders::saveCache($orderid);
                          }
 
 

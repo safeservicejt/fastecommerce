@@ -214,6 +214,7 @@ CREATE TABLE IF NOT EXISTS `orders` (
 CREATE TABLE IF NOT EXISTS `order_products` (
   `orderid` int(9) NOT NULL,
   `productid` int(9) NOT NULL,
+  `userid` int(9) NOT NULL DEFAULT '0',
   `quantity` int(9) NOT NULL,
   `price` double NOT NULL DEFAULT '0',
   `total` double NOT NULL DEFAULT '0',
