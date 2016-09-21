@@ -26,6 +26,15 @@ class Notifies
 
 			$orderTemplate=EmailTemplates::getContent('new_order');
 
+			if(!is_array($loadOrder['summary']))
+			{
+				$loadOrder['summary']=array();
+			}
+
+			$loadOrder['summary']['payment_method']=isset($loadOrder['summary']['payment_method'])?$loadOrder['summary']['payment_method']:'';
+
+			$loadOrder['summary']['shipping_method']=isset($loadOrder['summary']['shipping_method'])?$loadOrder['summary']['shipping_method']:'';
+
 			$replaces=array(
 				'/(\{\{(\w+)\}\})/i'=>"{{ $2 }}",
 				'/(\{\{ orderid \}\})/i'=>$loadOrder['id'],

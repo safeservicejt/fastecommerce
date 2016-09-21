@@ -192,8 +192,6 @@ class Reviews
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
-
 		return $result;
 	}
 

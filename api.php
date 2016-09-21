@@ -545,7 +545,7 @@ class SelfApi
         
         $orderData['summary']=array();
 
-        $orderData['summary']['payment_method']=$paymentMethodData['title'];
+        $orderData['summary']['payment_method']=isset($paymentMethodData['title'])?$paymentMethodData['title']:'';
 
         $orderData['summary']['totalnovat']=$loadCart['totalnovat'];
 
@@ -567,9 +567,9 @@ class SelfApi
 
         $orderData['summary']['tax']=$loadCart['tax'];
 
-        $orderData['summary']['shipping_method']=$shippingRateData['title'];
+        $orderData['summary']['shipping_method']=isset($shippingRateData['title'])?$shippingRateData['title']:'';
 
-        $orderData['summary']['shipping_amount']=$shippingRateData['amount'];
+        $orderData['summary']['shipping_amount']=isset($shippingRateData['amount'])?$shippingRateData['amount']:0;
 
         $orderData['summary']['cart_product']=$loadCart['product'];
 

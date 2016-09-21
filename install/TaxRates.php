@@ -287,7 +287,6 @@ class TaxRates
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
 
 		return $result;
 	}

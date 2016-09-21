@@ -171,8 +171,6 @@ class Coupons
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
-
 		return $result;
 	}
 

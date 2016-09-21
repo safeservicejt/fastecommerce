@@ -111,8 +111,6 @@ class Downloads
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
-
 		return $result;
 	}
 

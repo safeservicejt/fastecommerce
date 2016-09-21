@@ -104,8 +104,6 @@ class NewsLetter
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
-
 		return $result;
 	}
 

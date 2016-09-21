@@ -163,12 +163,20 @@ class Orders
 			{
 				$totalProd=count($loadProd);
 
+				$loadData[0]['products']=array();
+
 				for ($i=0; $i < $totalProd; $i++) {
 
-					$productid=$loadProd[$i]['productid'];
+					$productid=(int)$loadProd[$i]['productid'];
 
-					$loadData[0]['products'][$productid]=Products::loadCache($productid);
+					$prodData=Products::loadCache($productid);
 
+					if(!$prodData)
+					{
+						continue;
+					}
+
+					$loadData[0]['products'][$productid]=$prodData;
 				}
 			}
 
@@ -261,7 +269,6 @@ class Orders
 			return $inputData;
 		});
 
-		Post::saveCache($listID);
 
 		return $result;
 	}

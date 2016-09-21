@@ -564,7 +564,13 @@ function confirmOrder()
     orderData['shipping_same']='no';
   }  
 
-  orderData['order_comment']=$('.txt-order-comment').val();
+  orderData['order_comment']='';
+
+  if($('.txt-order-comment').length>0)
+  {
+    orderData['order_comment']=$('.txt-order-comment').val();
+  }
+  
 
   orderData['shipping_method']=0;
 
@@ -824,7 +830,12 @@ $( document ).on( "click", ".btn-add-to-cart", function() {
 
   var id=$(this).data('id');
 
-  var quantity=$('.input-product-quantity').val();
+  var quantity=1;
+
+  if($('.input-product-quantity').length>0)
+  {
+    quantity=$('.input-product-quantity').val();
+  }
 
   addToCart(id,quantity);
 
