@@ -380,11 +380,19 @@ class SelfApi
 
         $userid=Users::getCookieUserId();
 
-        $shipping_same=$send_data->shipping_same;
+        $shipping_same='';
 
-        $shipping_class=$send_data->shipping_method;
+        $shipping_class='';
 
-        $payment_method=$send_data->payment_method;
+        $payment_method=$send_data->payment_method;        
+
+        if(FastEcommerce::$setting['require_shipping']=='yes')
+        {
+            $shipping_same=$send_data->shipping_same;
+
+            $shipping_class=$send_data->shipping_method;          
+        }
+
 
         $paymentMethodData=Payments::loadCache($payment_method);
 
@@ -394,13 +402,23 @@ class SelfApi
             
         }
 
-        $shippingRateData=ShippingRates::loadCache($shipping_class);
+        $shippingRateData=array(
+            'title'=>'None',
+            'amount'=>0
+            );
 
-
-        if(!$shippingRateData)
+        if(FastEcommerce::$setting['require_shipping']=='yes')
         {
-            throw new Exception('Shipping method not valid.');
-        }        
+            $shippingRateData=ShippingRates::loadCache($shipping_class);
+
+            if(!$shippingRateData)
+            {
+                throw new Exception('Shipping method not valid.');
+            }              
+        }
+        
+
+      
 
         // If is new user && not logined
         if(!$userid || (int)$userid==0)
