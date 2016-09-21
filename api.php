@@ -461,9 +461,10 @@ class SelfApi
                 'address_1'=>addslashes($send_data->billing_address1),
                 'address_2'=>addslashes($send_data->billing_address2),
                 'city'=>addslashes($send_data->billing_city),
-                'postcode'=>addslashes($send_data->billing_postcode),
+                'zipcode'=>addslashes($send_data->billing_postcode),
                 'state'=>addslashes($send_data->billing_state),
-                'country'=>addslashes($send_data->billing_country),
+                'countrycode'=>addslashes($send_data->billing_country),
+                'countryname'=>addslashes($send_data->billing_country_name),
                 'phone'=>addslashes($send_data->billing_phone),
                 );
 

@@ -500,28 +500,56 @@ function confirmOrder()
 
   orderData['billing_country_name']=$('.txt-billing-country').children('option:selected').text();
 
+  if($('.txt-shipping-firstname').length==0)
+  {
+    orderData['shipping_firstname']=orderData['billing_firstname'];
+
+    orderData['shipping_lastname']=orderData['billing_lastname'];
+
+    orderData['shipping_phone']=orderData['billing_phone'];
+
+    orderData['shipping_company']=orderData['billing_company'];
+
+    orderData['shipping_address1']=orderData['billing_address1'];
+
+    orderData['shipping_address2']=orderData['billing_address2'];
+
+    orderData['shipping_city']=orderData['billing_city'];
+
+    orderData['shipping_postcode']=orderData['billing_postcode'];
+
+    orderData['shipping_state']=orderData['billing_state'];
+
+    orderData['shipping_country']=orderData['billing_country'];
+
+    orderData['shipping_country_name']=orderData['billing_country_name'];
+  }
+  else
+  {
+    orderData['shipping_firstname']=$('.txt-shipping-firstname').val();
+
+    orderData['shipping_lastname']=$('.txt-shipping-lastname').val();
+
+    orderData['shipping_phone']=$('.txt-shipping-phone').val();
+
+    orderData['shipping_company']=$('.txt-shipping-company').val();
+
+    orderData['shipping_address1']=$('.txt-shipping-address1').val();
+
+    orderData['shipping_address2']=$('.txt-shipping-address2').val();
+
+    orderData['shipping_city']=$('.txt-shipping-city').val();
+
+    orderData['shipping_postcode']=$('.txt-shipping-postcode').val();
+
+    orderData['shipping_state']=$('.txt-shipping-state').val();
+
+    orderData['shipping_country']=$('.txt-shipping-country').children('option:selected').attr('value');
+
+    orderData['shipping_country_name']=$('.txt-shipping-country').children('option:selected').text();    
+  }
   // Shipping information
-  orderData['shipping_firstname']=$('.txt-shipping-firstname').val();
 
-  orderData['shipping_lastname']=$('.txt-shipping-lastname').val();
-
-  orderData['shipping_phone']=$('.txt-shipping-phone').val();
-
-  orderData['shipping_company']=$('.txt-shipping-company').val();
-
-  orderData['shipping_address1']=$('.txt-shipping-address1').val();
-
-  orderData['shipping_address2']=$('.txt-shipping-address2').val();
-
-  orderData['shipping_city']=$('.txt-shipping-city').val();
-
-  orderData['shipping_postcode']=$('.txt-shipping-postcode').val();
-
-  orderData['shipping_state']=$('.txt-shipping-state').val();
-
-  orderData['shipping_country']=$('.txt-shipping-country').children('option:selected').attr('value');
-
-  orderData['shipping_country_name']=$('.txt-shipping-country').children('option:selected').text();
 
   // if(orderData['shipping_firstname'].length < 2 || orderData['shipping_lastname'].length < 2 || orderData['shipping_phone'].length < 2 || orderData['shipping_address1'].length < 2 || orderData['shipping_city'].length < 2 || orderData['shipping_postcode'].length < 2 || orderData['shipping_state'].length < 2 || orderData['shipping_country'].length < 2)
   // {
