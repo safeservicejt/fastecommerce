@@ -71,10 +71,7 @@ function removeOnCart(productid)
         // var data = JSON.parse(request.responseText);
         var msg = JSON.parse(request.responseText);
 
-        if(msg['error']=='no')
-        {
-          loadCartPopup();
-        }
+        loadCartPopup();
 
 
       } else {
@@ -241,11 +238,12 @@ function coreAddToCart(productid,quantity,callback)
         // var data = JSON.parse(request.responseText);
 
         var msg = JSON.parse(request.responseText);
+
+        loadCartPopup();
       
         if(msg['error']=='no')
         {
           
-          loadCartPopup();
 
           if(typeof(msg['data']) != null || typeof(msg['data']['redirect']) !== "undefined")
             {
@@ -260,6 +258,8 @@ function coreAddToCart(productid,quantity,callback)
         {
           alert(msg['message']);
         }
+
+
 
 
       } else {
