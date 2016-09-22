@@ -113,7 +113,7 @@ class SelfApi
 
     public static function downloadFile()
     {
-        if(!$match=Uri::match('download_file\/([a-z0-9A-Z_\-\+\=]+)$'))
+        if(!$match=Uri::match('download_file\/([a-zA-Z0-9_\-\/\+\=]+)$'))
         {
             Alert::make('Page not found');
         }
@@ -129,6 +129,8 @@ class SelfApi
         $filePath=$parse[1];
 
         $filePath=ROOT_PATH.$filePath;
+
+        $filePath = strval(str_replace("\0", "", $filePath));
 
         if(!file_exists($filePath))
         {

@@ -239,6 +239,33 @@ class Products
 		return $result;
 	}
 
+	public static function downloadFile($productid)
+	{
+		$loadData=self::loadCache($productid);
+
+		$result=false;
+
+		if(!is_array($loadData['download_data']))
+		{
+			return false;
+		}
+
+		$total=count($loadData['download_data']);
+
+		$string='';
+
+		if($total > 0)
+		{
+			$string=String::encrypt($productid.':'.$loadData['download_data'][0]);
+		}
+
+		
+
+		$url=System::getUrl().'api/plugin/fastecommerce/download_file/'.base64_encode($string);
+
+		return $url;
+	}
+
 	public static function addReview($prodID,$userid,$rating,$content)
 	{
 		$id=Reviews::insert(array(
@@ -640,7 +667,7 @@ class Products
 
 		}
 
-		if(isset($loadData['price']) && isset($loadData['sale_price']))
+		if(isset($loadData['price']) && isset($loadData['sale_price']) && (double)$loadData['sale_price'] > 0)
 		{
 			$loadData['percent_discount']=intval((1-((double)$loadData['discount_price']/(double)$loadData['price']))*100);
 		}
