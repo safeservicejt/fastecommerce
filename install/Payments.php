@@ -313,7 +313,7 @@ class Payments
 
 	public static function saveSettingData($keyName,$inputData=array())
 	{
-		File::create(ROOT_PATH.'contents/fastecommerce/paymentmethod/'.$keyName.'_setting.cache',String::encrypt(base64_encode(serialize($inputData))));
+		File::create(ROOT_PATH.'contents/fastecommerce/paymentmethod/'.$keyName.'_setting.cache',Strings::encrypt(base64_encode(serialize($inputData))));
 
 	}
 
@@ -337,7 +337,7 @@ class Payments
 				$data=file_get_contents($fileName);
 
 				if(isset($data[2]))
-				$data=unserialize(base64_decode(String::decrypt($data)));
+				$data=unserialize(base64_decode(Strings::decrypt($data)));
 
 			}
 

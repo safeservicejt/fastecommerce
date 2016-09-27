@@ -128,32 +128,32 @@ class CollectionsProducts
 
 				if(isset($prodData['title']))
 				{
-					$prodData['title']=String::decode($prodData['title']);
+					$prodData['title']=Strings::decode($prodData['title']);
 				}
 				
 				if(isset($prodData['shortdesc']))
 				{
-					$prodData['shortdesc']=String::decode($prodData['shortdesc']);
+					$prodData['shortdesc']=Strings::decode($prodData['shortdesc']);
 				}
 				
 				if(isset($prodData['page_title']))
 				{
-					$prodData['page_title']=String::decode($prodData['page_title']);
+					$prodData['page_title']=Strings::decode($prodData['page_title']);
 				}
 				
 				if(isset($prodData['descriptions']))
 				{
-					$prodData['descriptions']=String::decode($prodData['descriptions']);
+					$prodData['descriptions']=Strings::decode($prodData['descriptions']);
 				}
 				
 				if(isset($prodData['keywords']))
 				{
-					$prodData['keywords']=String::decode($prodData['keywords']);
+					$prodData['keywords']=Strings::decode($prodData['keywords']);
 				}
 				
 				if(isset($prodData['purchase_note']))
 				{
-					$prodData['purchase_note']=String::decode($prodData['purchase_note']);
+					$prodData['purchase_note']=Strings::decode($prodData['purchase_note']);
 				}
 
 				if(isset($prodData['category_data'][10]))
@@ -226,7 +226,7 @@ class CollectionsProducts
 
 				if(isset($prodData['content']))
 				{
-					$prodData['content']=String::decode($prodData['content']);
+					$prodData['content']=Strings::decode($prodData['content']);
 
 				}
 
@@ -290,7 +290,7 @@ class CollectionsProducts
 				{
 					if(isset($prodData['content']))
 					{
-						$prodData['content']=String::decode($prodData['content']);
+						$prodData['content']=Strings::decode($prodData['content']);
 
 						$prodData['content']=html_entity_decode($prodData['content']);
 						

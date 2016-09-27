@@ -133,12 +133,12 @@ class ProductTags
 
 			if(!isset($inputData['friendly_url']))
 			{
-				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($inputData['title']));
+				$inputData['friendly_url']=Strings::makeFriendlyUrl(strip_tags($inputData['title']));
 			}
 			
-			$inputData['title']=String::encode(strip_tags($inputData['title']));
+			$inputData['title']=Strings::encode(strip_tags($inputData['title']));
 
-			$inputData['product_title']=String::encode(strip_tags($inputData['product_title']));
+			$inputData['product_title']=Strings::encode(strip_tags($inputData['product_title']));
 
 			
 

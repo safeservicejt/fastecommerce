@@ -70,7 +70,7 @@ class SelfApi
 
         $hash=$match[1];
 
-        $data=String::decrypt(base64_decode($hash));
+        $data=Strings::decrypt(base64_decode($hash));
 
         $parse=explode(':', $data);
 
@@ -120,7 +120,7 @@ class SelfApi
 
         $hash=$match[1];
 
-        $data=String::decrypt(base64_decode($hash));
+        $data=Strings::decrypt(base64_decode($hash));
 
         $parse=explode(':', $data);
 
@@ -450,9 +450,9 @@ class SelfApi
                 throw new Exception('Your email have been exists in our system. You can login!');
             }
 
-            $newUsername=String::randNumber(8);
+            $newUsername=Strings::randNumber(8);
 
-            $newPassword=String::randText(6);
+            $newPassword=Strings::randText(6);
 
             $insertUser=array(
                 'email'=>addslashes($send_data->email),

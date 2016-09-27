@@ -300,7 +300,7 @@ function insertProcess()
 
 	ProductTags::add($id,Request::get('tags',''));
 
-	// $tagFriendy=String::makeFriendlyUrl(strip_tags(Request::get('tags','')));
+	// $tagFriendy=Strings::makeFriendlyUrl(strip_tags(Request::get('tags','')));
 
 	// ProductTags::saveCache($tagFriendy);
 

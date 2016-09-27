@@ -373,7 +373,7 @@ class FastEcommerce
 		$data=file_get_contents($fileName);
 
 		if(isset($data[2]))
-		$data=unserialize(base64_decode(String::decrypt($data)));
+		$data=unserialize(base64_decode(Strings::decrypt($data)));
 
 		return $data;
 	}
@@ -398,7 +398,7 @@ class FastEcommerce
 				$data=file_get_contents($fileName);
 
 				if(isset($data[2]))
-				$data=unserialize(base64_decode(String::decrypt($data)));
+				$data=unserialize(base64_decode(Strings::decrypt($data)));
 
 			}
 
@@ -469,7 +469,7 @@ class FastEcommerce
 	public static function saveSettingData($inputData=array())
 	{
 
-		File::create(ROOT_PATH.'contents/fastecommerce/setting.cache',String::encrypt(base64_encode(serialize($inputData))));
+		File::create(ROOT_PATH.'contents/fastecommerce/setting.cache',Strings::encrypt(base64_encode(serialize($inputData))));
 
 	}
 }

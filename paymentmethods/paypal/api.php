@@ -259,11 +259,11 @@ class SelfApi
                          }
                          else
                          {
-                            $username=String::randNumber(10);
+                            $username=Strings::randNumber(10);
 
-                            $password=String::randAlpha(10);
+                            $password=Strings::randAlpha(10);
 
-                            $email=String::randNumber(10).'@gmail.com';
+                            $email=Strings::randNumber(10).'@gmail.com';
 
                             $payer_firstname = isset($_POST['first_name'])?$_POST['first_name']:'Your';
 
@@ -276,7 +276,7 @@ class SelfApi
 
                             $userid=Users::insert(array(
                                 'username'=>$username,
-                                'password'=>String::encrypt($password),
+                                'password'=>Strings::encrypt($password),
                                 'email'=>$email,
                                 'groupid'=>System::$setting['default_member_groupid']
                                 ));

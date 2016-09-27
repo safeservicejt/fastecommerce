@@ -16,27 +16,27 @@ class Reviews
 
 				if(isset($rows[$i]['title']))
 				{
-					$rows[$i]['title']=String::decode($rows[$i]['title']);
+					$rows[$i]['title']=Strings::decode($rows[$i]['title']);
 				}
 
 				if(isset($rows[$i]['fullname']))
 				{
-					$rows[$i]['fullname']=String::decode($rows[$i]['fullname']);
+					$rows[$i]['fullname']=Strings::decode($rows[$i]['fullname']);
 				}
 
 				if(isset($rows[$i]['url']))
 				{
-					$rows[$i]['url']=String::decode($rows[$i]['url']);
+					$rows[$i]['url']=Strings::decode($rows[$i]['url']);
 				}
 
 				if(isset($rows[$i]['email']))
 				{
-					$rows[$i]['email']=String::decode($rows[$i]['email']);
+					$rows[$i]['email']=Strings::decode($rows[$i]['email']);
 				}
 
 				if(isset($rows[$i]['content']))
 				{
-					$rows[$i]['content']=String::decode($rows[$i]['content']);
+					$rows[$i]['content']=Strings::decode($rows[$i]['content']);
 
 					// die($rows[$i]['content']);
 				}
@@ -130,22 +130,22 @@ class Reviews
 
 			if(isset($inputData['fullname']))
 			{
-				$inputData['fullname']=String::encode($inputData['fullname']);
+				$inputData['fullname']=Strings::encode($inputData['fullname']);
 			}
 
 			if(isset($inputData['url']))
 			{
-				$inputData['url']=String::encode($inputData['url']);
+				$inputData['url']=Strings::encode($inputData['url']);
 			}
 
 			if(isset($inputData['email']))
 			{
-				$inputData['email']=String::encode($inputData['email']);
+				$inputData['email']=Strings::encode($inputData['email']);
 			}
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=String::encode($inputData['content']);
+				$inputData['content']=Strings::encode($inputData['content']);
 			}
 
 			return $inputData;
@@ -154,7 +154,7 @@ class Reviews
 			if(isset($inputData['id']))
 			{
 				self::update($inputData['id'],array(
-					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					'friendly_url'=>Strings::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
 					));
 			}
 		});
@@ -171,22 +171,22 @@ class Reviews
 		
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=String::encode($inputData['content']);
+				$inputData['content']=Strings::encode($inputData['content']);
 			}
 		
 			if(isset($inputData['fullname']))
 			{
-				$inputData['fullname']=String::encode($inputData['fullname']);
+				$inputData['fullname']=Strings::encode($inputData['fullname']);
 			}
 		
 			if(isset($inputData['url']))
 			{
-				$inputData['url']=String::encode($inputData['url']);
+				$inputData['url']=Strings::encode($inputData['url']);
 			}
 		
 			if(isset($inputData['email']))
 			{
-				$inputData['email']=String::encode($inputData['email']);
+				$inputData['email']=Strings::encode($inputData['email']);
 			}
 
 			return $inputData;

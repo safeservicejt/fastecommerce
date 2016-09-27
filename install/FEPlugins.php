@@ -125,7 +125,7 @@ class FEPLugins
 
 	public static function exists($code='')
 	{
-		$fileName=String::makeFriendlyUrl(strip_tags($code));
+		$fileName=Strings::makeFriendlyUrl(strip_tags($code));
 
 		$savePath=ROOT_PATH.'contents/fastecommerce/coupon/'.$fileName.'.cache';
 
@@ -141,7 +141,7 @@ class FEPLugins
 
 	public static function loadCache($code='')
 	{
-		$fileName=String::makeFriendlyUrl(strip_tags($code));
+		$fileName=Strings::makeFriendlyUrl(strip_tags($code));
 
 		$savePath=ROOT_PATH.'contents/fastecommerce/coupon/'.$fileName.'.cache';
 
@@ -170,7 +170,7 @@ class FEPLugins
 
 		for ($i=0; $i < $total; $i++) { 
 
-			$fileName=String::makeFriendlyUrl(strip_tags($loadData[$i]['code']));
+			$fileName=Strings::makeFriendlyUrl(strip_tags($loadData[$i]['code']));
 
 			$filePath=$savePath.$fileName.'.cache';
 

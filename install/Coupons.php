@@ -128,7 +128,7 @@ class Coupons
 			if(isset($inputData['id']))
 			{
 				self::update($inputData['id'],array(
-					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					'friendly_url'=>Strings::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
 					));
 			}
 		});
@@ -186,7 +186,7 @@ class Coupons
 
 	public static function exists($code='')
 	{
-		$fileName=String::makeFriendlyUrl(strip_tags($code));
+		$fileName=Strings::makeFriendlyUrl(strip_tags($code));
 
 		$savePath=ROOT_PATH.'contents/fastecommerce/coupon/'.$fileName.'.cache';
 
@@ -202,7 +202,7 @@ class Coupons
 
 	public static function loadCache($code='')
 	{
-		$fileName=String::makeFriendlyUrl(strip_tags($code));
+		$fileName=Strings::makeFriendlyUrl(strip_tags($code));
 
 		$savePath=ROOT_PATH.'contents/fastecommerce/coupon/'.$fileName.'.cache';
 
@@ -238,7 +238,7 @@ class Coupons
 
 		for ($i=0; $i < $total; $i++) { 
 
-			$fileName=String::makeFriendlyUrl(strip_tags($loadData[$i]['code']));
+			$fileName=Strings::makeFriendlyUrl(strip_tags($loadData[$i]['code']));
 
 			$filePath=$savePath.$fileName.'.cache';
 

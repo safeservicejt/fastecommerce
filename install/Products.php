@@ -59,32 +59,32 @@ class Products
 
 				if(isset($rows[$i]['title']))
 				{
-					$rows[$i]['title']=String::decode($rows[$i]['title']);
+					$rows[$i]['title']=Strings::decode($rows[$i]['title']);
 				}
 				
 				if(isset($rows[$i]['shortdesc']))
 				{
-					$rows[$i]['shortdesc']=String::decode($rows[$i]['shortdesc']);
+					$rows[$i]['shortdesc']=Strings::decode($rows[$i]['shortdesc']);
 				}
 				
 				if(isset($rows[$i]['page_title']))
 				{
-					$rows[$i]['page_title']=String::decode($rows[$i]['page_title']);
+					$rows[$i]['page_title']=Strings::decode($rows[$i]['page_title']);
 				}
 				
 				if(isset($rows[$i]['descriptions']))
 				{
-					$rows[$i]['descriptions']=String::decode($rows[$i]['descriptions']);
+					$rows[$i]['descriptions']=Strings::decode($rows[$i]['descriptions']);
 				}
 				
 				if(isset($rows[$i]['keywords']))
 				{
-					$rows[$i]['keywords']=String::decode($rows[$i]['keywords']);
+					$rows[$i]['keywords']=Strings::decode($rows[$i]['keywords']);
 				}
 				
 				if(isset($rows[$i]['purchase_note']))
 				{
-					$rows[$i]['purchase_note']=String::decode($rows[$i]['purchase_note']);
+					$rows[$i]['purchase_note']=Strings::decode($rows[$i]['purchase_note']);
 				}
 
 				if(isset($rows[$i]['category_data'][10]))
@@ -157,7 +157,7 @@ class Products
 
 				if(isset($rows[$i]['content']))
 				{
-					$rows[$i]['content']=String::decode($rows[$i]['content']);
+					$rows[$i]['content']=Strings::decode($rows[$i]['content']);
 
 				}
 
@@ -221,7 +221,7 @@ class Products
 				{
 					if(isset($rows[$i]['content']))
 					{
-						$rows[$i]['content']=String::decode($rows[$i]['content']);
+						$rows[$i]['content']=Strings::decode($rows[$i]['content']);
 
 						$rows[$i]['content']=html_entity_decode($rows[$i]['content']);
 						
@@ -256,7 +256,7 @@ class Products
 
 		if($total > 0)
 		{
-			$string=String::encrypt($productid.':'.$loadData['download_data'][0]);
+			$string=Strings::encrypt($productid.':'.$loadData['download_data'][0]);
 		}
 
 		
@@ -674,32 +674,32 @@ class Products
 
 		if(isset($loadData['title']))
 		{
-			$loadData['title']=String::decode($loadData['title']);
+			$loadData['title']=Strings::decode($loadData['title']);
 		}
 		
 		if(isset($loadData['shortdesc']))
 		{
-			$loadData['shortdesc']=String::decode($loadData['shortdesc']);
+			$loadData['shortdesc']=Strings::decode($loadData['shortdesc']);
 		}
 		
 		if(isset($loadData['page_title']))
 		{
-			$loadData['page_title']=String::decode($loadData['page_title']);
+			$loadData['page_title']=Strings::decode($loadData['page_title']);
 		}
 		
 		if(isset($loadData['descriptions']))
 		{
-			$loadData['descriptions']=String::decode($loadData['descriptions']);
+			$loadData['descriptions']=Strings::decode($loadData['descriptions']);
 		}
 		
 		if(isset($loadData['keywords']))
 		{
-			$loadData['keywords']=String::decode($loadData['keywords']);
+			$loadData['keywords']=Strings::decode($loadData['keywords']);
 		}
 		
 		if(isset($loadData['purchase_note']))
 		{
-			$loadData['purchase_note']=String::decode($loadData['purchase_note']);
+			$loadData['purchase_note']=Strings::decode($loadData['purchase_note']);
 		}
 
 		if(isset($loadData['category_data'][10]))
@@ -772,7 +772,7 @@ class Products
 
 		if(isset($loadData['content']))
 		{
-			$loadData['content']=String::decode($loadData['content']);
+			$loadData['content']=Strings::decode($loadData['content']);
 
 		}
 
@@ -834,7 +834,7 @@ class Products
 
 		if(isset($loadData['content']))
 		{
-			$loadData['content']=String::decode($loadData['content']);
+			$loadData['content']=Strings::decode($loadData['content']);
 
 			$loadData['content']=html_entity_decode($loadData['content']);
 
@@ -898,30 +898,30 @@ class Products
 
 			if(!isset($inputData['friendly_url']))
 			{
-				$inputData['friendly_url']=String::makeFriendlyUrl(strip_tags($postTitle));
+				$inputData['friendly_url']=Strings::makeFriendlyUrl(strip_tags($postTitle));
 
 			}
 			
-			$inputData['title']=String::encode(strip_tags($inputData['title']));
+			$inputData['title']=Strings::encode(strip_tags($inputData['title']));
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=String::encode($inputData['content']);
+				$inputData['content']=Strings::encode($inputData['content']);
 			}
 
 			if(isset($inputData['keywords']))
 			{
-				$inputData['keywords']=String::encode($inputData['keywords']);
+				$inputData['keywords']=Strings::encode($inputData['keywords']);
 			}
 
 			if(isset($inputData['descriptions']))
 			{
-				$inputData['descriptions']=String::encode($inputData['descriptions']);
+				$inputData['descriptions']=Strings::encode($inputData['descriptions']);
 			}
 
 			if(isset($inputData['page_title']) && isset($inputData['page_title'][2]))
 			{
-				$inputData['page_title']=String::encode($inputData['page_title']);
+				$inputData['page_title']=Strings::encode($inputData['page_title']);
 			}
 			else
 			{
@@ -930,12 +930,12 @@ class Products
 
 			if(isset($inputData['shortdesc']))
 			{
-				$inputData['shortdesc']=String::encode($inputData['shortdesc']);
+				$inputData['shortdesc']=Strings::encode($inputData['shortdesc']);
 			}
 
 			if(isset($inputData['purchase_note']))
 			{
-				$inputData['purchase_note']=String::encode($inputData['purchase_note']);
+				$inputData['purchase_note']=Strings::encode($inputData['purchase_note']);
 			}
 			
 
@@ -945,7 +945,7 @@ class Products
 			if(isset($inputData['id']))
 			{
 				self::update($inputData['id'],array(
-					'friendly_url'=>String::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
+					'friendly_url'=>Strings::makeFriendlyUrl(strip_tags($inputData['title'])).'-'.$inputData['id']
 					));
 			}
 		});
@@ -963,27 +963,27 @@ class Products
 			{
 				$postTitle=isset($inputData['addTitle'])?$inputData['addTitle']:$inputData['title'];
 
-				$inputData['title']=String::encode(strip_tags($inputData['title']));
+				$inputData['title']=Strings::encode(strip_tags($inputData['title']));
 			}
 
 			if(isset($inputData['content']))
 			{
-				$inputData['content']=String::encode($inputData['content']);
+				$inputData['content']=Strings::encode($inputData['content']);
 			}
 
 			if(isset($inputData['keywords']))
 			{
-				$inputData['keywords']=String::encode($inputData['keywords']);
+				$inputData['keywords']=Strings::encode($inputData['keywords']);
 			}
 
 			if(isset($inputData['descriptions']))
 			{
-				$inputData['descriptions']=String::encode($inputData['descriptions']);
+				$inputData['descriptions']=Strings::encode($inputData['descriptions']);
 			}
 
 			if(isset($inputData['page_title']) && isset($inputData['title']) )
 			{
-				$inputData['page_title']=String::encode($inputData['page_title']);
+				$inputData['page_title']=Strings::encode($inputData['page_title']);
 			}
 			elseif(isset($inputData['title']))
 			{
@@ -992,12 +992,12 @@ class Products
 
 			if(isset($inputData['shortdesc']))
 			{
-				$inputData['shortdesc']=String::encode($inputData['shortdesc']);
+				$inputData['shortdesc']=Strings::encode($inputData['shortdesc']);
 			}
 
 			if(isset($inputData['purchase_note']))
 			{
-				$inputData['purchase_note']=String::encode($inputData['purchase_note']);
+				$inputData['purchase_note']=Strings::encode($inputData['purchase_note']);
 			}
 
 			return $inputData;

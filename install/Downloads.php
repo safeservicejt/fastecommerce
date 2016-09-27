@@ -32,7 +32,7 @@ class Downloads
 	{
 		$url=$userid.':'.$orderid.':'.$productid.':'.$filePath;
 
-		$hash=base64_encode(String::encrypt($url));
+		$hash=base64_encode(Strings::encrypt($url));
 
 		$url=System::getUrl().'api/plugin/fastecommerce/download_in_order/'.$hash;
 
@@ -43,7 +43,7 @@ class Downloads
 	{
 		$url=$productid.':'.$filePath;
 
-		$hash=base64_encode(String::encrypt($url));
+		$hash=base64_encode(Strings::encrypt($url));
 
 		$url=System::getUrl().'api/plugin/fastecommerce/download_in_order/'.$hash;
 

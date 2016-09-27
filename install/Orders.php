@@ -21,7 +21,7 @@ class Orders
 
 				if(isset($rows['comment']))
 				{
-					$rows['comment']=String::decode($rows['comment']);
+					$rows['comment']=Strings::decode($rows['comment']);
 				}
 
 
@@ -233,7 +233,7 @@ class Orders
 
 			if(isset($inputData['comment']))
 			{
-				$inputData['comment']=String::encode($inputData['comment']);
+				$inputData['comment']=Strings::encode($inputData['comment']);
 			}
 
 			
@@ -253,7 +253,7 @@ class Orders
 	
 			if(isset($inputData['comment']))
 			{
-				$inputData['comment']=String::encode($inputData['comment']);
+				$inputData['comment']=Strings::encode($inputData['comment']);
 			}
 		
 			if(isset($inputData['products']))
