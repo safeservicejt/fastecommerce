@@ -23,7 +23,7 @@ class Affiliates
 		
 		if(isset($match[1][5]))
 		{
-			Redirect::to(System::getUrl().$match[1]);
+			Redirects::to(System::getUrl().$match[1]);
 		}
 		
 	}
